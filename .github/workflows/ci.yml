@@ -1,9 +1,9 @@
 name: CI
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "dev" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "dev" ]
   
   workflow_dispatch:
 
@@ -19,9 +19,9 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable"
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter test
+      - run: flutter pub get src/
+      - run: flutter analyze src/
+      - run: flutter test src/
   
   build_ios:
     name: Build Flutter (iOS)
@@ -35,9 +35,9 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable"
-      - run: flutter pub get
-      - run: flutter clean
-      - run: flutter build ios --no-codesign
+      - run: flutter pub get src/
+      - run: flutter clean src/
+      - run: flutter build ios src/ --no-codesign
 
   build_appbundle:
     name: Build Flutter (Android)
@@ -51,7 +51,7 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable"
-      - run: flutter pub get
-      - run: flutter clean
-      - run: flutter build appbundle
+      - run: flutter pub get src/
+      - run: flutter clean src/
+      - run: flutter build appbundle src/
 
