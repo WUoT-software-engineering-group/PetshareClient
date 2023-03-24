@@ -22,7 +22,7 @@ jobs:
       - run: flutter --version
       - run: flutter pub get src/
       - run: flutter analyze 
-      - run: flutter test src/
+      - run: flutter test 
   
   build_ios:
     name: Build Flutter (iOS)
@@ -37,8 +37,8 @@ jobs:
         with:
           channel: "stable"
       - run: flutter pub get src/
-      - run: flutter clean src/
-      - run: flutter build ios src/ --no-codesign
+      - run: flutter clean 
+      - run: flutter build ios --no-codesign
 
   build_appbundle:
     name: Build Flutter (Android)
@@ -53,6 +53,6 @@ jobs:
         with:
           channel: "stable"
       - run: flutter pub get src/
-      - run: flutter clean src/
-      - run: flutter build appbundle src/
+      - run: flutter clean 
+      - run: flutter build appbundle 
 
