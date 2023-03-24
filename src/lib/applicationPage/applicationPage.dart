@@ -82,14 +82,14 @@ class _ApplicationPageState extends State<ApplicationPage> {
                     BasicScaffoldColor,
                     BasicScaffoldColor.withOpacity(0.0)
                   ],
-                  stops: [0.93, 1],
+                  stops: const [0.93, 1],
                   tileMode: TileMode.mirror,
                 ).createShader(bounds);
               },
               child: ListView.builder(
                 itemCount: list.length,
                 itemBuilder: (context, index) {
-                  return ApplicationTile();
+                  return const ApplicationTile();
                 },
               ),
             ),

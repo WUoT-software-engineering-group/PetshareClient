@@ -18,7 +18,7 @@ class _ApplicationTileState extends State<ApplicationTile> {
         onTap: () {
           showDialog(
               context: context,
-              builder: (BuildContext context) => ApplicationDialog()
+              builder: (BuildContext context) => const ApplicationDialog()
           );
         },
         child: Material(

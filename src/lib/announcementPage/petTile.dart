@@ -1,7 +1,5 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:test_io2/announcementPage/labeledIcon.dart';
 import 'package:test_io2/utils/ourColors.dart';
 

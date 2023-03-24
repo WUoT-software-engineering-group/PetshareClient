@@ -98,7 +98,8 @@ class _OurFilterState extends State<OurFilter> {
                 padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
                 backgroundColor: MaterialStateProperty.all(Rose),
                 overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
-                  if (states.contains(MaterialState.pressed)) return Wenge; // <-- Splash color
+                  if (states.contains(MaterialState.pressed)) return Wenge;
+                  return null; // <-- Splash color
                 }),
               ),
               child: const Icon(Icons.filter_list_rounded)

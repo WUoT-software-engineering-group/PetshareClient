@@ -24,7 +24,7 @@ class _FormPageState extends State<FormPage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [BasicScaffoldColor, BasicScaffoldColor.withOpacity(0.0)],
-            stops: [0.91, 1],
+            stops: const [0.91, 1],
             tileMode: TileMode.mirror,
           ).createShader(bounds);
         },
@@ -55,7 +55,7 @@ class _FormPageState extends State<FormPage> {
                   child: Material(
                     color: Colors.white,
                     elevation: 10,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
@@ -186,7 +186,7 @@ class _FormPageState extends State<FormPage> {
                         child: Material(
                           color: Colors.white,
                           elevation: 10,
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
@@ -224,7 +224,7 @@ class _FormPageState extends State<FormPage> {
                         child: Material(
                           color: Colors.white,
                           elevation: 10,
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
@@ -260,7 +260,7 @@ class _FormPageState extends State<FormPage> {
                   child: Material(
                     color: Colors.white,
                     elevation: 10,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
@@ -280,7 +280,9 @@ class _FormPageState extends State<FormPage> {
                           // This optional block of code can be used to run
                           // code when the user saves the form.
                         },
-                        validator: (String? value) {},
+                        validator: (String? value) {
+                          return null;
+                        },
                       ),
                     ),
                   ),
@@ -293,7 +295,7 @@ class _FormPageState extends State<FormPage> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: DarkRose,
-                      minimumSize: Size(75, 45),
+                      minimumSize: const Size(75, 45),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),

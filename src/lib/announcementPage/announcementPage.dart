@@ -1,8 +1,6 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:test_io2/utils/filter.dart';
 import 'package:test_io2/utils/ourColors.dart';
-import 'package:test_io2/utils/tileFilter.dart';
 import 'package:test_io2/announcementPage/petTile.dart';
 
 class AnnouncementPage extends StatefulWidget {
@@ -96,7 +94,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                       BasicScaffoldColor,
                       BasicScaffoldColor.withOpacity(0.0)
                     ],
-                    stops: [0.97, 1],
+                    stops: const [0.97, 1],
                     tileMode: TileMode.mirror,
                   ).createShader(bounds);
                 },
