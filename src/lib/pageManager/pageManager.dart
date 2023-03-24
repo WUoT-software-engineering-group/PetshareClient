@@ -1,10 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:test_io2/ApplicationPage/applicationPage.dart';
+import 'package:test_io2/applicationPage/applicationPage.dart';
 import 'package:test_io2/announcementPage/announcementPage.dart';
 import 'package:test_io2/utils/ourColors.dart';
 
-import '../FormPage/FormPage.dart';
+import '../formPage/formPage.dart';
 
 class PageManager extends StatefulWidget {
   const PageManager({Key? key}) : super(key: key);
