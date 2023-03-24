@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:test_io2/announcementPage/labeledIcon.dart';
-import 'package:test_io2/utils/ourColors.dart';
+import 'package:test_io2/announcementPage/labeled_icon.dart';
+import 'package:test_io2/utils/our_colors.dart';
 
 class PetTile extends StatefulWidget {
   final int index;
@@ -25,13 +25,13 @@ class _PetTileState extends State<PetTile> {
             SlidableAction(
               onPressed: null,
               icon: Icons.delete,
-              backgroundColor: Wenge,
+              backgroundColor: wenge,
               borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
             SlidableAction(
               onPressed: null,
               icon: Icons.edit,
-              backgroundColor: Onyx,
+              backgroundColor: onyx,
               borderRadius: BorderRadius.all(Radius.circular(15)),
             )
           ],
@@ -116,7 +116,7 @@ class DescriptionTile extends StatelessWidget {
                     children: [
                       const Icon(
                         Icons.calendar_month,
-                        color: DDarkHoneydew,
+                        color: dDarkHoneydew,
                         size: 15,
                       ),
                       const SizedBox(
@@ -152,7 +152,7 @@ class DescriptionTile extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                Icon(Icons.mail_outline, size: 30, color: DDarkHoneydew),
+                Icon(Icons.mail_outline, size: 30, color: dDarkHoneydew),
                 Text('0', style: TextStyle(fontSize: 16))
               ],
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_io2/utils/filter.dart';
-import 'package:test_io2/utils/ourColors.dart';
-import 'package:test_io2/announcementPage/petTile.dart';
+import 'package:test_io2/utils/our_colors.dart';
+import 'package:test_io2/announcementPage/pet_tile.dart';
 
 class AnnouncementPage extends StatefulWidget {
   const AnnouncementPage({Key? key}) : super(key: key);
@@ -64,7 +64,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BasicScaffoldColor,
+      backgroundColor: basicScaffoldColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -91,8 +91,8 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      BasicScaffoldColor,
-                      BasicScaffoldColor.withOpacity(0.0)
+                      basicScaffoldColor,
+                      basicScaffoldColor.withOpacity(0.0)
                     ],
                     stops: const [0.97, 1],
                     tileMode: TileMode.mirror,

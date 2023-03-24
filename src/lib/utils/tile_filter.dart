@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_io2/utils/ourColors.dart';
+import 'package:test_io2/utils/our_colors.dart';
 
 class TileFilter extends StatelessWidget {
   final String text;
@@ -14,15 +14,14 @@ class TileFilter extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
         child: Container(
           padding: const EdgeInsets.all(12.5),
-          color: Rose,
+          color: rose,
           child: Center(
             child: Text(
               text,
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey[200]
-              ),
+                  color: Colors.grey[200]),
             ),
           ),
         ),

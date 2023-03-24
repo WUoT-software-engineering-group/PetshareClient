@@ -1,7 +1,6 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:test_io2/utils/ourColors.dart';
+import 'package:test_io2/utils/our_colors.dart';
 
 class ApplicationDialog extends StatelessWidget {
   final String myText =
@@ -26,7 +25,7 @@ class ApplicationDialog extends StatelessWidget {
             children: <Widget>[
               const CircleAvatar(
                 radius: 40,
-                backgroundColor: DDarkHoneydew,
+                backgroundColor: dDarkHoneydew,
                 child: CircleAvatar(
                   radius: 35,
                   backgroundImage: AssetImage('assets/kity_blur.jpg'),
@@ -37,7 +36,7 @@ class ApplicationDialog extends StatelessWidget {
                 height: 30,
                 endIndent: 25,
                 indent: 25,
-                color: DDarkHoneydew,
+                color: dDarkHoneydew,
               ),
               const Text(
                 'Joanna Eule',
@@ -60,14 +59,14 @@ class ApplicationDialog extends StatelessWidget {
                     child: Column(children: const [
                       Icon(
                         Icons.thumb_up,
-                        color: DDarkHoneydew,
+                        color: dDarkHoneydew,
                       ),
                       SizedBox(
                         height: 5,
                       ),
                       Text(
                         'ACCEPT',
-                        style: TextStyle(color: DDarkHoneydew),
+                        style: TextStyle(color: dDarkHoneydew),
                       )
                     ]),
                   ),
@@ -81,14 +80,14 @@ class ApplicationDialog extends StatelessWidget {
                     child: Column(children: const [
                       Icon(
                         Icons.delete,
-                        color: DDarkHoneydew,
+                        color: dDarkHoneydew,
                       ),
                       SizedBox(
                         height: 5,
                       ),
                       Text(
                         'DELETE',
-                        style: TextStyle(color: DDarkHoneydew),
+                        style: TextStyle(color: dDarkHoneydew),
                       )
                     ]),
                   )
