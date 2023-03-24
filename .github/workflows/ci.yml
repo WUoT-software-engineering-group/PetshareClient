@@ -18,10 +18,9 @@ jobs:
           java-version: "12.x"
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '3.7.8'
           channel: "stable"
       - run: flutter --version
-      - run: flutter pub get src/
+      - run: pub get src/
       - run: flutter analyze src/
       - run: flutter test src/
   
