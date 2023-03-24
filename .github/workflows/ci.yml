@@ -22,7 +22,7 @@ jobs:
       - run: flutter --version
       - run: flutter pub get src/
       - run: flutter analyze 
-      - run: flutter test 
+      - run: flutter test src/
   
   build_ios:
     name: Build Flutter (iOS)
