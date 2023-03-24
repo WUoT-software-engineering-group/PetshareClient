@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../utils/ourColors.dart';
+import 'package:test_io2/utils/our_colors.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class _FormPageState extends State<FormPage> {
           return LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [BasicScaffoldColor, BasicScaffoldColor.withOpacity(0.0)],
+            colors: [basicScaffoldColor, basicScaffoldColor.withOpacity(0.0)],
             stops: const [0.91, 1],
             tileMode: TileMode.mirror,
           ).createShader(bounds);
@@ -42,7 +41,7 @@ class _FormPageState extends State<FormPage> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: DarkWenge,
+                      color: darkWenge,
                     ),
                   ),
                 ),
@@ -63,9 +62,9 @@ class _FormPageState extends State<FormPage> {
                           icon: Icon(Icons.title),
                           hintText: 'Enter the title of your announcement',
                           labelText: 'Title',
-                          iconColor: DarkWenge,
-                          hoverColor: DarkWenge,
-                          focusColor: DarkRose,
+                          iconColor: darkWenge,
+                          hoverColor: darkWenge,
+                          focusColor: darkRose,
                         ),
                         maxLength: 50,
                         // keyboardType: TextInputType.multiline,
@@ -95,9 +94,9 @@ class _FormPageState extends State<FormPage> {
                           icon: Icon(Icons.title),
                           hintText: 'Enter a name',
                           labelText: 'Name',
-                          iconColor: DarkWenge,
-                          hoverColor: DarkWenge,
-                          focusColor: DarkRose,
+                          iconColor: darkWenge,
+                          hoverColor: darkWenge,
+                          focusColor: darkRose,
                         ),
                         maxLength: 50,
                         onSaved: (String? value) {
@@ -140,14 +139,14 @@ class _FormPageState extends State<FormPage> {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
                                     colorScheme: const ColorScheme.light(
-                                      primary: LightRose,
-                                      onPrimary: DarkWenge,
-                                      onSurface: Wenge,
+                                      primary: lightRose,
+                                      onPrimary: darkWenge,
+                                      onSurface: wenge,
                                     ),
                                     textButtonTheme: TextButtonThemeData(
                                       style: TextButton.styleFrom(
                                         foregroundColor:
-                                            DarkWenge, // button text color
+                                            darkWenge, // button text color
                                       ),
                                     ),
                                   ),
@@ -157,11 +156,13 @@ class _FormPageState extends State<FormPage> {
                             );
 
                             if (pickedDate != null) {
+                              // ignore: avoid_print
                               print(
                                   pickedDate); //get the picked date in the format => 2022-07-04 00:00:00.000
                               String formattedDate = DateFormat('yyyy-MM-dd')
                                   .format(
                                       pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
+                              // ignore: avoid_print
                               print(
                                   formattedDate); //formatted date output using intl package =>  2022-07-04
                               //You can format date as per your need
@@ -171,6 +172,7 @@ class _FormPageState extends State<FormPage> {
                                     formattedDate; //set foratted date to TextField value.
                               });
                             } else {
+                              // ignore: avoid_print
                               print("Date is not selected");
                             }
                           },
@@ -186,16 +188,17 @@ class _FormPageState extends State<FormPage> {
                         child: Material(
                           color: Colors.white,
                           elevation: 10,
-                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.title),
                                 labelText: 'Breed',
-                                iconColor: DarkWenge,
-                                hoverColor: DarkWenge,
-                                focusColor: DarkRose,
+                                iconColor: darkWenge,
+                                hoverColor: darkWenge,
+                                focusColor: darkRose,
                               ),
                               maxLength: 30,
                               // keyboardType: TextInputType.multiline,
@@ -224,16 +227,17 @@ class _FormPageState extends State<FormPage> {
                         child: Material(
                           color: Colors.white,
                           elevation: 10,
-                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.title),
                                 labelText: 'Species',
-                                iconColor: DarkWenge,
-                                hoverColor: DarkWenge,
-                                focusColor: DarkRose,
+                                iconColor: darkWenge,
+                                hoverColor: darkWenge,
+                                focusColor: darkRose,
                               ),
                               maxLength: 30,
                               // keyboardType: TextInputType.multiline,
@@ -267,9 +271,9 @@ class _FormPageState extends State<FormPage> {
                         decoration: const InputDecoration(
                           icon: Icon(Icons.title),
                           labelText: 'Description',
-                          iconColor: DarkWenge,
-                          hoverColor: DarkWenge,
-                          focusColor: DarkRose,
+                          iconColor: darkWenge,
+                          hoverColor: darkWenge,
+                          focusColor: darkRose,
                         ),
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
@@ -294,7 +298,7 @@ class _FormPageState extends State<FormPage> {
                       if (_formKey.currentState!.validate()) {}
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: DarkRose,
+                      backgroundColor: darkRose,
                       minimumSize: const Size(75, 45),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),

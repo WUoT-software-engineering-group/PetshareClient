@@ -1,4 +1,4 @@
-import 'package:test_io2/utils/ourColors.dart';
+import 'package:test_io2/utils/our_colors.dart';
 import 'package:flutter/material.dart';
 
 class LabeledIcon extends StatelessWidget {
@@ -16,7 +16,7 @@ class LabeledIcon extends StatelessWidget {
           Icon(
             icon,
             size: 16,
-            color: DDarkHoneydew,
+            color: dDarkHoneydew,
           ),
           const SizedBox(
             width: 3,

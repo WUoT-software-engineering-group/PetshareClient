@@ -1,10 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:test_io2/applicationPage/applicationPage.dart';
-import 'package:test_io2/announcementPage/announcementPage.dart';
-import 'package:test_io2/utils/ourColors.dart';
+import 'package:test_io2/applicationPage/application_page.dart';
+import 'package:test_io2/announcementPage/announcement_page.dart';
+import 'package:test_io2/utils/our_colors.dart';
 
-import '../formPage/formPage.dart';
+import '../formPage/form_page.dart';
 
 class PageManager extends StatefulWidget {
   const PageManager({Key? key}) : super(key: key);
@@ -28,15 +28,15 @@ class _PageManagerState extends State<PageManager> {
     ];
 
     return Scaffold(
-      backgroundColor: BasicScaffoldColor,
+      backgroundColor: basicScaffoldColor,
       body: screens[index],
       bottomNavigationBar: Theme(
         data: Theme.of(context)
             .copyWith(iconTheme: const IconThemeData(color: Colors.white)),
         child: CurvedNavigationBar(
           key: navigationKey,
-          color: Rose,
-          buttonBackgroundColor: Mountbatten,
+          color: rose,
+          buttonBackgroundColor: mountbatten,
           backgroundColor: Colors.transparent,
           height: 55,
           index: index,

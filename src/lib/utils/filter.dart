@@ -1,7 +1,7 @@
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
-import 'package:test_io2/utils/tileFilter.dart';
-import 'package:test_io2/utils/ourColors.dart';
+import 'package:test_io2/utils/tile_filter.dart';
+import 'package:test_io2/utils/our_colors.dart';
 
 class OurFilter extends StatefulWidget {
   final List<String> filters;
@@ -9,6 +9,7 @@ class OurFilter extends StatefulWidget {
   const OurFilter(this.filters, {Key? key}) : super(key: key);
 
   @override
+  // ignore: no_logic_in_create_state
   State<OurFilter> createState() => _OurFilterState(filters);
 }
 
@@ -30,16 +31,16 @@ class _OurFilterState extends State<OurFilter> {
       insetPadding: const EdgeInsets.symmetric(vertical: 12.5, horizontal: 25),
       themeData: FilterListThemeData(
         context,
-        backgroundColor: TBasicScaffoldColor,
+        backgroundColor: tBasicScaffoldColor,
         choiceChipTheme: const ChoiceChipThemeData(
-          selectedBackgroundColor: DarkRose,
+          selectedBackgroundColor: darkRose,
         ),
         controlButtonBarTheme: ControlButtonBarThemeData(context,
-            backgroundColor: Rose,
+            backgroundColor: rose,
             buttonSpacing: 5,
             controlButtonTheme: const ControlButtonThemeData(
-              primaryButtonBackgroundColor: Mountbatten,
-              backgroundColor: Mountbatten,
+              primaryButtonBackgroundColor: mountbatten,
+              backgroundColor: mountbatten,
               elevation: 1,
               textStyle: TextStyle(fontSize: 16, color: Colors.white),
             )),
@@ -86,10 +87,10 @@ class _OurFilterState extends State<OurFilter> {
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(const CircleBorder()),
                 padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                backgroundColor: MaterialStateProperty.all(Rose),
+                backgroundColor: MaterialStateProperty.all(rose),
                 overlayColor:
                     MaterialStateProperty.resolveWith<Color?>((states) {
-                  if (states.contains(MaterialState.pressed)) return Wenge;
+                  if (states.contains(MaterialState.pressed)) return wenge;
                   return null; // <-- Splash color
                 }),
               ),
