@@ -37,7 +37,7 @@ class _UserManagerState extends State<UserManager> {
           key: navigationKey,
           color: AppColors.navigation,
           buttonBackgroundColor: AppColors.buttons,
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.background,
           height: 55,
           index: index,
           items: items,

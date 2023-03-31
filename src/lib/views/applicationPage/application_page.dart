@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:pet_share/views/applicationPage/application_tile.dart';
 import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
@@ -54,6 +55,10 @@ class _ApplicationPageState extends State<ApplicationPage> {
     'application1',
   ];
 
+  Future<void> _onRefresh() async {
+    Future.delayed(const Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,27 +67,31 @@ class _ApplicationPageState extends State<ApplicationPage> {
         child: BlurryGradient(
           color: AppColors.background,
           stops: const [0.93, 1],
-          child: ListView.builder(
-            itemCount: list.length + 1,
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return const OurFilter([
-                  'dog',
-                  'fast',
-                  'fat',
-                  'young',
-                  'mid',
-                  'old',
-                  'beautiful',
-                  'ugly',
-                  'slow',
-                  'sweet',
-                  'only puppies',
-                ]);
-              }
+          child: LiquidPullToRefresh(
+            showChildOpacityTransition: false,
+            onRefresh: _onRefresh,
+            child: ListView.builder(
+              itemCount: list.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return const OurFilter([
+                    'dog',
+                    'fast',
+                    'fat',
+                    'young',
+                    'mid',
+                    'old',
+                    'beautiful',
+                    'ugly',
+                    'slow',
+                    'sweet',
+                    'only puppies',
+                  ]);
+                }
 
-              return const ApplicationTile();
-            },
+                return const ApplicationTile();
+              },
+            ),
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/announcementPage/pet_tile.dart';
@@ -63,6 +64,10 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
     'dog 4'
   ];
 
+  Future<void> _onRefresh() async {
+    Future.delayed(const Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,28 +76,33 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
         child: BlurryGradient(
           color: AppColors.background,
           stops: const [0.96, 1],
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: elements.length + 1,
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return const OurFilter([
-                  'dog',
-                  'fast',
-                  'fat',
-                  'young',
-                  'mid',
-                  'old',
-                  'beautiful',
-                  'ugly',
-                  'slow',
-                  'sweet',
-                  'only puppies',
-                ]);
-              }
+          child: LiquidPullToRefresh(
+            showChildOpacityTransition: false,
+            onRefresh: _onRefresh,
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemCount: elements.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return const OurFilter([
+                    'dog',
+                    'fast',
+                    'fat',
+                    'young',
+                    'mid',
+                    'old',
+                    'beautiful',
+                    'ugly',
+                    'slow',
+                    'sweet',
+                    'only puppies',
+                  ]);
+                }
 
-              return PetTile(index - 1);
-            },
+                return PetTile(index - 1);
+              },
+            ),
           ),
         ),
       ),
