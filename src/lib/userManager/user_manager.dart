@@ -6,14 +6,14 @@ import 'package:pet_share/utils/app_colors.dart';
 
 import '../formPage/form_page.dart';
 
-class PageManager extends StatefulWidget {
-  const PageManager({Key? key}) : super(key: key);
+class UserManager extends StatefulWidget {
+  const UserManager({Key? key}) : super(key: key);
 
   @override
-  State<PageManager> createState() => _PageManagerState();
+  State<UserManager> createState() => _UserManagerState();
 }
 
-class _PageManagerState extends State<PageManager> {
+class _UserManagerState extends State<UserManager> {
   final navigationKey = GlobalKey<CurvedNavigationBarState>();
   int index = 1;
 

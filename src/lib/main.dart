@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_share/pageManager/page_manager.dart';
+import 'package:pet_share/userManager/user_manager.dart';
 
 void main() {
   runApp(const MainPoint());
@@ -10,6 +10,6 @@ class MainPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: PageManager());
+    return const MaterialApp(home: UserManager());
   }
 }
