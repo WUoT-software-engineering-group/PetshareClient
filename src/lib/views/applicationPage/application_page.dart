@@ -3,6 +3,8 @@ import 'package:pet_share/views/applicationPage/application_tile.dart';
 import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
+import '../../utils/blurry_gradient.dart';
+
 class ApplicationPage extends StatefulWidget {
   const ApplicationPage({Key? key}) : super(key: key);
 
@@ -57,44 +59,32 @@ class _ApplicationPageState extends State<ApplicationPage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Column(children: [
-          const OurFilter([
-            'dog',
-            'fast',
-            'fat',
-            'young',
-            'mid',
-            'old',
-            'beautiful',
-            'ugly',
-            'slow',
-            'sweet',
-            'only puppies',
-          ]),
-          const SizedBox(height: 10),
-          Flexible(
-            child: ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    AppColors.background,
-                    AppColors.background.withOpacity(0.0)
-                  ],
-                  stops: const [0.93, 1],
-                  tileMode: TileMode.mirror,
-                ).createShader(bounds);
-              },
-              child: ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  return const ApplicationTile();
-                },
-              ),
-            ),
-          )
-        ]),
+        child: BlurryGradient(
+          color: AppColors.background,
+          stops: const [0.93, 1],
+          child: ListView.builder(
+            itemCount: list.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return const OurFilter([
+                  'dog',
+                  'fast',
+                  'fat',
+                  'young',
+                  'mid',
+                  'old',
+                  'beautiful',
+                  'ugly',
+                  'slow',
+                  'sweet',
+                  'only puppies',
+                ]);
+              }
+
+              return const ApplicationTile();
+            },
+          ),
+        ),
       ),
     );
   }

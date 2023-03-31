@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
+import '../../utils/blurry_gradient.dart';
+
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
 
@@ -17,19 +19,9 @@ class _FormPageState extends State<FormPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ShaderMask(
-        shaderCallback: (Rect bounds) {
-          return LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              AppColors.background,
-              AppColors.background.withOpacity(0.0)
-            ],
-            stops: const [0.91, 1],
-            tileMode: TileMode.mirror,
-          ).createShader(bounds);
-        },
+      child: BlurryGradient(
+        color: AppColors.background,
+        stops: const [0.97, 1],
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(

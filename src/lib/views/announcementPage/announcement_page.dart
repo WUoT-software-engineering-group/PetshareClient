@@ -3,6 +3,8 @@ import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/announcementPage/pet_tile.dart';
 
+import '../../utils/blurry_gradient.dart';
+
 class AnnouncementPage extends StatefulWidget {
   const AnnouncementPage({Key? key}) : super(key: key);
 
@@ -66,48 +68,32 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Column(
-          children: [
-            const OurFilter([
-              'dog',
-              'fast',
-              'fat',
-              'young',
-              'mid',
-              'old',
-              'beautiful',
-              'ugly',
-              'slow',
-              'sweet',
-              'only puppies',
-            ]),
-            const SizedBox(height: 10),
+        child: BlurryGradient(
+          color: AppColors.background,
+          stops: const [0.96, 1],
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: elements.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return const OurFilter([
+                  'dog',
+                  'fast',
+                  'fat',
+                  'young',
+                  'mid',
+                  'old',
+                  'beautiful',
+                  'ugly',
+                  'slow',
+                  'sweet',
+                  'only puppies',
+                ]);
+              }
 
-            // list of Tiles with announcements
-            Expanded(
-              child: ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      AppColors.background,
-                      AppColors.background.withOpacity(0.0)
-                    ],
-                    stops: const [0.97, 1],
-                    tileMode: TileMode.mirror,
-                  ).createShader(bounds);
-                },
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: elements.length,
-                  itemBuilder: (context, index) {
-                    return PetTile(index);
-                  },
-                ),
-              ),
-            ),
-          ],
+              return PetTile(index - 1);
+            },
+          ),
         ),
       ),
     );
