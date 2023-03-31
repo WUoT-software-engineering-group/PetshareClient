@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/userManager/user_manager.dart';
 
 void main() {
@@ -10,6 +11,10 @@ class MainPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: UserManager());
+    return MaterialApp(
+        theme: ThemeData(
+            colorScheme:
+                ColorScheme.fromSwatch(accentColor: AppColors.buttons)),
+        home: const UserManager());
   }
 }
