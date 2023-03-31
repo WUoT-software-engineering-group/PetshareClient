@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test_io2/applicationPage/application_dialog.dart';
-import 'package:test_io2/utils/our_colors.dart';
+import 'package:pet_share/applicationPage/application_dialog.dart';
+import 'package:pet_share/utils/app_colors.dart';
 
 class ApplicationTile extends StatefulWidget {
   const ApplicationTile({Key? key}) : super(key: key);
@@ -41,16 +41,16 @@ class _ApplicationTileState extends State<ApplicationTile> {
                         /*2*/
                         Container(
                           padding: const EdgeInsets.only(bottom: 8),
-                          child: Row(children: const [
+                          child: Row(children: [
                             Icon(
                               Icons.perm_identity,
-                              color: dDarkHoneydew,
+                              color: AppColors.smallElements['reddish'],
                               size: 17,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 3,
                             ),
-                            Text(
+                            const Text(
                               ':  Joanna Eule',
                               style: TextStyle(
                                 fontSize: 15,
@@ -69,9 +69,9 @@ class _ApplicationTileState extends State<ApplicationTile> {
                       ],
                     ),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.mail_outline,
-                    color: dDarkHoneydew,
+                    color: AppColors.smallElements['reddish'],
                   ),
                   const SizedBox(
                     width: 12.5,

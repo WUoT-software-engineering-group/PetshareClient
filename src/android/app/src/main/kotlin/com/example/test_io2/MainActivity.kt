@@ -1,4 +1,4 @@
-package com.example.test_io2
+package com.example.pet_share
 
 import io.flutter.embedding.android.FlutterActivity
 

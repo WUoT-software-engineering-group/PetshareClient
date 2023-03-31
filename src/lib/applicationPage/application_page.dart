@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:test_io2/applicationPage/application_tile.dart';
-import 'package:test_io2/utils/filter.dart';
-import 'package:test_io2/utils/our_colors.dart';
+import 'package:pet_share/applicationPage/application_tile.dart';
+import 'package:pet_share/utils/filter.dart';
+import 'package:pet_share/utils/app_colors.dart';
 
 class ApplicationPage extends StatefulWidget {
   const ApplicationPage({Key? key}) : super(key: key);
@@ -55,7 +55,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: basicScaffoldColor,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(children: [
           const OurFilter([
@@ -79,8 +79,8 @@ class _ApplicationPageState extends State<ApplicationPage> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    basicScaffoldColor,
-                    basicScaffoldColor.withOpacity(0.0)
+                    AppColors.background,
+                    AppColors.background.withOpacity(0.0)
                   ],
                   stops: const [0.93, 1],
                   tileMode: TileMode.mirror,

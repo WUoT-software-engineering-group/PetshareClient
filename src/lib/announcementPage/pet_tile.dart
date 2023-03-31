@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:test_io2/announcementPage/labeled_icon.dart';
-import 'package:test_io2/utils/our_colors.dart';
+import 'package:pet_share/announcementPage/labeled_icon.dart';
+import 'package:pet_share/utils/app_colors.dart';
 
 class PetTile extends StatefulWidget {
   final int index;
@@ -19,20 +19,20 @@ class _PetTileState extends State<PetTile> {
       padding: const EdgeInsets.symmetric(vertical: 12.5, horizontal: 25),
       child: Slidable(
         // delete and edit action on tile
-        endActionPane: const ActionPane(
-          motion: StretchMotion(),
+        endActionPane: ActionPane(
+          motion: const StretchMotion(),
           children: [
             SlidableAction(
               onPressed: null,
               icon: Icons.delete,
-              backgroundColor: wenge,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              backgroundColor: (AppColors.smallElements['reddish'])!,
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
             ),
             SlidableAction(
               onPressed: null,
               icon: Icons.edit,
-              backgroundColor: onyx,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              backgroundColor: AppColors.tile[0],
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
             )
           ],
         ),
@@ -114,9 +114,9 @@ class DescriptionTile extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.calendar_month,
-                        color: dDarkHoneydew,
+                        color: AppColors.smallElements['reddish'],
                         size: 15,
                       ),
                       const SizedBox(
@@ -151,9 +151,10 @@ class DescriptionTile extends StatelessWidget {
             flex: 2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(Icons.mail_outline, size: 30, color: dDarkHoneydew),
-                Text('0', style: TextStyle(fontSize: 16))
+              children: [
+                Icon(Icons.mail_outline,
+                    size: 30, color: AppColors.smallElements['reddish']),
+                const Text('0', style: TextStyle(fontSize: 16))
               ],
             ),
           ),
