@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:pet_share/announcementPage/labeled_icon.dart';
+import 'package:pet_share/views/announcementPage/labeled_icon.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
 class PetTile extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
-import 'package:pet_share/announcementPage/pet_tile.dart';
+import 'package:pet_share/views/announcementPage/pet_tile.dart';
 
 class AnnouncementPage extends StatefulWidget {
   const AnnouncementPage({Key? key}) : super(key: key);

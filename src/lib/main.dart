@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_share/userManager/user_manager.dart';
+import 'package:pet_share/views/userManager/user_manager.dart';
 
 void main() {
   runApp(const MainPoint());

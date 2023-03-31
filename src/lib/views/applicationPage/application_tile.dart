@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_share/applicationPage/application_dialog.dart';
+import 'package:pet_share/views/applicationPage/application_dialog.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
 class ApplicationTile extends StatefulWidget {

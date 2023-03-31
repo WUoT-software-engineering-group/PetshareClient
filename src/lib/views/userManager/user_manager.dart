@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:pet_share/applicationPage/application_page.dart';
-import 'package:pet_share/announcementPage/announcement_page.dart';
+import 'package:pet_share/views/applicationPage/application_page.dart';
+import 'package:pet_share/views/announcementPage/announcement_page.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
 import '../formPage/form_page.dart';

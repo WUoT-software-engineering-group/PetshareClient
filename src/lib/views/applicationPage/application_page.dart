@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_share/applicationPage/application_tile.dart';
+import 'package:pet_share/views/applicationPage/application_tile.dart';
 import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
