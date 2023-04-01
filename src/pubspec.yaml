@@ -37,6 +37,9 @@ dependencies:
   intl: ^0.17.0
   liquid_pull_to_refresh: ^3.0.1
   lottie: ^2.3.1
+  flutter_bloc: ^8.1.2
+  bloc: ^8.1.1
+  equatable: ^2.0.5
 
 
   # The following adds the Cupertino Icons font to your application.
