@@ -10,6 +10,12 @@ class AppColors {
     Color.fromARGB(150, 52, 62, 61),
     Color.fromARGB(255, 97, 80, 85)
   ];
+
+  static const Map<String, Color> animationColor = {
+    'sides': Color.fromARGB(255, 243, 167, 80),
+    'center': Color.fromARGB(255, 163, 110, 112)
+  };
+
   static const Color tile2 = Color.fromARGB(255, 97, 80, 85);
   static const Color form = Color.fromARGB(255, 199, 188, 192);
   static const Color navigation = Color.fromARGB(255, 180, 166, 171);
