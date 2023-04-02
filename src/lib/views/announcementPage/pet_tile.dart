@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/views/announcementPage/labeled_icon.dart';
@@ -19,53 +18,33 @@ class _PetTileState extends State<PetTile> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.5, horizontal: 25),
-      child: Slidable(
-        // delete and edit action on tile
-        endActionPane: ActionPane(
-          motion: const StretchMotion(),
-          children: [
-            SlidableAction(
-              onPressed: null,
-              icon: Icons.delete,
-              backgroundColor: (AppColors.smallElements['reddish'])!,
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-            ),
-            SlidableAction(
-              onPressed: null,
-              icon: Icons.edit,
-              backgroundColor: AppColors.tile[0],
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-            )
-          ],
-        ),
+      // delete and edit action on tile
+      child: Material(
+        elevation: 6,
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Container(
+            color: Colors.white,
+            height: 300,
+            child: Column(
+              children: [
+                // picture of animal
+                Expanded(
+                    flex: 5,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: AssetImage('assets/pupic.jpg'))),
+                    )),
 
-        child: Material(
-          elevation: 6,
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Container(
-              color: Colors.white,
-              height: 300,
-              child: Column(
-                children: [
-                  // picture of animal
-                  Expanded(
-                      flex: 5,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: AssetImage('assets/pupic.jpg'))),
-                      )),
-
-                  // description of announcement
-                  Expanded(
-                    flex: 2,
-                    child: DescriptionTile(widget.announcement),
-                  ),
-                ],
-              ),
+                // description of announcement
+                Expanded(
+                  flex: 2,
+                  child: DescriptionTile(widget.announcement),
+                ),
+              ],
             ),
           ),
         ),
