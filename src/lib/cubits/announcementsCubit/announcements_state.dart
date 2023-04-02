@@ -9,6 +9,8 @@ abstract class AnnouncementsState extends Equatable {
 
 class AnnouncementsSInitial extends AnnouncementsState {}
 
+class AnnouncementsSRefreshing extends AnnouncementsState {}
+
 class AnnouncementsSLoaded extends AnnouncementsState {
   final List<Announcement> announcements;
 

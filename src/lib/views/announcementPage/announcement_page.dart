@@ -17,7 +17,7 @@ class AnnouncementPage extends StatefulWidget {
 
 class _AnnouncementPageState extends State<AnnouncementPage> {
   Future<void> _onRefresh() async {
-    Future.delayed(const Duration(seconds: 2));
+    await BlocProvider.of<AnnouncementsCubit>(context).refresh();
   }
 
   @override
