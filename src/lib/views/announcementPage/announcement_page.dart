@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/announcementPage/pet_tile.dart';
 
+import '../../cubits/announcementsCubit/announcements_cubit.dart';
 import '../../utils/blurry_gradient.dart';
 
 class AnnouncementPage extends StatefulWidget {
@@ -14,56 +16,6 @@ class AnnouncementPage extends StatefulWidget {
 }
 
 class _AnnouncementPageState extends State<AnnouncementPage> {
-  List<String> elements = [
-    'dog 1',
-    'dog 2',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 3',
-    'dog 4'
-  ];
-
   Future<void> _onRefresh() async {
     Future.delayed(const Duration(seconds: 2));
   }
@@ -79,28 +31,36 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
           child: LiquidPullToRefresh(
             showChildOpacityTransition: false,
             onRefresh: _onRefresh,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: elements.length + 1,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return const OurFilter([
-                    'dog',
-                    'fast',
-                    'fat',
-                    'young',
-                    'mid',
-                    'old',
-                    'beautiful',
-                    'ugly',
-                    'slow',
-                    'sweet',
-                    'only puppies',
-                  ]);
+            child: BlocBuilder<AnnouncementsCubit, AnnouncementsState>(
+              builder: (context, state) {
+                if (state is AnnouncementsSLoaded) {
+                  return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: state.announcements.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return const OurFilter([
+                          'dog',
+                          'fast',
+                          'fat',
+                          'young',
+                          'mid',
+                          'old',
+                          'beautiful',
+                          'ugly',
+                          'slow',
+                          'sweet',
+                          'only puppies',
+                        ]);
+                      }
+
+                      return PetTile(state.announcements[index - 1]);
+                    },
+                  );
                 }
 
-                return PetTile(index - 1);
+                return const Center();
               },
             ),
           ),

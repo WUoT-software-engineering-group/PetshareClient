@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
+import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/views/announcementPage/labeled_icon.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
 class PetTile extends StatefulWidget {
-  final int index;
+  final Announcement announcement;
 
-  const PetTile(this.index, {Key? key}) : super(key: key);
+  const PetTile(this.announcement, {Key? key}) : super(key: key);
 
   @override
   State<PetTile> createState() => _PetTileState();
@@ -58,9 +60,9 @@ class _PetTileState extends State<PetTile> {
                       )),
 
                   // description of announcement
-                  const Expanded(
+                  Expanded(
                     flex: 2,
-                    child: DescriptionTile(),
+                    child: DescriptionTile(widget.announcement),
                   ),
                 ],
               ),
@@ -73,7 +75,20 @@ class _PetTileState extends State<PetTile> {
 }
 
 class DescriptionTile extends StatelessWidget {
-  const DescriptionTile({Key? key}) : super(key: key);
+  final Announcement announcement;
+  const DescriptionTile(this.announcement, {Key? key}) : super(key: key);
+
+  String _ageOfPet(DateTime dateTime) {
+    int years = DateTime.now().year - dateTime.year;
+    if (years == 0) {
+      int months = DateTime.now().month - dateTime.month;
+      if (months == 1) return '$months month';
+      return '$months months';
+    }
+
+    if (years == 1) return '$years year';
+    return '$years years';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,15 +107,15 @@ class DescriptionTile extends StatelessWidget {
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,
                       children: [
-                        const TextSpan(
-                          text: 'Reksio',
-                          style: TextStyle(
+                        TextSpan(
+                          text: announcement.pet.name,
+                          style: const TextStyle(
                               fontSize: 20,
                               color: Color.fromARGB(255, 70, 70, 70),
                               fontWeight: FontWeight.w600),
                         ),
                         TextSpan(
-                          text: '    3 years old',
+                          text: '    ${_ageOfPet(announcement.pet.birthday)}',
                           style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey[700],
@@ -123,7 +138,7 @@ class DescriptionTile extends StatelessWidget {
                         width: 6,
                       ),
                       Text(
-                        '20 March 2023',
+                        DateFormat.yMMMd().format(announcement.creationDate),
                         style: TextStyle(
                           color: Colors.grey[500],
                         ),
@@ -134,9 +149,9 @@ class DescriptionTile extends StatelessWidget {
                     height: 7,
                   ),
                   Row(
-                    children: const [
-                      LabeledIcon(Icons.male, 'Male'),
-                      LabeledIcon(Icons.sports_baseball_outlined, 'Sporty'),
+                    children: [
+                      LabeledIcon(Icons.pets, announcement.pet.breed),
+                      const LabeledIcon(Icons.female, 'Female'),
                     ],
                   )
                 ],
