@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pet_share/services/data_services.dart';
 
+import '../../models/announcement.dart';
+
 part 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
@@ -16,8 +18,8 @@ class AppCubit extends Cubit<AppState> {
   void initUser() async {
     try {
       emit(AppSLoading());
-      await Future.delayed(const Duration(seconds: 4));
-      emit(AppSLoaded());
+      var res = await _dataServices.getAnnouncements();
+      emit(AppSLoaded(res));
     } catch (e) {
       log(e.toString());
     }
