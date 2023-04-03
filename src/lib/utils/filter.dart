@@ -91,8 +91,10 @@ class _OurFilterState extends State<OurFilter> {
                     MaterialStateProperty.all(AppColors.navigation),
                 overlayColor:
                     MaterialStateProperty.resolveWith<Color?>((states) {
-                  if (states.contains(MaterialState.pressed))
+                  if (states.contains(MaterialState.pressed)) {
                     return AppColors.tile[1];
+                  }
+
                   return null; // <-- Splash color
                 }),
               ),
