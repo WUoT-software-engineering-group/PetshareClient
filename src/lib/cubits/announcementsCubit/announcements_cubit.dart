@@ -20,4 +20,10 @@ class AnnouncementsCubit extends Cubit<AnnouncementsState> {
       emit(AnnouncementsSLoaded(announcements: announcements));
     }
   }
+
+  Future<void> add(AnnouncementPost post) async {
+    if (state is AnnouncementsSLoaded) {
+      await _dataServices.addAnnouncement(post);
+    }
+  }
 }

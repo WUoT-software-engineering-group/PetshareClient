@@ -92,3 +92,13 @@ class Address {
         country: json['country']);
   }
 }
+
+class AnnouncementPost {
+  final String title;
+  final String description;
+  final String? petId;
+  final Pet? pet;
+
+  AnnouncementPost(
+      {required this.title, required this.description, this.petId, this.pet});
+}
