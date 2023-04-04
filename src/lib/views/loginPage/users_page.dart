@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_share/cubits/appCubit/app_cubit.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
 class UsersPage extends StatelessWidget {
@@ -8,7 +10,7 @@ class UsersPage extends StatelessWidget {
 
   UsersPage({super.key});
 
-  Widget _userButton(IconData iconData) {
+  Widget _userButton(IconData iconData, Function()? presse) {
     return ConstrainedBox(
       constraints: const BoxConstraints.tightFor(width: 110, height: 110),
       child: ElevatedButton(
@@ -18,7 +20,7 @@ class UsersPage extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             )),
-        onPressed: () {},
+        onPressed: presse,
         child: Icon(iconData, size: 75, color: _iconColor),
       ),
     );
@@ -41,11 +43,13 @@ class UsersPage extends StatelessWidget {
               height: 30,
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              _userButton(Icons.face),
+              _userButton(Icons.face,
+                  BlocProvider.of<AppCubit>(context).initAdoptingPerson),
               const SizedBox(
                 width: 30,
               ),
-              _userButton(Icons.pets),
+              _userButton(
+                  Icons.pets, BlocProvider.of<AppCubit>(context).initShelter),
             ]),
           ]),
     );
