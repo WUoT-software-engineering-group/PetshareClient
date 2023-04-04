@@ -40,7 +40,7 @@ class _GradientTextState extends State<GradientText>
       },
       child: Text(
         widget.text,
-        style: GoogleFonts.luckiestGuy(
+        style: GoogleFonts.varelaRound(
             fontWeight: FontWeight.bold,
             fontSize: 40,
             color: Colors.white.withAlpha(180)),
