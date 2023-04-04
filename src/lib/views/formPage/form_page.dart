@@ -295,7 +295,7 @@ class _FormPageState extends State<FormPage> {
                       if (_formKey.currentState!.validate()) {}
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.darkerNavigation,
+                      backgroundColor: AppColors.buttons,
                       minimumSize: const Size(75, 45),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
