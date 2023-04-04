@@ -20,6 +20,24 @@ class Pet {
       required this.description,
       required this.photo});
 
+  factory Pet.post(
+      {required String name,
+      required String species,
+      required String breed,
+      required DateTime birthday,
+      required String description,
+      required List<int> photo}) {
+    return Pet(
+        id: '',
+        shelterID: '',
+        name: name,
+        species: species,
+        breed: breed,
+        birthday: birthday,
+        description: description,
+        photo: photo);
+  }
+
   factory Pet.fromJson(Map<String, dynamic> json) {
     return Pet(
         id: json['id'],
