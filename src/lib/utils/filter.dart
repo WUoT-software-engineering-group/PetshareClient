@@ -1,7 +1,7 @@
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
-import 'package:test_io2/utils/tile_filter.dart';
-import 'package:test_io2/utils/our_colors.dart';
+import 'package:pet_share/utils/tile_filter.dart';
+import 'package:pet_share/utils/app_colors.dart';
 
 class OurFilter extends StatefulWidget {
   final List<String> filters;
@@ -31,16 +31,16 @@ class _OurFilterState extends State<OurFilter> {
       insetPadding: const EdgeInsets.symmetric(vertical: 12.5, horizontal: 25),
       themeData: FilterListThemeData(
         context,
-        backgroundColor: tBasicScaffoldColor,
+        backgroundColor: AppColors.background,
         choiceChipTheme: const ChoiceChipThemeData(
-          selectedBackgroundColor: darkRose,
+          selectedBackgroundColor: AppColors.darkerNavigation,
         ),
         controlButtonBarTheme: ControlButtonBarThemeData(context,
-            backgroundColor: rose,
+            backgroundColor: AppColors.navigation,
             buttonSpacing: 5,
             controlButtonTheme: const ControlButtonThemeData(
-              primaryButtonBackgroundColor: mountbatten,
-              backgroundColor: mountbatten,
+              primaryButtonBackgroundColor: AppColors.buttons,
+              backgroundColor: AppColors.buttons,
               elevation: 1,
               textStyle: TextStyle(fontSize: 16, color: Colors.white),
             )),
@@ -87,10 +87,14 @@ class _OurFilterState extends State<OurFilter> {
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(const CircleBorder()),
                 padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                backgroundColor: MaterialStateProperty.all(rose),
+                backgroundColor:
+                    MaterialStateProperty.all(AppColors.navigation),
                 overlayColor:
                     MaterialStateProperty.resolveWith<Color?>((states) {
-                  if (states.contains(MaterialState.pressed)) return wenge;
+                  if (states.contains(MaterialState.pressed)) {
+                    return AppColors.tile[1];
+                  }
+
                   return null; // <-- Splash color
                 }),
               ),

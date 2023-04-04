@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:test_io2/utils/our_colors.dart';
+import 'package:pet_share/utils/app_colors.dart';
+
+import '../../utils/blurry_gradient.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
@@ -17,16 +19,9 @@ class _FormPageState extends State<FormPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ShaderMask(
-        shaderCallback: (Rect bounds) {
-          return LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [basicScaffoldColor, basicScaffoldColor.withOpacity(0.0)],
-            stops: const [0.91, 1],
-            tileMode: TileMode.mirror,
-          ).createShader(bounds);
-        },
+      child: BlurryGradient(
+        color: AppColors.background,
+        stops: const [0.97, 1],
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
@@ -35,13 +30,13 @@ class _FormPageState extends State<FormPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Center(
+                Center(
                   child: Text(
                     "Add new announcement",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: darkWenge,
+                      color: AppColors.smallElements['reddish'],
                     ),
                   ),
                 ),
@@ -58,13 +53,13 @@ class _FormPageState extends State<FormPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.title),
+                        decoration: InputDecoration(
+                          icon: const Icon(Icons.title),
                           hintText: 'Enter the title of your announcement',
                           labelText: 'Title',
-                          iconColor: darkWenge,
-                          hoverColor: darkWenge,
-                          focusColor: darkRose,
+                          iconColor: AppColors.smallElements['reddish'],
+                          hoverColor: AppColors.smallElements['reddish'],
+                          focusColor: AppColors.darkerNavigation,
                         ),
                         maxLength: 50,
                         // keyboardType: TextInputType.multiline,
@@ -90,13 +85,13 @@ class _FormPageState extends State<FormPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.title),
+                        decoration: InputDecoration(
+                          icon: const Icon(Icons.title),
                           hintText: 'Enter a name',
                           labelText: 'Name',
-                          iconColor: darkWenge,
-                          hoverColor: darkWenge,
-                          focusColor: darkRose,
+                          iconColor: AppColors.smallElements['reddish'],
+                          hoverColor: AppColors.smallElements['reddish'],
+                          focusColor: AppColors.darkerNavigation,
                         ),
                         maxLength: 50,
                         onSaved: (String? value) {
@@ -138,15 +133,17 @@ class _FormPageState extends State<FormPage> {
                               builder: (context, child) {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
-                                    colorScheme: const ColorScheme.light(
-                                      primary: lightRose,
-                                      onPrimary: darkWenge,
-                                      onSurface: wenge,
+                                    colorScheme: ColorScheme.light(
+                                      primary: AppColors.form,
+                                      onPrimary:
+                                          (AppColors.smallElements['reddish'])!,
+                                      onSurface: AppColors.tile[1],
                                     ),
                                     textButtonTheme: TextButtonThemeData(
                                       style: TextButton.styleFrom(
                                         foregroundColor:
-                                            darkWenge, // button text color
+                                            AppColors.smallElements[
+                                                'reddish'], // button text color
                                       ),
                                     ),
                                   ),
@@ -193,12 +190,12 @@ class _FormPageState extends State<FormPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.title),
+                              decoration: InputDecoration(
+                                icon: const Icon(Icons.title),
                                 labelText: 'Breed',
-                                iconColor: darkWenge,
-                                hoverColor: darkWenge,
-                                focusColor: darkRose,
+                                iconColor: AppColors.smallElements['reddish'],
+                                hoverColor: AppColors.smallElements['reddish'],
+                                focusColor: AppColors.darkerNavigation,
                               ),
                               maxLength: 30,
                               // keyboardType: TextInputType.multiline,
@@ -232,12 +229,12 @@ class _FormPageState extends State<FormPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.title),
+                              decoration: InputDecoration(
+                                icon: const Icon(Icons.title),
                                 labelText: 'Species',
-                                iconColor: darkWenge,
-                                hoverColor: darkWenge,
-                                focusColor: darkRose,
+                                iconColor: AppColors.smallElements['reddish'],
+                                hoverColor: AppColors.smallElements['reddish'],
+                                focusColor: AppColors.darkerNavigation,
                               ),
                               maxLength: 30,
                               // keyboardType: TextInputType.multiline,
@@ -268,12 +265,12 @@ class _FormPageState extends State<FormPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.title),
+                        decoration: InputDecoration(
+                          icon: const Icon(Icons.title),
                           labelText: 'Description',
-                          iconColor: darkWenge,
-                          hoverColor: darkWenge,
-                          focusColor: darkRose,
+                          iconColor: AppColors.smallElements['reddish'],
+                          hoverColor: AppColors.smallElements['reddish'],
+                          focusColor: AppColors.darkerNavigation,
                         ),
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
@@ -298,7 +295,7 @@ class _FormPageState extends State<FormPage> {
                       if (_formKey.currentState!.validate()) {}
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: darkRose,
+                      backgroundColor: AppColors.darkerNavigation,
                       minimumSize: const Size(75, 45),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),

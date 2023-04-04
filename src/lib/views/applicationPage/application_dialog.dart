@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:test_io2/utils/our_colors.dart';
+import 'package:pet_share/utils/app_colors.dart';
 
 class ApplicationDialog extends StatelessWidget {
   final String myText =
@@ -23,20 +23,20 @@ class ApplicationDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 40,
-                backgroundColor: dDarkHoneydew,
-                child: CircleAvatar(
+                backgroundColor: AppColors.smallElements['reddish'],
+                child: const CircleAvatar(
                   radius: 35,
                   backgroundImage: AssetImage('assets/kity_blur.jpg'),
                 ),
               ),
-              const Divider(
+              Divider(
                 thickness: 2,
                 height: 30,
                 endIndent: 25,
                 indent: 25,
-                color: dDarkHoneydew,
+                color: AppColors.smallElements['reddish'],
               ),
               const Text(
                 'Joanna Eule',
@@ -56,17 +56,18 @@ class ApplicationDialog extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Column(children: const [
+                    child: Column(children: [
                       Icon(
                         Icons.thumb_up,
-                        color: dDarkHoneydew,
+                        color: AppColors.smallElements['reddish'],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
                         'ACCEPT',
-                        style: TextStyle(color: dDarkHoneydew),
+                        style: TextStyle(
+                            color: AppColors.smallElements['reddish']),
                       )
                     ]),
                   ),
@@ -77,17 +78,18 @@ class ApplicationDialog extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Column(children: const [
+                    child: Column(children: [
                       Icon(
                         Icons.delete,
-                        color: dDarkHoneydew,
+                        color: AppColors.smallElements['reddish'],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
                         'DELETE',
-                        style: TextStyle(color: dDarkHoneydew),
+                        style: TextStyle(
+                            color: AppColors.smallElements['reddish']),
                       )
                     ]),
                   )
