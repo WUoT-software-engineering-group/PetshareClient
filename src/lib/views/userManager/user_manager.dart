@@ -17,9 +17,10 @@ class UserManager extends StatefulWidget {
 }
 
 class _UserManagerState extends State<UserManager> {
-  final navigationKey = GlobalKey<CurvedNavigationBarState>();
-  final screens = const [ApplicationPage(), AnnouncementPage(), FormPage()];
-  int index = 1;
+  final _navigationKey = GlobalKey<CurvedNavigationBarState>();
+  final _controller = PageController(initialPage: 1);
+  final _screens = const [ApplicationPage(), AnnouncementPage(), FormPage()];
+  int _index = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -41,23 +42,34 @@ class _UserManagerState extends State<UserManager> {
           backgroundColor: AppColors.background,
 
           // body body body
-          body: screens[index],
+          body: PageView(
+            controller: _controller,
+            children: _screens,
+            onPageChanged: (value) {
+              setState(() {
+                _index = value;
+              });
+            },
+          ),
 
           // navigation navigation
           bottomNavigationBar: Theme(
             data: Theme.of(context)
                 .copyWith(iconTheme: const IconThemeData(color: Colors.white)),
             child: CurvedNavigationBar(
-              key: navigationKey,
+              key: _navigationKey,
               color: AppColors.navigation,
               buttonBackgroundColor: AppColors.buttons,
               backgroundColor: AppColors.background,
               height: 55,
-              index: index,
+              index: _index,
               items: items,
               onTap: (index) {
                 setState(() {
-                  this.index = index;
+                  _index = index;
+                  _controller.animateToPage(index,
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.ease);
                 });
               },
             ),
