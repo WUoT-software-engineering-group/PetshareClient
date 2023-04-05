@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/utils/app_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AnnouncementDetailsPage extends StatefulWidget {
+  final bool contactButtons;
   final Announcement announcement;
 
-  const AnnouncementDetailsPage({required this.announcement, Key? key})
+  const AnnouncementDetailsPage(
+      {required this.announcement, required this.contactButtons, Key? key})
       : super(key: key);
 
   @override
@@ -14,20 +18,16 @@ class AnnouncementDetailsPage extends StatefulWidget {
 }
 
 class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
-  bool expanded = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12.5, horizontal: 25),
-                // delete and edit action on tile
-                child: Material(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.5, horizontal: 25),
+            child: Column(
+              children: [
+                Material(
                   elevation: 6,
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                   child: ClipRRect(
@@ -44,193 +44,251 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                     ),
                   ),
                 ),
-              ),
-              Text(
-                widget.announcement.title,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12.5, horizontal: 25),
-                // delete and edit action on tile
-                child: Material(
+                const SizedBox(
+                  height: 12.5,
+                ),
+                Text(
+                  widget.announcement.title,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 12.5,
+                ),
+                Material(
                   elevation: 6,
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Container(
                       color: Colors.white,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 10),
-                          Text(
-                            widget.announcement.pet.name,
-                            style: const TextStyle(
-                                fontSize: 32, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const SizedBox(
-                            // tu trzeba ifa dodać
-                            height: 20,
-                            child: Icon(
-                              Icons.pets,
-                              color: Colors.green,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              widget.announcement.pet.name,
+                              style: const TextStyle(
+                                  fontSize: 32, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text("Species:"),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text("Breed:"),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text("Birthday:")
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Text(widget.announcement.pet.species),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(widget.announcement.pet.breed),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(widget.announcement.pet.birthday
-                                        .toString()),
-                                  ],
-                                )
-                              ]),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 8),
-                              child: Text(widget.announcement.description))
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Material(
-                elevation: 6,
-                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                color: AppColors.buttons,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: InkWell(
-                      onTap: () => setState(() => expanded = !expanded),
-                      child: DecoratedBox(
-                          decoration: const BoxDecoration(
-                            color: AppColors.buttons,
-                          ),
-                          child: AnimatedCrossFade(
-                            duration: const Duration(milliseconds: 200),
-                            crossFadeState: expanded
-                                ? CrossFadeState.showSecond
-                                : CrossFadeState.showFirst,
-                            firstChild: Column(
-                              children: [
-                                const Text(
-                                  "Show contact details",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                SizedBox(
-                                  width: 100,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: const [
-                                      Icon(
-                                        Icons.phone,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Icon(
-                                        Icons.mail,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                            const SizedBox(
+                              height: 10,
                             ),
-                            secondChild: SizedBox(
-                              width: 300,
-                              child: Row(
+                            const SizedBox(
+                              // tu trzeba ifa dodać
+                              height: 20,
+                              child: Icon(
+                                Icons.pets,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const Divider(
+                              thickness: 2,
+                              indent: 40,
+                              endIndent: 40,
+                              height: 30,
+                            ),
+                            Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: const [
-                                      Text(
-                                        "Phone number:",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                      Text("Species:"),
                                       SizedBox(
                                         height: 5,
                                       ),
-                                      Text(
-                                        "E-mail address:",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      )
+                                      Text("Breed:"),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text("Birthday:")
                                     ],
                                   ),
-                                  const SizedBox(width: 5),
                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      const Text(
-                                        // widget.announcement.author.phoneNumer, // problem, nullowalne
-                                        "999 999 999",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                      Text(widget.announcement.pet.species),
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Text(
-                                        widget.announcement.author.email,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      )
+                                      Text(widget.announcement.pet.breed),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(DateFormat.yMMMd().format(
+                                          widget.announcement.pet.birthday)),
                                     ],
                                   )
-                                ],
-                              ),
+                                ]),
+                            const Divider(
+                              thickness: 2,
+                              indent: 40,
+                              endIndent: 40,
+                              height: 30,
                             ),
-                          ))),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(widget.announcement.description),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-            ],
+                const SizedBox(
+                  height: 12.5,
+                ),
+                Material(
+                    elevation: 6,
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
+                    color: Colors.white,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: OptionButtons(
+                            announcement: widget.announcement,
+                            contactButtons: widget.contactButtons,
+                          ),
+                        ),
+                      ),
+                    )),
+                const SizedBox(
+                  height: 12.5,
+                ),
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(20),
+                    backgroundColor: AppColors.buttons,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Icon(Icons.home, size: 30),
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+}
+
+class OptionButtons extends StatelessWidget {
+  final Announcement announcement;
+  final bool contactButtons;
+  const OptionButtons(
+      {required this.announcement, required this.contactButtons, super.key});
+
+  Future<void> _makingCall() async {
+    var url = Uri.parse("tel:+48${announcement.author.phoneNumer}");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<void> _sendingEmails() async {
+    var url = Uri.parse("mailto:${announcement.author.email}");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Widget _contactButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Material(
+          elevation: 6,
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          color: AppColors.buttons,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 110,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        iconSize: 30,
+                        onPressed: _makingCall,
+                        icon: const Icon(
+                          Icons.phone,
+                          color: Colors.white,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: _sendingEmails,
+                        iconSize: 30,
+                        icon: const Icon(
+                          Icons.mail,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(
+          width: 5,
+        ),
+        Material(
+          elevation: 6,
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          color: AppColors.buttons,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(
+              onPressed: () {},
+              iconSize: 30,
+              icon: const Icon(
+                Icons.check,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _editButton() {
+    return Material(
+        elevation: 6,
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        color: AppColors.buttons,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: IconButton(
+            onPressed: () {},
+            iconSize: 30,
+            icon: const Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+          ),
+        ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return contactButtons ? _contactButtons() : _editButton();
   }
 }

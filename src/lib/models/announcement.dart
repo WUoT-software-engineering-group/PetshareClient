@@ -41,7 +41,7 @@ class Announcement {
 class Author {
   final String id;
   final String userName;
-  final String? phoneNumer;
+  final String phoneNumer;
   final String email;
   final String? fluuShelterName;
   final bool isAuthorized;
@@ -56,11 +56,19 @@ class Author {
       required this.isAuthorized,
       required this.adress});
 
+  static String _testNumber(String? phone) {
+    if (phone == null) {
+      return '0000000000';
+    } else {
+      return phone;
+    }
+  }
+
   factory Author.fromJson(Map<String, dynamic> json) {
     return Author(
         id: json['id'],
         userName: json['userName'],
-        phoneNumer: json['phoneNumer'],
+        phoneNumer: _testNumber(json['phoneNumer']),
         email: json['email'],
         fluuShelterName: json['fluuShelterName'],
         isAuthorized: json['isAuthorized'],
