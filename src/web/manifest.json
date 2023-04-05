@@ -1,6 +1,6 @@
 {
-    "name": "test_io2",
-    "short_name": "test_io2",
+    "name": "pet_share",
+    "short_name": "pet_share",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
