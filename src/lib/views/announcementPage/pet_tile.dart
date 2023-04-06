@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:like_button/like_button.dart';
 import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/views/announcementPage/announcement_details.dart';
-import 'package:pet_share/views/announcementPage/clickable_icon_button.dart';
 import 'package:pet_share/views/announcementPage/labeled_icon.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
@@ -89,9 +89,23 @@ class DescriptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget followAnnouncement = ClickableIconButton(
-        nonClicked: AppColors.buttons,
-        clicked: AppColors.smallElements['reddish']!);
+    Widget followAnnouncement = LikeButton(
+      size: 40,
+      circleColor: CircleColor(
+          start: AppColors.buttons, end: AppColors.smallElements['reddish']!),
+      bubblesColor: BubblesColor(
+        dotPrimaryColor: AppColors.buttons,
+        dotSecondaryColor: AppColors.smallElements['reddish']!,
+      ),
+      likeBuilder: (bool isLiked) {
+        return Icon(
+          Icons.favorite,
+          color:
+              isLiked ? AppColors.animationColor['center'] : Colors.grey[400],
+          size: 40,
+        );
+      },
+    );
 
     Widget countFollowers = Column(
       mainAxisAlignment: MainAxisAlignment.center,
