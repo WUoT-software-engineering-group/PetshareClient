@@ -68,30 +68,32 @@ class _ApplicationPageState extends State<ApplicationPage> {
           color: AppColors.background,
           stops: const [0.93, 1],
           child: LiquidPullToRefresh(
-            showChildOpacityTransition: false,
+            springAnimationDurationInMilliseconds: 500,
+            showChildOpacityTransition: true,
             onRefresh: _onRefresh,
-            child: ListView.builder(
-              itemCount: list.length + 1,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return const OurFilter([
-                    'dog',
-                    'fast',
-                    'fat',
-                    'young',
-                    'mid',
-                    'old',
-                    'beautiful',
-                    'ugly',
-                    'slow',
-                    'sweet',
-                    'only puppies',
-                  ]);
-                }
+            child: AnimatedList(
+                physics: const BouncingScrollPhysics(),
+                initialItemCount: list.length + 1,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index, animation) {
+                  if (index == 0) {
+                    return const OurFilter([
+                      'dog',
+                      'fast',
+                      'fat',
+                      'young',
+                      'mid',
+                      'old',
+                      'beautiful',
+                      'ugly',
+                      'slow',
+                      'sweet',
+                      'only puppies',
+                    ]);
+                  }
 
-                return const ApplicationTile();
-              },
-            ),
+                  return const ApplicationTile();
+                }),
           ),
         ),
       ),

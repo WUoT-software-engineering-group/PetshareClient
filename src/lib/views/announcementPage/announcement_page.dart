@@ -31,16 +31,17 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
           color: AppColors.background,
           stops: const [0.96, 1],
           child: LiquidPullToRefresh(
-            showChildOpacityTransition: false,
+            showChildOpacityTransition: true,
             onRefresh: _onRefresh,
+            springAnimationDurationInMilliseconds: 500,
             child: BlocBuilder<AnnouncementsCubit, AnnouncementsState>(
               builder: (context, state) {
                 if (state is AnnouncementsSLoaded) {
-                  return ListView.builder(
+                  return AnimatedList(
                     physics: const BouncingScrollPhysics(),
+                    initialItemCount: state.announcements.length + 1,
                     scrollDirection: Axis.vertical,
-                    itemCount: state.announcements.length + 1,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (context, index, animation) {
                       if (index == 0) {
                         return const OurFilter([
                           'dog',
