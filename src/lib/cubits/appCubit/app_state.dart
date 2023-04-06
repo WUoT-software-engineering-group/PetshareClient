@@ -13,8 +13,9 @@ class AppSLoading extends AppState {}
 
 class AppSLoaded extends AppState {
   final List<Announcement> announcements;
+  final UserType type;
 
-  const AppSLoaded(this.announcements);
+  const AppSLoaded(this.announcements, this.type);
 
   @override
   List<Object> get props => [announcements];

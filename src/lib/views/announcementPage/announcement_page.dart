@@ -9,7 +9,9 @@ import '../../cubits/announcementsCubit/announcements_cubit.dart';
 import '../../utils/blurry_gradient.dart';
 
 class AnnouncementPage extends StatefulWidget {
-  const AnnouncementPage({Key? key}) : super(key: key);
+  final bool isAdoptingPerson;
+  const AnnouncementPage({required this.isAdoptingPerson, Key? key})
+      : super(key: key);
 
   @override
   State<AnnouncementPage> createState() => _AnnouncementPageState();
@@ -55,7 +57,8 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                         ]);
                       }
 
-                      return PetTile(state.announcements[index - 1]);
+                      return PetTile(state.announcements[index - 1],
+                          isFollowIcon: widget.isAdoptingPerson);
                     },
                   );
                 }
