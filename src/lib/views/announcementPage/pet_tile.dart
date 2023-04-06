@@ -23,37 +23,42 @@ class _PetTileState extends State<PetTile> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.5, horizontal: 25),
       // delete and edit action on tile
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AnnouncementDetailsPage(
-                      announcement: widget.announcement,
-                      contactButtons: widget.isFollowIcon,
-                    )),
-          );
-        },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
         child: Material(
           elevation: 6,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: SizedBox(
-              height: 315,
-              child: Column(
-                children: [
-                  Container(
-                    height: 225,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage('assets/pupic.jpg'))),
-                  ),
-                  DescriptionTile(
-                      announcement: widget.announcement,
-                      isFollowIcon: widget.isFollowIcon),
-                ],
+          child: InkWell(
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AnnouncementDetailsPage(
+                          announcement: widget.announcement,
+                          contactButtons: widget.isFollowIcon,
+                        )),
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: SizedBox(
+                height: 315,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 225,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: AssetImage('assets/pupic.jpg'))),
+                    ),
+                    DescriptionTile(
+                        announcement: widget.announcement,
+                        isFollowIcon: widget.isFollowIcon),
+                  ],
+                ),
               ),
             ),
           ),
