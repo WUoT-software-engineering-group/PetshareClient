@@ -36,6 +36,7 @@ class AppColors {
   static const Color darkerNavigation = Color.fromARGB(255, 162, 144, 150);
   static const Color buttons = Color.fromARGB(255, 148, 120, 121);
   static const Color background = Color.fromARGB(255, 242, 247, 244);
+  static const Color field = Colors.white;
 
   static Color fromColor(Color color,
       {int a = -1, int r = -1, int g = -1, int b = -1}) {

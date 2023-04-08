@@ -61,40 +61,37 @@ class _ApplicationPageState extends State<ApplicationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: BlurryGradient(
-          color: AppColors.background,
-          stops: const [0.93, 1],
-          child: LiquidPullToRefresh(
-            springAnimationDurationInMilliseconds: 500,
-            showChildOpacityTransition: true,
-            onRefresh: _onRefresh,
-            child: AnimatedList(
-                physics: const BouncingScrollPhysics(),
-                initialItemCount: list.length + 1,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index, animation) {
-                  if (index == 0) {
-                    return const OurFilter([
-                      'dog',
-                      'fast',
-                      'fat',
-                      'young',
-                      'mid',
-                      'old',
-                      'beautiful',
-                      'ugly',
-                      'slow',
-                      'sweet',
-                      'only puppies',
-                    ]);
-                  }
+    return SafeArea(
+      child: BlurryGradient(
+        color: AppColors.background,
+        stops: const [0.93, 1],
+        child: LiquidPullToRefresh(
+          springAnimationDurationInMilliseconds: 500,
+          showChildOpacityTransition: true,
+          onRefresh: _onRefresh,
+          child: AnimatedList(
+              physics: const BouncingScrollPhysics(),
+              initialItemCount: list.length + 1,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index, animation) {
+                if (index == 0) {
+                  return const OurFilter([
+                    'dog',
+                    'fast',
+                    'fat',
+                    'young',
+                    'mid',
+                    'old',
+                    'beautiful',
+                    'ugly',
+                    'slow',
+                    'sweet',
+                    'only puppies',
+                  ]);
+                }
 
-                  return const ApplicationTile();
-                }),
-          ),
+                return const ApplicationTile();
+              }),
         ),
       ),
     );

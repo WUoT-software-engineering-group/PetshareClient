@@ -75,8 +75,6 @@ class _UserManagerState extends State<UserManager> {
                           .announcements))
         ],
         child: Scaffold(
-          backgroundColor: AppColors.background,
-
           // body body body
           body: PageView(
             controller: _controller,

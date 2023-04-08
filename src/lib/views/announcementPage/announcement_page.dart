@@ -24,53 +24,50 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: BlurryGradient(
-          color: AppColors.background,
-          stops: const [0.96, 1],
-          child: LiquidPullToRefresh(
-            showChildOpacityTransition: true,
-            onRefresh: _onRefresh,
-            springAnimationDurationInMilliseconds: 500,
-            child: BlocBuilder<AnnouncementsCubit, AnnouncementsState>(
-              builder: (context, state) {
-                if (state is AnnouncementsSLoaded) {
-                  return AnimatedList(
-                    physics: const BouncingScrollPhysics(),
-                    initialItemCount: state.announcements.length + 1,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index, animation) {
-                      if (index == 0) {
-                        return const OurFilter([
-                          'dog',
-                          'fast',
-                          'fat',
-                          'young',
-                          'mid',
-                          'old',
-                          'beautiful',
-                          'ugly',
-                          'slow',
-                          'sweet',
-                          'only puppies',
-                        ]);
-                      }
+    return SafeArea(
+      child: BlurryGradient(
+        color: AppColors.background,
+        stops: const [0.96, 1],
+        child: LiquidPullToRefresh(
+          showChildOpacityTransition: true,
+          onRefresh: _onRefresh,
+          springAnimationDurationInMilliseconds: 500,
+          child: BlocBuilder<AnnouncementsCubit, AnnouncementsState>(
+            builder: (context, state) {
+              if (state is AnnouncementsSLoaded) {
+                return AnimatedList(
+                  physics: const BouncingScrollPhysics(),
+                  initialItemCount: state.announcements.length + 1,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index, animation) {
+                    if (index == 0) {
+                      return const OurFilter([
+                        'dog',
+                        'fast',
+                        'fat',
+                        'young',
+                        'mid',
+                        'old',
+                        'beautiful',
+                        'ugly',
+                        'slow',
+                        'sweet',
+                        'only puppies',
+                      ]);
+                    }
 
-                      return PetTile(
-                        announcement: state.announcements[index - 1],
-                        isFollowIcon: widget.isAdoptingPerson,
-                        descriptionOnLeft: index % 2 == 0 ? true : false,
-                        colors: AppColors.petTiles[(index - 1) % 3],
-                      );
-                    },
-                  );
-                }
+                    return PetTile(
+                      announcement: state.announcements[index - 1],
+                      isFollowIcon: widget.isAdoptingPerson,
+                      descriptionOnLeft: index % 2 == 0 ? true : false,
+                      colors: AppColors.petTiles[(index - 1) % 3],
+                    );
+                  },
+                );
+              }
 
-                return const Center();
-              },
-            ),
+              return const Center();
+            },
           ),
         ),
       ),

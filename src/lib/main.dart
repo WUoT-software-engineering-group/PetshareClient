@@ -18,6 +18,7 @@ class MainPoint extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.background,
             colorScheme:
                 ColorScheme.fromSwatch(accentColor: AppColors.buttons)),
         home: BlocProvider<AppCubit>(

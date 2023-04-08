@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
 import 'package:pet_share/models/announcement.dart';
+import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/announcementPage/announcement_details.dart';
 
 class PetTile extends StatefulWidget {
@@ -44,7 +45,7 @@ class _PetTileState extends State<PetTile> {
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeIn,
           child: Material(
-            color: Colors.white,
+            color: AppColors.field,
             borderRadius: _raundedDescription(isLeft),
             elevation: 6,
             child: InkWell(

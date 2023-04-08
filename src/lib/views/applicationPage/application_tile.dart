@@ -17,7 +17,7 @@ class _ApplicationTileState extends State<ApplicationTile> {
       duration: const Duration(milliseconds: 300),
       padding: const EdgeInsets.fromLTRB(25, 12.5, 25, 12.5),
       child: Material(
-        color: Colors.white,
+        color: AppColors.field,
         elevation: 6,
         borderRadius: BorderRadius.circular(15),
         child: InkWell(

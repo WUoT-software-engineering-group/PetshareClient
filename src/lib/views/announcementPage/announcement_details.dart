@@ -33,8 +33,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: Container(
-                      color: Colors.white,
+                    child: SizedBox(
                       height: 230,
                       child: Container(
                         decoration: const BoxDecoration(
@@ -62,7 +61,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Container(
-                      color: Colors.white,
+                      color: AppColors.field,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Column(
@@ -147,7 +146,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                 Material(
                     elevation: 6,
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
-                    color: Colors.white,
+                    color: AppColors.field,
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: ClipRRect(
