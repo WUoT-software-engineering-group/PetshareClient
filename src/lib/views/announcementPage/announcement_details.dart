@@ -21,6 +21,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
