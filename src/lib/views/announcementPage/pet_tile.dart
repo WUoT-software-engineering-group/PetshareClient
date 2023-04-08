@@ -8,13 +8,13 @@ import 'package:pet_share/views/announcementPage/announcement_details.dart';
 class PetTile extends StatefulWidget {
   final Announcement announcement;
   final bool descriptionOnLeft;
-  final bool isFollowIcon;
+  final bool isAdoptingPerson;
   final List<Color> colors;
 
   /// colors - colors of description 0: text 1: ring 2: bubbles
   const PetTile(
       {required this.announcement,
-      required this.isFollowIcon,
+      required this.isAdoptingPerson,
       required this.descriptionOnLeft,
       required this.colors,
       super.key});
@@ -27,13 +27,18 @@ class _PetTileState extends State<PetTile> {
   Widget _photoBlock() {
     return Expanded(
         flex: 5,
-        child: ClipRRect(
+        child: Material(
+          elevation: 6,
           borderRadius: BorderRadius.circular(23),
-          child: Container(
-            height: 220,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.fill, image: AssetImage('assets/pupic.jpg'))),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(23),
+            child: Container(
+              height: 220,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/pupic.jpg'))),
+            ),
           ),
         ));
   }
@@ -53,11 +58,14 @@ class _PetTileState extends State<PetTile> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => AnnouncementDetailsPage(
-                            announcement: widget.announcement,
-                            contactButtons: widget.isFollowIcon,
-                          )),
+                  MaterialPageRoute(builder: (context) {
+                    return AnnouncementDetailsPage(
+                        isAdoptingPerson: widget.isAdoptingPerson,
+                        announcement: widget.announcement,
+                        color1: widget.colors[0],
+                        color2: widget.colors[1],
+                        color3: widget.colors[2]);
+                  }),
                 );
               },
               child: ClipRRect(
@@ -66,7 +74,7 @@ class _PetTileState extends State<PetTile> {
                     height: 150,
                     child: PetDescription(
                       announcement: widget.announcement,
-                      isFollowIcon: widget.isFollowIcon,
+                      isFollowIcon: widget.isAdoptingPerson,
                       color: widget.colors[0],
                       ring: widget.colors[1],
                       bubbles: widget.colors[2],

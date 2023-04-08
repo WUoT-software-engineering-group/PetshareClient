@@ -4,7 +4,6 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/announcementPage/pet_tile.dart';
-
 import '../../cubits/announcementsCubit/announcements_cubit.dart';
 import '../../utils/blurry_gradient.dart';
 
@@ -58,9 +57,10 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
 
                     return PetTile(
                       announcement: state.announcements[index - 1],
-                      isFollowIcon: widget.isAdoptingPerson,
+                      isAdoptingPerson: widget.isAdoptingPerson,
                       descriptionOnLeft: index % 2 == 0 ? true : false,
-                      colors: AppColors.petTiles[(index - 1) % 3],
+                      colors: AppColors
+                          .petTiles[(index - 1) % AppColors.petTiles.length],
                     );
                   },
                 );

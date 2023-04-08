@@ -17,16 +17,25 @@ class AppColors {
   };
 
   static const List<List<Color>> petTiles = [
-    [Color.fromARGB(255, 131, 158, 122), Colors.green, Colors.greenAccent],
     [
-      Color.fromARGB(255, 243, 167, 80),
-      Color.fromARGB(255, 224, 141, 47),
-      Color.fromARGB(255, 255, 199, 116)
+      Color.fromARGB(255, 131, 158, 122),
+      Color.fromARGB(255, 64, 94, 54),
+      Color.fromARGB(255, 19, 36, 14)
+    ],
+    [
+      Color.fromARGB(255, 206, 159, 105),
+      Color.fromARGB(255, 215, 151, 77),
+      Color.fromARGB(255, 155, 108, 55)
     ],
     [
       Color.fromARGB(255, 163, 110, 112),
-      Color.fromARGB(255, 163, 78, 81),
-      Color.fromARGB(255, 226, 150, 153)
+      Color.fromARGB(255, 153, 67, 70),
+      Color.fromARGB(255, 136, 44, 47),
+    ],
+    [
+      Color.fromARGB(255, 33, 135, 137),
+      Color.fromARGB(255, 13, 97, 99),
+      Color.fromARGB(255, 3, 61, 71),
     ]
   ];
 
