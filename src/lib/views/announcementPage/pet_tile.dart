@@ -3,198 +3,241 @@ import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
 import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/views/announcementPage/announcement_details.dart';
-import 'package:pet_share/views/announcementPage/labeled_icon.dart';
-import 'package:pet_share/utils/app_colors.dart';
 
 class PetTile extends StatefulWidget {
   final Announcement announcement;
+  final bool descriptionOnLeft;
   final bool isFollowIcon;
+  final List<Color>? colors;
 
-  const PetTile(this.announcement, {this.isFollowIcon = false, Key? key})
-      : super(key: key);
+  /// colors - colors of description
+  const PetTile(
+      {required this.announcement,
+      required this.isFollowIcon,
+      required this.descriptionOnLeft,
+      this.colors,
+      super.key});
 
   @override
   State<PetTile> createState() => _PetTileState();
 }
 
 class _PetTileState extends State<PetTile> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.5, horizontal: 25),
-      // delete and edit action on tile
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-        child: Material(
-          elevation: 6,
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-          child: InkWell(
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AnnouncementDetailsPage(
-                          announcement: widget.announcement,
-                          contactButtons: widget.isFollowIcon,
-                        )),
-              );
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: SizedBox(
-                height: 315,
-                child: Column(
-                  children: [
-                    Container(
-                      height: 225,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage('assets/pupic.jpg'))),
-                    ),
-                    DescriptionTile(
-                        announcement: widget.announcement,
-                        isFollowIcon: widget.isFollowIcon),
-                  ],
-                ),
+  Widget _photoBlock() {
+    return Expanded(
+        flex: 5,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(23),
+          child: Container(
+            height: 220,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.fill, image: AssetImage('assets/pupic.jpg'))),
+          ),
+        ));
+  }
+
+  Widget _descriptionBlock(bool isLeft) {
+    return Expanded(
+        flex: 7,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+          child: Material(
+            color: Colors.white,
+            borderRadius: _raundedDescription(isLeft),
+            elevation: 6,
+            child: InkWell(
+              borderRadius: _raundedDescription(isLeft),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AnnouncementDetailsPage(
+                            announcement: widget.announcement,
+                            contactButtons: widget.isFollowIcon,
+                          )),
+                );
+              },
+              child: ClipRRect(
+                borderRadius: _raundedDescription(isLeft),
+                child: SizedBox(height: 150, child: _chooseDescription()),
               ),
             ),
           ),
-        ),
-      ),
+        ));
+  }
+
+  BorderRadius _raundedDescription(bool isLeft) {
+    if (isLeft) {
+      return const BorderRadius.horizontal(left: Radius.circular(28));
+    }
+
+    return const BorderRadius.horizontal(right: Radius.circular(28));
+  }
+
+  Widget _chooseDescription() {
+    if (widget.colors == null) {
+      return PetDescription(
+        announcement: widget.announcement,
+        isFollowIcon: widget.isFollowIcon,
+      );
+    }
+
+    return PetDescription(
+      announcement: widget.announcement,
+      isFollowIcon: widget.isFollowIcon,
+      color: widget.colors![0],
+      ring: widget.colors![1],
+      bubbles: widget.colors![2],
+    );
+  }
+
+  Widget _putElements() {
+    if (widget.descriptionOnLeft) {
+      return Row(children: [
+        _descriptionBlock(true),
+        _photoBlock(),
+      ]);
+    }
+
+    return Row(children: [
+      _photoBlock(),
+      _descriptionBlock(false),
+    ]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12.5),
+      child: _putElements(),
     );
   }
 }
 
-class DescriptionTile extends StatelessWidget {
+class PetDescription extends StatelessWidget {
   final Announcement announcement;
   final bool isFollowIcon;
-  const DescriptionTile(
-      {required this.announcement, required this.isFollowIcon, Key? key})
-      : super(key: key);
+  final Color color;
+  final Color ring;
+  final Color bubbles;
+
+  /// announcement - display infromation in this class
+  const PetDescription(
+      {required this.announcement,
+      required this.isFollowIcon,
+      this.color = const Color.fromARGB(255, 131, 158, 122),
+      this.ring = Colors.green,
+      this.bubbles = Colors.greenAccent,
+      super.key});
 
   String _ageOfPet(DateTime dateTime) {
     int years = DateTime.now().year - dateTime.year;
     if (years == 0) {
       int months = DateTime.now().month - dateTime.month;
-      if (months == 1) return '$months month';
-      return '$months months';
+
+      if (months == 0) {
+        int days = DateTime.now().day - dateTime.day;
+        if (days == 1) return '$days day old';
+        return '$days days old';
+      }
+
+      if (months == 1) return '$months month old';
+      return '$months months old';
     }
 
-    if (years == 1) return '$years year';
-    return '$years years';
+    if (years == 1) return '$years year old';
+    return '$years years old';
   }
 
   @override
   Widget build(BuildContext context) {
     Widget followAnnouncement = LikeButton(
-      size: 40,
-      circleColor: CircleColor(
-          start: AppColors.buttons, end: AppColors.smallElements['reddish']!),
+      size: 26,
+      circleColor: CircleColor(start: ring, end: color),
       bubblesColor: BubblesColor(
-        dotPrimaryColor: AppColors.buttons,
-        dotSecondaryColor: AppColors.smallElements['reddish']!,
+        dotPrimaryColor: ring,
+        dotSecondaryColor: bubbles,
       ),
       likeBuilder: (bool isLiked) {
         return Icon(
           Icons.favorite,
-          color:
-              isLiked ? AppColors.animationColor['center'] : Colors.grey[400],
-          size: 40,
+          color: isLiked ? color : Colors.grey[400],
+          size: 26,
         );
       },
     );
 
-    Widget countFollowers = Column(
+    Widget countFollowers = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.favorite,
-            size: 30, color: AppColors.smallElements['reddish']),
-        const Text('0', style: TextStyle(fontSize: 16))
+        Icon(Icons.favorite, size: 21, color: color),
+        const Text('0',
+            style: TextStyle(
+                color: Color.fromARGB(200, 141, 139, 139),
+                fontWeight: FontWeight.bold))
       ],
     );
 
-    return Expanded(
-      child: Container(
-          padding: const EdgeInsets.fromLTRB(25, 8, 0, 8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: [
-                          TextSpan(
-                            text: announcement.pet.name,
-                            style: const TextStyle(
-                                fontSize: 20,
-                                color: Color.fromARGB(255, 70, 70, 70),
-                                fontWeight: FontWeight.w600),
-                          ),
-                          TextSpan(
-                            text: '    ${_ageOfPet(announcement.pet.birthday)}',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.calendar_month,
-                          color: AppColors.smallElements['reddish'],
-                          size: 15,
-                        ),
-                        const SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          DateFormat.yMMMd().format(announcement.creationDate),
-                          style: TextStyle(
-                            color: Colors.grey[500],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 7,
-                    ),
-                    Row(
-                      children: [
-                        LabeledIcon(Icons.pets, announcement.pet.breed),
-                        const LabeledIcon(Icons.female, 'Female'),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              const VerticalDivider(
-                thickness: 2,
-                indent: 10,
-                endIndent: 10,
-                width: 0,
-              ),
-              SizedBox(
-                width: 120,
-                child: Center(
-                  child: isFollowIcon ? followAnnouncement : countFollowers,
-                ),
-              )
-            ],
-          )),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 25, 25, 25),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              announcement.pet.name,
+              style: TextStyle(
+                  color: color, fontWeight: FontWeight.bold, fontSize: 21),
+            ),
+            isFollowIcon ? followAnnouncement : countFollowers,
+          ],
+        ),
+        const SizedBox(
+          height: 14,
+        ),
+        Text(
+          'bread: ${announcement.pet.breed}',
+          style: const TextStyle(
+              color: Color.fromARGB(255, 121, 119, 119),
+              fontWeight: FontWeight.bold,
+              fontSize: 14),
+        ),
+        const SizedBox(
+          height: 7,
+        ),
+        Text(
+          _ageOfPet(announcement.pet.birthday),
+          style: const TextStyle(
+            color: Color.fromARGB(200, 141, 139, 139),
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(
+          height: 7,
+        ),
+        Row(
+          children: [
+            Icon(
+              Icons.calendar_month,
+              color: color,
+              size: 16,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(
+              DateFormat.yMMMd().format(announcement.creationDate),
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 121, 119, 119),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
+            )
+          ],
+        ),
+      ]),
     );
   }
 }

@@ -58,8 +58,10 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                         ]);
                       }
 
-                      return PetTile(state.announcements[index - 1],
-                          isFollowIcon: widget.isAdoptingPerson);
+                      return PetTile(
+                          announcement: state.announcements[index - 1],
+                          isFollowIcon: widget.isAdoptingPerson,
+                          descriptionOnLeft: index % 2 == 0 ? true : false);
                     },
                   );
                 }
