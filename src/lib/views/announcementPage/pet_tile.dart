@@ -8,14 +8,14 @@ class PetTile extends StatefulWidget {
   final Announcement announcement;
   final bool descriptionOnLeft;
   final bool isFollowIcon;
-  final List<Color>? colors;
+  final List<Color> colors;
 
-  /// colors - colors of description
+  /// colors - colors of description 0: text 1: ring 2: bubbles
   const PetTile(
       {required this.announcement,
       required this.isFollowIcon,
       required this.descriptionOnLeft,
-      this.colors,
+      required this.colors,
       super.key});
 
   @override
@@ -61,7 +61,15 @@ class _PetTileState extends State<PetTile> {
               },
               child: ClipRRect(
                 borderRadius: _raundedDescription(isLeft),
-                child: SizedBox(height: 150, child: _chooseDescription()),
+                child: SizedBox(
+                    height: 150,
+                    child: PetDescription(
+                      announcement: widget.announcement,
+                      isFollowIcon: widget.isFollowIcon,
+                      color: widget.colors[0],
+                      ring: widget.colors[1],
+                      bubbles: widget.colors[2],
+                    )),
               ),
             ),
           ),
@@ -74,23 +82,6 @@ class _PetTileState extends State<PetTile> {
     }
 
     return const BorderRadius.horizontal(right: Radius.circular(28));
-  }
-
-  Widget _chooseDescription() {
-    if (widget.colors == null) {
-      return PetDescription(
-        announcement: widget.announcement,
-        isFollowIcon: widget.isFollowIcon,
-      );
-    }
-
-    return PetDescription(
-      announcement: widget.announcement,
-      isFollowIcon: widget.isFollowIcon,
-      color: widget.colors![0],
-      ring: widget.colors![1],
-      bubbles: widget.colors![2],
-    );
   }
 
   Widget _putElements() {
@@ -127,9 +118,9 @@ class PetDescription extends StatelessWidget {
   const PetDescription(
       {required this.announcement,
       required this.isFollowIcon,
-      this.color = const Color.fromARGB(255, 131, 158, 122),
-      this.ring = Colors.green,
-      this.bubbles = Colors.greenAccent,
+      required this.color,
+      required this.ring,
+      required this.bubbles,
       super.key});
 
   String _ageOfPet(DateTime dateTime) {

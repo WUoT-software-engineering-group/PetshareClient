@@ -16,6 +16,20 @@ class AppColors {
     'center': Color.fromARGB(255, 163, 110, 112)
   };
 
+  static const List<List<Color>> petTiles = [
+    [Color.fromARGB(255, 131, 158, 122), Colors.green, Colors.greenAccent],
+    [
+      Color.fromARGB(255, 243, 167, 80),
+      Color.fromARGB(255, 224, 141, 47),
+      Color.fromARGB(255, 255, 199, 116)
+    ],
+    [
+      Color.fromARGB(255, 163, 110, 112),
+      Color.fromARGB(255, 163, 78, 81),
+      Color.fromARGB(255, 226, 150, 153)
+    ]
+  ];
+
   static const Color tile2 = Color.fromARGB(255, 97, 80, 85);
   static const Color form = Color.fromARGB(255, 199, 188, 192);
   static const Color navigation = Color.fromARGB(255, 180, 166, 171);
