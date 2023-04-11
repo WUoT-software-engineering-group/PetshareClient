@@ -12,24 +12,16 @@ class LoadingPage extends StatelessWidget {
       backgroundColor: AppColors.background,
       body: SafeArea(
           child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            flex: 4,
-            child: Lottie.asset(
-              'assets/dogy.json',
-              alignment: Alignment.bottomCenter,
-            ),
+          Lottie.asset(
+            'assets/dogy.json',
+            alignment: Alignment.bottomCenter,
           ),
-          Expanded(
-            flex: 2,
-            child: GradientText(text: 'Pet Share', colors: [
-              (AppColors.animationColor['sides'])!,
-              (AppColors.animationColor['center'])!,
-              (AppColors.animationColor['sides'])!,
-            ]),
-          )
+          GradientText(text: 'Pet Share', colors: [
+            (AppColors.animationColor['sides'])!,
+            (AppColors.animationColor['center'])!,
+            (AppColors.animationColor['sides'])!,
+          ]),
         ],
       )),
     );

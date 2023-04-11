@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/loadingPage/loading_page.dart';
+import 'package:pet_share/views/loginPage/users_page.dart';
 import 'package:pet_share/views/userManager/user_manager.dart';
 
 import 'cubits/appCubit/app_cubit.dart';
@@ -25,8 +26,10 @@ class MainPoint extends StatelessWidget {
             builder: (context, state) {
               if (state is AppSLoaded) {
                 return const UserManager();
-              } else {
+              } else if (state is AppSLoading) {
                 return const LoadingPage();
+              } else {
+                return UsersPage();
               }
             },
           ),
