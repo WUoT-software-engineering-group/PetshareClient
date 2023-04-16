@@ -47,7 +47,7 @@ class _FormPageState extends State<FormPage> {
                   // Enter title
                   padding: const EdgeInsets.all(10.0),
                   child: Material(
-                    color: Colors.white,
+                    color: AppColors.field,
                     elevation: 10,
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                     child: Padding(
@@ -79,7 +79,7 @@ class _FormPageState extends State<FormPage> {
                   // Enter name
                   padding: const EdgeInsets.all(10.0),
                   child: Material(
-                    color: Colors.white,
+                    color: AppColors.field,
                     elevation: 10,
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                     child: Padding(
@@ -109,7 +109,7 @@ class _FormPageState extends State<FormPage> {
                   // Enter birthdate
                   padding: const EdgeInsets.all(10.0),
                   child: Material(
-                    color: Colors.white,
+                    color: AppColors.field,
                     elevation: 10,
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                     child: Padding(
@@ -177,13 +177,14 @@ class _FormPageState extends State<FormPage> {
                   ),
                 ),
                 Row(
+                  // Enter [Breed , Species]
                   children: [
                     Expanded(
                       child: Padding(
-                        // Enter title
+                        // Enter Breed
                         padding: const EdgeInsets.all(10.0),
                         child: Material(
-                          color: Colors.white,
+                          color: AppColors.field,
                           elevation: 10,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(15)),
@@ -219,10 +220,10 @@ class _FormPageState extends State<FormPage> {
                     ),
                     Expanded(
                       child: Padding(
-                        // Enter title
+                        // Enter Species
                         padding: const EdgeInsets.all(10.0),
                         child: Material(
-                          color: Colors.white,
+                          color: AppColors.field,
                           elevation: 10,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(15)),
@@ -256,10 +257,10 @@ class _FormPageState extends State<FormPage> {
                   ],
                 ),
                 Padding(
-                  // Enter title
+                  // Enter Description
                   padding: const EdgeInsets.all(10.0),
                   child: Material(
-                    color: Colors.white,
+                    color: AppColors.field,
                     elevation: 10,
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                     child: Padding(
