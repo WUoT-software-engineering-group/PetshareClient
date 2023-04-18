@@ -43,8 +43,8 @@ class DataServices {
       body: _adopterPostToJson(post),
     );
 
-    String idToken = res.body;
-    if (res.statusCode != 200) {
+    String idToken = res.headers['location'] ?? '';
+    if (res.statusCode != 201) {
       idToken = '';
       log('Something went wrong. The error is ${res.statusCode.toString()}');
       throw Exception('DataServices: addAdopter: http.post error!');
