@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:pet_share/models/adopter.dart';
 import 'package:pet_share/models/pet.dart';
 
 import '../models/announcement.dart';
@@ -11,6 +12,7 @@ class DataServices {
   final String _baseUrl = 'https://pet-share-web-api-dev.azurewebsites.net';
   final String _pet = 'api/Pet';
   final String _announcement = 'api/Announcement';
+  final String _adopter = 'api/Adopter';
   final Map<String, String> _jsonHeader = {
     'Content-Type': 'application/json; charset=UTF-8'
   };
@@ -29,6 +31,48 @@ class DataServices {
       log(e.toString());
       return <Announcement>[];
     }
+  }
+
+  Future<String> addAdopter(Adopter post, String accessToken) async {
+    http.Response res = await http.post(
+      Uri.parse('$_baseUrl/$_adopter'),
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: _adopterPostToJson(post),
+    );
+
+    String idToken = res.body;
+    if (res.statusCode != 200) {
+      idToken = '';
+      log('Something went wrong. The error is ${res.statusCode.toString()}');
+      throw Exception('DataServices: addAdopter: http.post error!');
+    }
+
+    log('DataServices: addAdopter: http post is done correctly.');
+    return idToken;
+  }
+
+  String _adopterPostToJson(Adopter post) {
+    return jsonEncode(
+      {
+        'userName': post.userName,
+        'phoneNumber': post.phoneNumber,
+        'email': post.email,
+        'address': _convertAddress(post.address),
+      },
+    );
+  }
+
+  Map<String, dynamic> _convertAddress(Address address) {
+    return {
+      'street': address.street,
+      'city': address.city,
+      'province': address.provice,
+      'postalCode': address.postalCode,
+      'country': address.country,
+    };
   }
 
   Future<void> addAnnouncement(AnnouncementPost post) async {
