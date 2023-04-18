@@ -6,8 +6,8 @@ import 'package:pet_share/cubits/appCubit/app_cubit.dart';
 import 'package:pet_share/views/applicationPage/application_page.dart';
 import 'package:pet_share/views/announcementPage/announcement_page.dart';
 import 'package:pet_share/utils/app_colors.dart';
-import 'package:pet_share/views/loginPage/users.dart';
 
+import '../authPage/users.dart';
 import '../formPage/form_page.dart';
 
 class UserManager extends StatefulWidget {
@@ -55,7 +55,7 @@ class _UserManagerState extends State<UserManager> {
     UserType type =
         (BlocProvider.of<AppCubit>(context).state as AppSLoaded).type;
 
-    if (type == UserType.adoptingPerson) {
+    if (type == UserType.adopter) {
       _adoptingPersonSet();
     } else {
       _shelterSet();
