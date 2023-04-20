@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:auth0_flutter/auth0_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:pet_share/models/user_info.dart';
 
 const auth0Domain = 'dev-siwe-sowy.eu.auth0.com';
 const auth0ClientId = 'jCSWViMQ2bZpZDJvzFBb2zkpOCz1NP92';
@@ -21,50 +23,51 @@ enum UserRoles {
 class AuthService {
   late Auth0 auth0;
   Credentials? _credentials;
-  UserRoles? role;
-  String? nickname;
-  String? accessToken;
+  late UserInfo _userInfo;
+
+  // ----------------------------------
+  // Gets & Sets
+  // ----------------------------------
+
+  UserRoles get role => _userInfo.role;
+  String get nickname => _userInfo.nickname;
+  String get accessToken => _userInfo.accessToken;
+  UserInfo get userInfo => _userInfo;
+
+  String get getEmail {
+    if (_credentials != null) {
+      return parseIdToken(_credentials!.idToken)['email'];
+    }
+    return '';
+  }
+
+  // ----------------------------------
+  // Contstructors
+  // ----------------------------------
 
   AuthService() {
     auth0 = Auth0(auth0Domain, auth0ClientId);
   }
 
-  /// ----------------------------------
-  /// authenticatons methods
-  /// ----------------------------------
-
-  UserRoles _stringToRole(String roleString) {
-    if (roleString == 'unassigned') {
-      return UserRoles.unassigned;
-    } else if (roleString == 'shelter') {
-      return UserRoles.shelter;
-    } else if (roleString == 'adopter') {
-      return UserRoles.adopter;
-    } else {
-      return UserRoles.unknown;
-    }
-  }
-
-  String _roleToString(UserRoles role) {
-    switch (role) {
-      case UserRoles.unassigned:
-        return 'unassigned';
-      case UserRoles.adopter:
-        return 'adopter';
-      case UserRoles.shelter:
-        return 'shelter';
-      case UserRoles.unknown:
-        return 'unknown';
-    }
-  }
+  // ----------------------------------
+  // Authenticatons methods
+  // ----------------------------------
 
   void _setLocalVariables() {
-    if (_credentials != null) {
-      nickname = parseIdToken(_credentials!.idToken)['nickname'];
-      role = _stringToRole(parseAccessToken(_credentials!.accessToken)['role']);
-      accessToken = _credentials!.accessToken;
-    } else {
-      nickname = accessToken = role = null;
+    try {
+      final String nickname = parseIdToken(_credentials!.idToken)['nickname'];
+      final UserRoles role =
+          _stringToRole(parseAccessToken(_credentials!.accessToken)['role']);
+
+      // creating userInfo for the whole app
+      _userInfo = UserInfo(
+        role: role,
+        nickname: nickname,
+        accessToken: _credentials!.accessToken,
+      );
+    } catch (e) {
+      throw Exception(
+          'AuthService: _setLocalVariables: something goes wrong with credentials!');
     }
   }
 
@@ -85,9 +88,32 @@ class AuthService {
     return _credentials != null;
   }
 
-  /// ----------------------------------
-  /// seting roles
-  /// ----------------------------------
+  Future<void> selectAuthFlow({
+    required AsyncCallback initAdopter,
+    required AsyncCallback initShelter,
+    required AsyncCallback initUnassigned,
+  }) async {
+    switch (role) {
+      case UserRoles.adopter:
+        await initAdopter();
+        break;
+      case UserRoles.shelter:
+        await initShelter();
+        break;
+      case UserRoles.unassigned:
+        await initUnassigned();
+        break;
+      case UserRoles.unknown:
+        log('AppCubit:authUser: unknown role of user');
+        break;
+      default:
+        log('AppCubit: authUser: Somethings went wrong. Wrong role!');
+    }
+  }
+
+  // ----------------------------------
+  // Seting roles
+  // ----------------------------------
 
   Future<void> setRole(UserRoles userRoles, String idUser) async {
     // this is uri to Management API for access token
@@ -144,20 +170,38 @@ class AuthService {
     log('AuthServices: setRole: The role ${_roleToString(userRoles)} was set correctly.');
   }
 
-  /// ----------------------------------
-  /// get info methos
-  /// ----------------------------------
+  // ----------------------------------
+  // General roles methods
+  // ----------------------------------
 
-  String getEmail() {
-    if (_credentials != null) {
-      return parseIdToken(_credentials!.idToken)['email'];
+  UserRoles _stringToRole(String roleString) {
+    if (roleString == 'unassigned') {
+      return UserRoles.unassigned;
+    } else if (roleString == 'shelter') {
+      return UserRoles.shelter;
+    } else if (roleString == 'adopter') {
+      return UserRoles.adopter;
+    } else {
+      return UserRoles.unknown;
     }
-    return '';
   }
 
-  /// ----------------------------------
-  /// static methods
-  /// ----------------------------------
+  String _roleToString(UserRoles role) {
+    switch (role) {
+      case UserRoles.unassigned:
+        return 'unassigned';
+      case UserRoles.adopter:
+        return 'adopter';
+      case UserRoles.shelter:
+        return 'shelter';
+      case UserRoles.unknown:
+        return 'unknown';
+    }
+  }
+
+  // ----------------------------------
+  // Static methods
+  // ----------------------------------
 
   static String getAccessTokenManagementAPI(String body) {
     final part = body
