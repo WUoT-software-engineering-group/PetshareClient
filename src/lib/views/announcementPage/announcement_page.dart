@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:pet_share/cubits/announcementsCubit/announcements_cubit.dart';
+import 'package:pet_share/models/user_info.dart';
+import 'package:pet_share/utils/blurry_gradient.dart';
 import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/announcementPage/pet_tile.dart';
-import '../../cubits/announcementsCubit/announcements_cubit.dart';
-import '../../utils/blurry_gradient.dart';
+import 'package:provider/provider.dart';
 
 class AnnouncementPage extends StatefulWidget {
   final bool isAdoptingPerson;
@@ -18,7 +20,9 @@ class AnnouncementPage extends StatefulWidget {
 
 class _AnnouncementPageState extends State<AnnouncementPage> {
   Future<void> _onRefresh() async {
-    await BlocProvider.of<AnnouncementsCubit>(context).refresh();
+    await BlocProvider.of<AnnouncementsCubit>(context).refresh(
+      Provider.of<UserInfo>(context, listen: false),
+    );
   }
 
   @override

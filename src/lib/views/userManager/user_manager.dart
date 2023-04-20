@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pet_share/cubits/announcementsCubit/announcements_cubit.dart';
 import 'package:pet_share/cubits/appCubit/app_cubit.dart';
+import 'package:pet_share/models/user_info.dart';
+import 'package:pet_share/services/auth_services.dart';
 import 'package:pet_share/views/applicationPage/application_page.dart';
 import 'package:pet_share/views/announcementPage/announcement_page.dart';
 import 'package:pet_share/utils/app_colors.dart';
-
-import '../authPage/users.dart';
-import '../formPage/form_page.dart';
+import 'package:pet_share/views/formPage/form_page.dart';
+import 'package:provider/provider.dart';
 
 class UserManager extends StatefulWidget {
   const UserManager({Key? key}) : super(key: key);
@@ -18,11 +19,15 @@ class UserManager extends StatefulWidget {
 }
 
 class _UserManagerState extends State<UserManager> {
-  late int _index;
+  final _navigationKey = GlobalKey<CurvedNavigationBarState>();
   late PageController _controller;
   late List<Widget> _screens;
   late List<Widget> items;
-  final _navigationKey = GlobalKey<CurvedNavigationBarState>();
+  late int _index;
+
+  // ---------------------------------------
+  //  _UserManagerState methods
+  // ---------------------------------------
 
   void _adoptingPersonSet() {
     _index = 0;
@@ -50,29 +55,42 @@ class _UserManagerState extends State<UserManager> {
     ];
   }
 
+  AppSLoaded asAppSLoaded() =>
+      (BlocProvider.of<AppCubit>(context).state as AppSLoaded);
+
+  // ---------------------------------------
+  //  Init state
+  // ---------------------------------------
+
   @override
   void initState() {
-    UserType type =
-        (BlocProvider.of<AppCubit>(context).state as AppSLoaded).type;
+    UserRoles role = asAppSLoaded().userInfo.role;
 
-    if (type == UserType.adopter) {
+    if (role == UserRoles.adopter) {
       _adoptingPersonSet();
     } else {
       _shelterSet();
     }
+
     _controller = PageController(initialPage: _index);
     super.initState();
   }
 
+  // ---------------------------------------
+  //  Building widget
+  // ---------------------------------------
+
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return Provider<UserInfo>(
+      create: (_) => asAppSLoaded().userInfo,
+      child: MultiBlocProvider(
         providers: [
           BlocProvider<AnnouncementsCubit>(
-              create: (context) => AnnouncementsCubit(
-                  announcements:
-                      (BlocProvider.of<AppCubit>(context).state as AppSLoaded)
-                          .announcements))
+            create: (context) => AnnouncementsCubit(
+              announcements: asAppSLoaded().announcements,
+            ),
+          )
         ],
         child: Scaffold(
           // body body body
@@ -88,8 +106,9 @@ class _UserManagerState extends State<UserManager> {
 
           // navigation navigation
           bottomNavigationBar: Theme(
-            data: Theme.of(context)
-                .copyWith(iconTheme: const IconThemeData(color: Colors.white)),
+            data: Theme.of(context).copyWith(
+              iconTheme: const IconThemeData(color: Colors.white),
+            ),
             child: CurvedNavigationBar(
               key: _navigationKey,
               color: AppColors.navigation,
@@ -108,6 +127,8 @@ class _UserManagerState extends State<UserManager> {
               },
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
