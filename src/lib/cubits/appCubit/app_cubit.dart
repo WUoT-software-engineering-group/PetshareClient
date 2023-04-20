@@ -46,6 +46,13 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
+  void logoutUser() async {
+    emit(AppSLoading());
+    await _authService.logoutUser();
+    Future.delayed(const Duration(seconds: 2));
+    emit(AppSInitial());
+  }
+
   // ----------------------------------
   //  Set account methods
   // ----------------------------------

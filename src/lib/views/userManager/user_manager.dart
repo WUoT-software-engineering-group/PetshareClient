@@ -126,7 +126,9 @@ class _UserManagerState extends State<UserManager> {
             ),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  BlocProvider.of<AppCubit>(context).logoutUser();
+                },
                 icon: const Icon(
                   Icons.logout,
                   color: Colors.black54,
