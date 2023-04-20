@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:pet_share/models/announcement.dart';
 
 class Adopter {
@@ -5,6 +7,10 @@ class Adopter {
   String phoneNumber;
   String email;
   Address address;
+
+  // -------------------------
+  // Constructors & Factories
+  // -------------------------
 
   Adopter({
     required this.userName,
@@ -19,6 +25,21 @@ class Adopter {
       phoneNumber: json['phoneNumber'],
       email: json['email'],
       address: Address.fromJson(json['address']),
+    );
+  }
+
+  // -------------------------
+  // Conversion methods
+  // -------------------------
+
+  String toJson() {
+    return jsonEncode(
+      {
+        'userName': userName,
+        'phoneNumber': phoneNumber,
+        'email': email,
+        'address': address.convertToSD(),
+      },
     );
   }
 }

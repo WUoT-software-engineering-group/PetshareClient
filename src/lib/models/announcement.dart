@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:pet_share/models/pet.dart';
 
 class Announcement {
@@ -10,6 +12,10 @@ class Announcement {
   final int status;
   final Pet pet;
   final Author author;
+
+  // -------------------------
+  // Constructors & Factories
+  // -------------------------
 
   Announcement(
       {required this.id,
@@ -24,17 +30,18 @@ class Announcement {
 
   factory Announcement.fromJson(Map<String, dynamic> json) {
     return Announcement(
-        id: json['id'],
-        title: json['title'],
-        description: json['description'],
-        creationDate: DateTime.parse(json['creationDate']),
-        closingDate: json['closingDate'] == null
-            ? null
-            : DateTime.parse(json['closingDate']),
-        lastUpdateDate: DateTime.parse(json['lastUpdateDate']),
-        status: json['status'],
-        pet: Pet.fromJson(json['pet']),
-        author: Author.fromJson(json['author']));
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      creationDate: DateTime.parse(json['creationDate']),
+      closingDate: json['closingDate'] == null
+          ? null
+          : DateTime.parse(json['closingDate']),
+      lastUpdateDate: DateTime.parse(json['lastUpdateDate']),
+      status: json['status'],
+      pet: Pet.fromJson(json['pet']),
+      author: Author.fromJson(json['author']),
+    );
   }
 }
 
@@ -43,18 +50,38 @@ class Author {
   final String userName;
   final String phoneNumer;
   final String email;
-  final String? fluuShelterName;
+  final String? fullShelterName;
   final bool isAuthorized;
   final Address? adress;
+
+  // -------------------------
+  // Constructors & Factories
+  // -------------------------
 
   Author(
       {required this.id,
       required this.userName,
       required this.phoneNumer,
       required this.email,
-      required this.fluuShelterName,
+      required this.fullShelterName,
       required this.isAuthorized,
       required this.adress});
+
+  factory Author.fromJson(Map<String, dynamic> json) {
+    return Author(
+      id: json['id'],
+      userName: json['userName'],
+      phoneNumer: _testNumber(json['phoneNumer']),
+      email: json['email'],
+      fullShelterName: json['fluuShelterName'],
+      isAuthorized: json['isAuthorized'],
+      adress: json['adress'] == null ? null : Address.fromJson(json['adress']),
+    );
+  }
+
+  // -------------------------
+  // Validation methods
+  // -------------------------
 
   static String _testNumber(String? phone) {
     if (phone == null) {
@@ -62,18 +89,6 @@ class Author {
     } else {
       return phone;
     }
-  }
-
-  factory Author.fromJson(Map<String, dynamic> json) {
-    return Author(
-        id: json['id'],
-        userName: json['userName'],
-        phoneNumer: _testNumber(json['phoneNumer']),
-        email: json['email'],
-        fluuShelterName: json['fluuShelterName'],
-        isAuthorized: json['isAuthorized'],
-        adress:
-            json['adress'] == null ? null : Address.fromJson(json['adress']));
   }
 }
 
@@ -83,6 +98,10 @@ class Address {
   final String provice;
   final String postalCode;
   final String country;
+
+  // -------------------------
+  // Constructors & Factories
+  // -------------------------
 
   Address(
       {required this.street,
@@ -99,6 +118,18 @@ class Address {
         postalCode: json['postalCode'],
         country: json['country']);
   }
+
+  // -------------------------
+  // Conversion methods
+  // -------------------------
+
+  Map<String, dynamic> convertToSD() => {
+        'street': street,
+        'city': city,
+        'province': provice,
+        'postalCode': postalCode,
+        'country': country,
+      };
 }
 
 class AnnouncementPost {
@@ -107,6 +138,27 @@ class AnnouncementPost {
   final String? petId;
   final Pet? pet;
 
-  AnnouncementPost(
-      {required this.title, required this.description, this.petId, this.pet});
+  // -------------------------
+  // Constructors & Factories
+  // -------------------------
+
+  AnnouncementPost({
+    required this.title,
+    required this.description,
+    this.petId,
+    this.pet,
+  });
+
+  // -------------------------
+  // Conversion methods
+  // -------------------------
+
+  String toJson() => jsonEncode(
+        <String, dynamic>{
+          'title': title,
+          'description': description,
+          'author': 'XD',
+          'pet': pet != null ? pet!.covertToMapSD() : '',
+        },
+      );
 }
