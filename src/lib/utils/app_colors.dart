@@ -13,7 +13,7 @@ class AppColors {
 
   static const Map<String, Color> animationColor = {
     'sides': Color.fromARGB(255, 243, 167, 80),
-    'center': Color.fromARGB(255, 163, 110, 112)
+    'center': Color.fromRGBO(216, 209, 255, 1)
   };
 
   static const List<List<Color>> petTiles = [

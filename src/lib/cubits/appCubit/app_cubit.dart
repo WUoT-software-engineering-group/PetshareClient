@@ -51,6 +51,7 @@ class AppCubit extends Cubit<AppState> {
   // ----------------------------------
 
   Future<void> setAddopter(Adopter adopter) async {
+    emit(AppSLoading());
     var idUser = await _dataServices.addAdopter(
       adopter,
       _authService.accessToken,
@@ -60,6 +61,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   Future<void> setShelter(Shelter shelter) async {
+    emit(AppSLoading());
     var idUser = await _dataServices.addShelter(
       shelter,
       _authService.accessToken,
