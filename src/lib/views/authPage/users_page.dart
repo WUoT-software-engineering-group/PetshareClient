@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_share/cubits/appCubit/app_cubit.dart';
 import 'package:pet_share/models/adopter.dart';
+import 'package:pet_share/models/shelter.dart';
 import 'package:pet_share/views/authPage/auth_pages_router.dart';
 import 'package:pet_share/views/authPage/forms_page.dart';
 
@@ -16,15 +17,6 @@ class UsersPage extends StatefulWidget {
 class _UsersPageState extends State<UsersPage> {
   final Color _mainColor = Colors.white;
   final Color _iconColor = const Color.fromRGBO(145, 131, 222, 1);
-
-  Adopter? _validComeBackResults(dynamic resulst) {
-    if (resulst is List<dynamic>) {
-      List<dynamic> res = resulst;
-      return res[1] as Adopter;
-    }
-
-    return null;
-  }
 
   Widget _userButton(IconData iconData, Function()? presse) {
     return ConstrainedBox(
@@ -116,9 +108,23 @@ class _UsersPageState extends State<UsersPage> {
                       // ADOPTER BUTTON
                       Icons.pets,
                       //BlocProvider.of<AppCubit>(context).setShelter,
-                      () {
+                      () async {
                         // This function is one of most important. It is
                         // responsible for coming back from FORMS
+                        var shelter = await Navigator.of(context).push(
+                          AuthPagesRouter.createRoute(
+                            fromLeft: false,
+                            ShelterForm(
+                              email:
+                                  BlocProvider.of<AppCubit>(context).getEmail(),
+                            ),
+                          ),
+                        );
+
+                        if (shelter is Shelter) {
+                          await BlocProvider.of<AppCubit>(context)
+                              .setShelter(shelter);
+                        }
                       },
                     ),
                   ],
