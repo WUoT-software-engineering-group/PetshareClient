@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_share/cubits/announcementsCubit/announcements_cubit.dart';
 import 'package:pet_share/cubits/appCubit/app_cubit.dart';
 import 'package:pet_share/models/user_info.dart';
@@ -93,6 +94,50 @@ class _UserManagerState extends State<UserManager> {
           )
         ],
         child: Scaffold(
+          extendBodyBehindAppBar: true,
+
+          appBar: AppBar(
+            toolbarHeight: 70,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            centerTitle: true,
+            title: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Pet Share',
+                  style: GoogleFonts.varelaRound(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: AppColors.field,
+                  ),
+                ),
+                Text(
+                  asAppSLoaded().userInfo.nickname,
+                  style: GoogleFonts.varelaRound(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                    color: AppColors.field,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.black54,
+                ),
+              ),
+              const SizedBox(
+                width: 30,
+              )
+            ],
+          ),
+
           // body body body
           body: PageView(
             controller: _controller,
