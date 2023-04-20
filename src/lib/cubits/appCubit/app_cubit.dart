@@ -3,63 +3,85 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pet_share/models/adopter.dart';
+import 'package:pet_share/models/announcement.dart';
+import 'package:pet_share/models/shelter.dart';
+import 'package:pet_share/models/user_info.dart';
 import 'package:pet_share/services/auth_services.dart';
 import 'package:pet_share/services/data_services.dart';
-
-import '../../models/announcement.dart';
-import '../../views/authPage/users.dart';
 
 part 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
-  AppCubit() : super(AppSInitial());
-
   final DataServices _dataServices = DataServices();
   final AuthService _authService = AuthService();
 
-  void authUser() async {
-    try {
-      bool signin = await _authService.authApp();
+  // ----------------------------------
+  // Gets & Sets
+  // ----------------------------------
 
+  String get getEmail => _authService.getEmail;
+
+  // ----------------------------------
+  // Contstructors
+  // ----------------------------------
+
+  AppCubit() : super(AppSInitial());
+
+  // ----------------------------------
+  // Auth methods
+  // ----------------------------------
+
+  void authUser() async {
+    bool signin = await _authService.authApp();
+    try {
       if (signin) {
-        switch (_authService.role) {
-          case UserRoles.adopter:
-            await initAdopter();
-            break;
-          case UserRoles.shelter:
-            await initShelter();
-            break;
-          case UserRoles.unassigned:
-            await initUnassigned();
-            break;
-          case UserRoles.unknown:
-            log('AppCubit:authUser: unknown role of user');
-            break;
-          default:
-            log('AppCubit: authUser: Somethings went wrong. Wrong role!');
-        }
+        await _authService.selectAuthFlow(
+          initAdopter: initAdopter,
+          initShelter: initShelter,
+          initUnassigned: initUnassigned,
+        );
       }
     } catch (e) {
       log('AppCubit: authUser: ${e.toString()}');
     }
   }
 
-  String getEmail() {
-    return _authService.getEmail();
-  }
+  // ----------------------------------
+  //  Set account methods
+  // ----------------------------------
 
   Future<void> setAddopter(Adopter adopter) async {
-    var idUser =
-        await _dataServices.addAdopter(adopter, _authService.accessToken!);
+    var idUser = await _dataServices.addAdopter(
+      adopter,
+      _authService.accessToken,
+    );
     await _authService.setRole(UserRoles.adopter, idUser);
     await initAdopter();
   }
 
+  Future<void> setShelter(Shelter shelter) async {
+    var idUser = await _dataServices.addShelter(
+      shelter,
+      _authService.accessToken,
+    );
+    await _authService.setRole(UserRoles.shelter, idUser);
+    await initShelter();
+  }
+
+  // ----------------------------------
+  // Init account methods
+  // ----------------------------------
+
   Future<void> initShelter() async {
     try {
       emit(AppSLoading());
-      var res = await _dataServices.getAnnouncements();
-      emit(AppSLoaded(res, UserType.shelter));
+      var res = await _dataServices.getAnnouncements(_authService.accessToken);
+      emit(
+        AppSLoaded(
+          announcements: res,
+          userInfo: _authService.userInfo,
+        ),
+      );
       log('AppCubit: initShelter: init is done correctly.');
     } catch (e) {
       log(e.toString());
@@ -69,8 +91,13 @@ class AppCubit extends Cubit<AppState> {
   Future<void> initAdopter() async {
     try {
       emit(AppSLoading());
-      var res = await _dataServices.getAnnouncements();
-      emit(AppSLoaded(res, UserType.adopter));
+      var res = await _dataServices.getAnnouncements(_authService.accessToken);
+      emit(
+        AppSLoaded(
+          announcements: res,
+          userInfo: _authService.userInfo,
+        ),
+      );
       log('AppCubit: initAdopter: init is done correctly.');
     } catch (e) {
       log(e.toString());

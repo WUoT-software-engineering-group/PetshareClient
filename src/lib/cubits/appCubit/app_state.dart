@@ -23,10 +23,13 @@ class AppSLoading extends AppState {}
 /// part of data flow in app.
 class AppSLoaded extends AppState {
   final List<Announcement> announcements;
-  final UserType type;
+  final UserInfo userInfo;
 
-  const AppSLoaded(this.announcements, this.type);
+  const AppSLoaded({
+    required this.announcements,
+    required this.userInfo,
+  });
 
   @override
-  List<Object> get props => [announcements];
+  List<Object> get props => [announcements, userInfo];
 }
