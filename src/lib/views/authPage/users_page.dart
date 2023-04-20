@@ -90,7 +90,7 @@ class _UsersPageState extends State<UsersPage> {
                           AuthPagesRouter.createRoute(
                             AdopterForm(
                               email:
-                                  BlocProvider.of<AppCubit>(context).getEmail(),
+                                  BlocProvider.of<AppCubit>(context).getEmail,
                             ),
                           ),
                         );
@@ -116,7 +116,7 @@ class _UsersPageState extends State<UsersPage> {
                             fromLeft: false,
                             ShelterForm(
                               email:
-                                  BlocProvider.of<AppCubit>(context).getEmail(),
+                                  BlocProvider.of<AppCubit>(context).getEmail,
                             ),
                           ),
                         );
