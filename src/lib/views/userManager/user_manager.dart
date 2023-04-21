@@ -10,6 +10,7 @@ import 'package:pet_share/views/applicationPage/application_page.dart';
 import 'package:pet_share/views/announcementPage/announcement_page.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/petPage/pet_page.dart';
+import 'package:pet_share/views/userManager/nav_button.dart';
 import 'package:provider/provider.dart';
 
 class UserManager extends StatefulWidget {
@@ -37,7 +38,9 @@ class _UserManagerState extends State<UserManager> {
       AnnouncementPage(isAdoptingPerson: true),
     ];
 
-    items = <Widget>[const Icon(Icons.home, size: 30)];
+    items = <Widget>[
+      const NavButton(color: Colors.white, size: 35, iconData: Icons.home),
+    ];
   }
 
   void _shelterSet() {
@@ -50,9 +53,9 @@ class _UserManagerState extends State<UserManager> {
     ];
 
     items = <Widget>[
-      const Icon(Icons.drafts, size: 30),
-      const Icon(Icons.home, size: 30),
-      const Icon(Icons.pets, size: 30)
+      const NavButton(color: Colors.white, size: 35, iconData: Icons.drafts),
+      const NavButton(color: Colors.white, size: 35, iconData: Icons.home),
+      const NavButton(color: Colors.white, size: 35, iconData: Icons.pets),
     ];
   }
 
@@ -111,7 +114,7 @@ class _UserManagerState extends State<UserManager> {
                   style: GoogleFonts.varelaRound(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
-                    color: AppColors.field,
+                    color: AppColors.buttons,
                   ),
                 ),
                 Text(
@@ -119,7 +122,7 @@ class _UserManagerState extends State<UserManager> {
                   style: GoogleFonts.varelaRound(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
-                    color: AppColors.field,
+                    color: AppColors.navigation,
                   ),
                 ),
               ],
@@ -131,7 +134,7 @@ class _UserManagerState extends State<UserManager> {
                 },
                 icon: const Icon(
                   Icons.logout,
-                  color: Colors.black54,
+                  color: AppColors.buttons,
                 ),
               ),
               const SizedBox(

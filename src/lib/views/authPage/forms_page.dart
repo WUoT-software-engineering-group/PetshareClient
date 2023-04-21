@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_share/models/adopter.dart';
 import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/models/shelter.dart';
+import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/authPage/form_field.dart';
 
 class ShelterForm extends StatefulWidget {
@@ -47,11 +48,11 @@ class _ShelterFormState extends State<ShelterForm> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color.fromRGBO(145, 131, 222, 1),
-            Color.fromRGBO(160, 148, 227, 1),
+            AppColors.backgroundAuth[0],
+            AppColors.backgroundAuth[1],
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -87,6 +88,7 @@ class _ShelterFormState extends State<ShelterForm> {
                       ),
                       child: Stepper(
                         // Stepper of the whole form
+                        physics: const ClampingScrollPhysics(),
                         onStepTapped: (step) => setState(() {
                           _currentStep = step;
                         }),
@@ -356,11 +358,11 @@ class _AdopterFormState extends State<AdopterForm> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color.fromRGBO(145, 131, 222, 1),
-            Color.fromRGBO(160, 148, 227, 1),
+            AppColors.backgroundAuth[0],
+            AppColors.backgroundAuth[1],
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -396,6 +398,7 @@ class _AdopterFormState extends State<AdopterForm> {
                       ),
                       child: Stepper(
                         // Stepper of the whole form
+                        physics: const ClampingScrollPhysics(),
                         onStepTapped: (step) => setState(() {
                           _currentStep = step;
                         }),

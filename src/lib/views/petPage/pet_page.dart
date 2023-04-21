@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:pet_share/models/pet.dart';
+import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/utils/blurry_gradient.dart';
 import 'package:pet_share/views/petPage/pet_tile.dart';
 
@@ -57,7 +58,7 @@ class _PetPageState extends State<PetPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlurryGradient(
-        color: Colors.white,
+        color: AppColors.blurryGradientColor,
         stops: const [0.96, 1],
         child: MasonryGridView.count(
           itemCount: petsy.length,
@@ -69,7 +70,6 @@ class _PetPageState extends State<PetPage> {
           // horizontal gap between two items
           crossAxisSpacing: 10,
           itemBuilder: (context, index) {
-            // display each item with a card
             return PetTile(height: 100, pet: petsy[index]);
           },
         ),
