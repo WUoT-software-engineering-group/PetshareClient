@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pet_share/models/user_info.dart';
 
