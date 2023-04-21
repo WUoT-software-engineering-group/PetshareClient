@@ -1,10 +1,10 @@
 import 'package:pet_share/models/pet.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:pet_share/models/announcement.dart';
 
 void main() {
   group('Announcement', () {
-    final Map<String, dynamic> json = {
+    const Map<String, dynamic> json = {
       'id': '123',
       'title': 'Test Announcement',
       'description': 'This is a test announcement',
