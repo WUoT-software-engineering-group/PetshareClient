@@ -6,7 +6,7 @@ import 'package:pet_share/models/user_info.dart';
 import 'package:pet_share/utils/blurry_gradient.dart';
 import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
-import 'package:pet_share/views/announcementPage/pet_tile.dart';
+import 'package:pet_share/views/announcementPage/announcement_tile.dart';
 import 'package:provider/provider.dart';
 
 class AnnouncementPage extends StatefulWidget {
@@ -59,7 +59,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                       ]);
                     }
 
-                    return PetTile(
+                    return AnnouncementTile(
                       announcement: state.announcements[index - 1],
                       isAdoptingPerson: widget.isAdoptingPerson,
                       descriptionOnLeft: index % 2 == 0 ? true : false,

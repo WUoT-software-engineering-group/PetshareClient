@@ -5,14 +5,14 @@ import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/announcementPage/announcement_details.dart';
 
-class PetTile extends StatefulWidget {
+class AnnouncementTile extends StatefulWidget {
   final Announcement announcement;
   final bool descriptionOnLeft;
   final bool isAdoptingPerson;
   final List<Color> colors;
 
   /// colors - colors of description 0: text 1: ring 2: bubbles
-  const PetTile(
+  const AnnouncementTile(
       {required this.announcement,
       required this.isAdoptingPerson,
       required this.descriptionOnLeft,
@@ -20,10 +20,18 @@ class PetTile extends StatefulWidget {
       super.key});
 
   @override
-  State<PetTile> createState() => _PetTileState();
+  State<AnnouncementTile> createState() => _AnnouncementTileState();
 }
 
-class _PetTileState extends State<PetTile> {
+class _AnnouncementTileState extends State<AnnouncementTile> {
+  ImageProvider getImage(String photo) {
+    if (photo == '') {
+      return const AssetImage('assets/pupic.jpg');
+    }
+
+    return NetworkImage(photo);
+  }
+
   Widget _photoBlock() {
     return Expanded(
         flex: 5,
@@ -34,10 +42,12 @@ class _PetTileState extends State<PetTile> {
             borderRadius: BorderRadius.circular(23),
             child: Container(
               height: 220,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage('assets/pupic.jpg'))),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: getImage(widget.announcement.pet.photo),
+                ),
+              ),
             ),
           ),
         ));
