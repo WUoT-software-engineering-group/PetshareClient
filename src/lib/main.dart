@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pet_share/utils/app_colors.dart';
+import 'package:pet_share/views/authPage/hello_page.dart';
+import 'package:pet_share/views/authPage/users_page.dart';
 import 'package:pet_share/views/loadingPage/loading_page.dart';
-import 'package:pet_share/views/loginPage/users_page.dart';
 import 'package:pet_share/views/userManager/user_manager.dart';
 
 import 'cubits/appCubit/app_cubit.dart';
@@ -18,6 +19,7 @@ class MainPoint extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.background,
             colorScheme:
                 ColorScheme.fromSwatch(accentColor: AppColors.buttons)),
         home: BlocProvider<AppCubit>(
@@ -28,8 +30,10 @@ class MainPoint extends StatelessWidget {
                 return const UserManager();
               } else if (state is AppSLoading) {
                 return const LoadingPage();
+              } else if (state is AppSAuthed) {
+                return const UsersPage();
               } else {
-                return UsersPage();
+                return const HelloPage();
               }
             },
           ),

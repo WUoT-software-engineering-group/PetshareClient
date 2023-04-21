@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
+
+import 'package:intl/intl.dart';
 
 class Pet {
   final String id;
@@ -10,45 +13,57 @@ class Pet {
   final String description;
   final List<int> photo;
 
-  Pet(
-      {required this.id,
-      required this.shelterID,
-      required this.name,
-      required this.species,
-      required this.breed,
-      required this.birthday,
-      required this.description,
-      required this.photo});
+  // -------------------------
+  // Constructors & Factories
+  // -------------------------
 
-  factory Pet.post(
-      {required String name,
-      required String species,
-      required String breed,
-      required DateTime birthday,
-      required String description,
-      required List<int> photo}) {
+  Pet({
+    required this.id,
+    required this.shelterID,
+    required this.name,
+    required this.species,
+    required this.breed,
+    required this.birthday,
+    required this.description,
+    required this.photo,
+  });
+
+  factory Pet.post({
+    required String name,
+    required String species,
+    required String breed,
+    required DateTime birthday,
+    required String description,
+    required List<int> photo,
+  }) {
     return Pet(
-        id: '',
-        shelterID: '',
-        name: name,
-        species: species,
-        breed: breed,
-        birthday: birthday,
-        description: description,
-        photo: photo);
+      id: '',
+      shelterID: '',
+      name: name,
+      species: species,
+      breed: breed,
+      birthday: birthday,
+      description: description,
+      photo: photo,
+    );
   }
 
   factory Pet.fromJson(Map<String, dynamic> json) {
     return Pet(
-        id: json['id'],
-        shelterID: json['shelterID'],
-        name: json['name'],
-        species: json['species'],
-        breed: json['breed'],
-        birthday: DateTime.parse(json['birthday']),
-        description: json['description'],
-        photo: _parsePhoto(json['photo']));
+      id: json['id'],
+      shelterID: json['shelterID'],
+      name: json['name'],
+      species: json['species'],
+      breed: json['breed'],
+      birthday: DateTime.parse(json['birthday']),
+      description: json['description'],
+      photo: _parsePhoto(json['photo']),
+    );
   }
+
+  // -------------------------
+  // Validation methods
+  // -------------------------
 
   static List<int> _parsePhoto(dynamic photo) {
     if (photo is List<dynamic>) {
@@ -57,5 +72,25 @@ class Pet {
       log('pet: format of photo is different');
       return <int>[];
     }
+  }
+
+  // -------------------------
+  // Conversion methods
+  // -------------------------
+
+  String toJson() => jsonEncode(covertToMapSD());
+
+  Map<String, dynamic> covertToMapSD() {
+    String date =
+        '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(birthday).toString()}Z';
+
+    return <String, dynamic>{
+      'name': name,
+      'species': species,
+      'breed': breed,
+      'birthday': date,
+      'description': description,
+      'photo': photo.toString(),
+    };
   }
 }

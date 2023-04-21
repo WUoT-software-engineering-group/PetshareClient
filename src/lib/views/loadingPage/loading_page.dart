@@ -8,22 +8,34 @@ class LoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-          child: Column(
-        children: [
-          Lottie.asset(
-            'assets/dogy.json',
-            alignment: Alignment.bottomCenter,
-          ),
-          GradientText(text: 'Pet Share', colors: [
-            (AppColors.animationColor['sides'])!,
-            (AppColors.animationColor['center'])!,
-            (AppColors.animationColor['sides'])!,
-          ]),
-        ],
-      )),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color.fromRGBO(145, 131, 222, 1),
+            Color.fromRGBO(160, 148, 227, 1),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+            child: Column(
+          children: [
+            Lottie.asset(
+              'assets/dogy.json',
+              alignment: Alignment.bottomCenter,
+            ),
+            GradientText(text: 'Pet Share', colors: [
+              (AppColors.animationColor['sides'])!,
+              (AppColors.animationColor['center'])!,
+              (AppColors.animationColor['sides'])!,
+            ]),
+          ],
+        )),
+      ),
     );
   }
 }

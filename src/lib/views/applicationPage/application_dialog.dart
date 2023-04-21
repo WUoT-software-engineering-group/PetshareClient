@@ -16,6 +16,7 @@ class ApplicationDialog extends StatelessWidget {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
       child: Dialog(
+        backgroundColor: AppColors.field,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(25, 12.5, 25, 12.5),

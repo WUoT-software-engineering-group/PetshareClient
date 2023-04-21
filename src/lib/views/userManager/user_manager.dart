@@ -1,14 +1,16 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_share/cubits/announcementsCubit/announcements_cubit.dart';
 import 'package:pet_share/cubits/appCubit/app_cubit.dart';
+import 'package:pet_share/models/user_info.dart';
+import 'package:pet_share/services/auth_services.dart';
 import 'package:pet_share/views/applicationPage/application_page.dart';
 import 'package:pet_share/views/announcementPage/announcement_page.dart';
 import 'package:pet_share/utils/app_colors.dart';
-import 'package:pet_share/views/loginPage/users.dart';
-
-import '../formPage/form_page.dart';
+import 'package:pet_share/views/formPage/form_page.dart';
+import 'package:provider/provider.dart';
 
 class UserManager extends StatefulWidget {
   const UserManager({Key? key}) : super(key: key);
@@ -18,11 +20,15 @@ class UserManager extends StatefulWidget {
 }
 
 class _UserManagerState extends State<UserManager> {
-  late int _index;
+  final _navigationKey = GlobalKey<CurvedNavigationBarState>();
   late PageController _controller;
   late List<Widget> _screens;
   late List<Widget> items;
-  final _navigationKey = GlobalKey<CurvedNavigationBarState>();
+  late int _index;
+
+  // ---------------------------------------
+  //  _UserManagerState methods
+  // ---------------------------------------
 
   void _adoptingPersonSet() {
     _index = 0;
@@ -50,32 +56,89 @@ class _UserManagerState extends State<UserManager> {
     ];
   }
 
+  AppSLoaded asAppSLoaded() =>
+      (BlocProvider.of<AppCubit>(context).state as AppSLoaded);
+
+  // ---------------------------------------
+  //  Init state
+  // ---------------------------------------
+
   @override
   void initState() {
-    UserType type =
-        (BlocProvider.of<AppCubit>(context).state as AppSLoaded).type;
+    UserRoles role = asAppSLoaded().userInfo.role;
 
-    if (type == UserType.adoptingPerson) {
+    if (role == UserRoles.adopter) {
       _adoptingPersonSet();
     } else {
       _shelterSet();
     }
+
     _controller = PageController(initialPage: _index);
     super.initState();
   }
 
+  // ---------------------------------------
+  //  Building widget
+  // ---------------------------------------
+
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return Provider<UserInfo>(
+      create: (_) => asAppSLoaded().userInfo,
+      child: MultiBlocProvider(
         providers: [
           BlocProvider<AnnouncementsCubit>(
-              create: (context) => AnnouncementsCubit(
-                  announcements:
-                      (BlocProvider.of<AppCubit>(context).state as AppSLoaded)
-                          .announcements))
+            create: (context) => AnnouncementsCubit(
+              announcements: asAppSLoaded().announcements,
+            ),
+          )
         ],
         child: Scaffold(
-          backgroundColor: AppColors.background,
+          extendBodyBehindAppBar: true,
+
+          appBar: AppBar(
+            toolbarHeight: 70,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            centerTitle: true,
+            title: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Pet Share',
+                  style: GoogleFonts.varelaRound(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: AppColors.field,
+                  ),
+                ),
+                Text(
+                  asAppSLoaded().userInfo.nickname,
+                  style: GoogleFonts.varelaRound(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                    color: AppColors.field,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              IconButton(
+                onPressed: () async {
+                  BlocProvider.of<AppCubit>(context).logoutUser();
+                },
+                icon: const Icon(
+                  Icons.logout,
+                  color: Colors.black54,
+                ),
+              ),
+              const SizedBox(
+                width: 30,
+              )
+            ],
+          ),
 
           // body body body
           body: PageView(
@@ -90,8 +153,9 @@ class _UserManagerState extends State<UserManager> {
 
           // navigation navigation
           bottomNavigationBar: Theme(
-            data: Theme.of(context)
-                .copyWith(iconTheme: const IconThemeData(color: Colors.white)),
+            data: Theme.of(context).copyWith(
+              iconTheme: const IconThemeData(color: Colors.white),
+            ),
             child: CurvedNavigationBar(
               key: _navigationKey,
               color: AppColors.navigation,
@@ -110,6 +174,8 @@ class _UserManagerState extends State<UserManager> {
               },
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
