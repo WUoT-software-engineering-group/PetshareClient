@@ -4,17 +4,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_share/cubits/appCubit/app_cubit.dart';
 import 'package:pet_share/models/adopter.dart';
 import 'package:pet_share/models/shelter.dart';
+import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/authPage/auth_pages_router.dart';
 import 'package:pet_share/views/authPage/forms_page.dart';
 
-class UsersPage extends StatefulWidget {
-  const UsersPage({super.key});
+class RolePage extends StatefulWidget {
+  const RolePage({super.key});
 
   @override
-  State<UsersPage> createState() => _UsersPageState();
+  State<RolePage> createState() => _RolePageState();
 }
 
-class _UsersPageState extends State<UsersPage> {
+class _RolePageState extends State<RolePage> {
   final Color _mainColor = Colors.white;
   final Color _iconColor = const Color.fromRGBO(145, 131, 222, 1);
 
@@ -45,11 +46,11 @@ class _UsersPageState extends State<UsersPage> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 60, 10, 60),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color.fromRGBO(145, 131, 222, 1),
-            Color.fromRGBO(160, 148, 227, 1),
+            AppColors.backgroundAuth[0],
+            AppColors.backgroundAuth[1],
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

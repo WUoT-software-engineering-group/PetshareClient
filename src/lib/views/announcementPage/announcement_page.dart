@@ -4,7 +4,6 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:pet_share/cubits/announcementsCubit/announcements_cubit.dart';
 import 'package:pet_share/models/user_info.dart';
 import 'package:pet_share/utils/blurry_gradient.dart';
-import 'package:pet_share/utils/filter.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/announcementPage/announcement_tile.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +28,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlurryGradient(
-        color: AppColors.background,
+        color: AppColors.blurryGradientColor,
         stops: const [0.96, 1],
         child: LiquidPullToRefresh(
           showChildOpacityTransition: true,
@@ -40,31 +39,15 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
               if (state is AnnouncementsSLoaded) {
                 return AnimatedList(
                   physics: const BouncingScrollPhysics(),
-                  initialItemCount: state.announcements.length + 1,
+                  initialItemCount: state.announcements.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index, animation) {
-                    if (index == 0) {
-                      return const OurFilter([
-                        'dog',
-                        'fast',
-                        'fat',
-                        'young',
-                        'mid',
-                        'old',
-                        'beautiful',
-                        'ugly',
-                        'slow',
-                        'sweet',
-                        'only puppies',
-                      ]);
-                    }
-
                     return AnnouncementTile(
-                      announcement: state.announcements[index - 1],
+                      announcement: state.announcements[index],
                       isAdoptingPerson: widget.isAdoptingPerson,
                       descriptionOnLeft: index % 2 == 0 ? true : false,
                       colors: AppColors
-                          .petTiles[(index - 1) % AppColors.petTiles.length],
+                          .petTiles[(index) % AppColors.petTiles.length],
                     );
                   },
                 );

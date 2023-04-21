@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_share/utils/app_colors.dart';
 
 class MyFormFild extends StatelessWidget {
   final String? Function(String?) validator;
@@ -23,7 +24,7 @@ class MyFormFild extends StatelessWidget {
             label: Text(
               label,
               style: GoogleFonts.varelaRound(
-                color: const Color.fromARGB(255, 82, 67, 168),
+                color: AppColors.darkerButtons,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
