@@ -9,7 +9,7 @@ import 'package:pet_share/services/auth_services.dart';
 import 'package:pet_share/views/applicationPage/application_page.dart';
 import 'package:pet_share/views/announcementPage/announcement_page.dart';
 import 'package:pet_share/utils/app_colors.dart';
-import 'package:pet_share/views/formPage/form_page.dart';
+import 'package:pet_share/views/petPage/pet_page.dart';
 import 'package:provider/provider.dart';
 
 class UserManager extends StatefulWidget {
@@ -46,7 +46,7 @@ class _UserManagerState extends State<UserManager> {
     _screens = const [
       ApplicationPage(),
       AnnouncementPage(isAdoptingPerson: false),
-      FormPage()
+      PetPage(),
     ];
 
     items = <Widget>[
