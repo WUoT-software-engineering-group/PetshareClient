@@ -95,7 +95,7 @@ class _UsersPageState extends State<UsersPage> {
                           ),
                         );
 
-                        if (adopter is Adopter) {
+                        if (context.mounted && adopter is Adopter) {
                           await BlocProvider.of<AppCubit>(context)
                               .setAddopter(adopter);
                         }
@@ -121,7 +121,7 @@ class _UsersPageState extends State<UsersPage> {
                           ),
                         );
 
-                        if (shelter is Shelter) {
+                        if (context.mounted && shelter is Shelter) {
                           await BlocProvider.of<AppCubit>(context)
                               .setShelter(shelter);
                         }

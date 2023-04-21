@@ -218,24 +218,24 @@ class _ShelterFormState extends State<ShelterForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   userName = val ?? '';
                 },
                 label: 'Nick',
               ),
               MyFormFild(
-                validator: (val) {
+                validator: (val) => null,
+                save: (val) {
                   phoneNumber = val ?? '';
                 },
-                save: (val) {},
                 label: 'Phone Number',
               ),
               MyFormFild(
-                validator: (val) {
+                validator: (val) => null,
+                save: (val) {
                   fullShelterName = val ?? '';
                 },
-                save: (val) {},
                 label: 'Full Shelter Name',
               ),
             ],
@@ -249,35 +249,35 @@ class _ShelterFormState extends State<ShelterForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   street = val ?? '';
                 },
                 label: 'Street',
               ),
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   city = val ?? '';
                 },
                 label: 'City',
               ),
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   provice = val ?? '';
                 },
                 label: 'Province',
               ),
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   postalCode = val ?? '';
                 },
                 label: 'Postal Code',
               ),
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   country = val ?? '';
                 },
@@ -526,17 +526,17 @@ class _AdopterFormState extends State<AdopterForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   userName = val ?? '';
                 },
                 label: 'Nick',
               ),
               MyFormFild(
-                validator: (val) {
+                validator: (val) => null,
+                save: (val) {
                   phoneNumber = val ?? '';
                 },
-                save: (val) {},
                 label: 'Phone Number',
               ),
             ],
@@ -550,35 +550,35 @@ class _AdopterFormState extends State<AdopterForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   street = val ?? '';
                 },
                 label: 'Street',
               ),
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   city = val ?? '';
                 },
                 label: 'City',
               ),
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   provice = val ?? '';
                 },
                 label: 'Province',
               ),
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   postalCode = val ?? '';
                 },
                 label: 'Postal Code',
               ),
               MyFormFild(
-                validator: (val) {},
+                validator: (val) => null,
                 save: (val) {
                   country = val ?? '';
                 },
