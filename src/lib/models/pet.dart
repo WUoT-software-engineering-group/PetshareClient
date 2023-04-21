@@ -11,7 +11,7 @@ class Pet {
   final String breed;
   final DateTime birthday;
   final String description;
-  final List<int> photo;
+  final String photo;
 
   // -------------------------
   // Constructors & Factories
@@ -34,7 +34,7 @@ class Pet {
     required String breed,
     required DateTime birthday,
     required String description,
-    required List<int> photo,
+    required String photo,
   }) {
     return Pet(
       id: '',
@@ -57,21 +57,8 @@ class Pet {
       breed: json['breed'],
       birthday: DateTime.parse(json['birthday']),
       description: json['description'],
-      photo: _parsePhoto(json['photo']),
+      photo: json['photoUri'],
     );
-  }
-
-  // -------------------------
-  // Validation methods
-  // -------------------------
-
-  static List<int> _parsePhoto(dynamic photo) {
-    if (photo is List<dynamic>) {
-      return photo.map((e) => e as int).toList();
-    } else {
-      log('pet: format of photo is different');
-      return <int>[];
-    }
   }
 
   // -------------------------
