@@ -36,7 +36,7 @@ void main() {
                 breed: 'breed',
                 birthday: DateTime.now(),
                 description: 'description',
-                photo: <int>[]),
+                photo: 'photo'),
             author: Author(
               id: '1',
               userName: 'User 1',
