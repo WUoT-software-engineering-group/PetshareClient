@@ -12,7 +12,7 @@ void main() {
       'breed': 'Labrador',
       'birthday': '2020-01-01T00:00:00.000',
       'description': 'A friendly and playful dog.',
-      'photo': [1, 2, 3],
+      'photo': 'https://costamcostam',
     };
 
     final pet = Pet(
@@ -23,7 +23,7 @@ void main() {
       breed: 'Labrador',
       birthday: DateTime(2020, 1, 1),
       description: 'A friendly and playful dog.',
-      photo: [1, 2, 3],
+      photo: 'https://costamcostam',
     );
 
     test('fromJson should correctly parse a JSON object', () {
