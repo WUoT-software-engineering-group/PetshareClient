@@ -1,15 +1,22 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_share/models/applications.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
 class ApplicationDialog extends StatelessWidget {
+  final Appplications2 appplication;
+
   final String myText =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pulvinar nunc iaculis '
       'mi condimentum dictum. Proin vel dui et tortor vehicula placerat. Interdum et malesuada '
       'fames ac ante ipsum primis in faucibus. Nullam non bibendum massa. Fusce elementum '
       'enim magna, eu malesuada quam mollis in.';
 
-  const ApplicationDialog({Key? key}) : super(key: key);
+  const ApplicationDialog({
+    required this.appplication,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +31,24 @@ class ApplicationDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 40,
-                backgroundColor: AppColors.smallElements['reddish'],
-                child: const CircleAvatar(
+                backgroundColor: AppColors.darkIcons,
+                child: CircleAvatar(
                   radius: 35,
                   backgroundImage: AssetImage('assets/kity_blur.jpg'),
                 ),
               ),
-              Divider(
+              const Divider(
                 thickness: 2,
                 height: 30,
                 endIndent: 25,
                 indent: 25,
-                color: AppColors.smallElements['reddish'],
+                color: AppColors.darkIcons,
               ),
-              const Text(
-                'Joanna Eule',
-                style: TextStyle(
+              Text(
+                appplication.adopter.userName,
+                style: GoogleFonts.varelaRound(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -57,42 +64,50 @@ class ApplicationDialog extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Column(children: [
-                      Icon(
-                        Icons.thumb_up,
-                        color: AppColors.smallElements['reddish'],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'ACCEPT',
-                        style: TextStyle(
-                            color: AppColors.smallElements['reddish']),
-                      )
-                    ]),
+                    child: Column(
+                      children: [
+                        const Icon(
+                          Icons.thumb_up,
+                          color: AppColors.darkIcons,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'ACCEPT',
+                          style: GoogleFonts.varelaRound(
+                            color: AppColors.darkerButtons,
+                            fontSize: 14,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   const SizedBox(
-                    width: 40,
+                    width: 30,
                   ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Column(children: [
-                      Icon(
-                        Icons.delete,
-                        color: AppColors.smallElements['reddish'],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'DELETE',
-                        style: TextStyle(
-                            color: AppColors.smallElements['reddish']),
-                      )
-                    ]),
+                    child: Column(
+                      children: [
+                        const Icon(
+                          Icons.delete,
+                          color: AppColors.darkIcons,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'DELETE',
+                          style: GoogleFonts.varelaRound(
+                            color: AppColors.darkerButtons,
+                            fontSize: 14,
+                          ),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),

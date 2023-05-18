@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pet_share/models/adopter.dart';
 import 'package:pet_share/models/announcement.dart';
+import 'package:pet_share/models/applications.dart';
+import 'package:pet_share/models/pet.dart';
 import 'package:pet_share/models/shelter.dart';
 import 'package:pet_share/models/user_info.dart';
 import 'package:pet_share/services/auth_services.dart';
@@ -13,6 +15,7 @@ part 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
   final DataServices _dataServices = DataServices();
+  final DataServices2 _dataServices2 = DataServices2();
   final AuthService _authService = AuthService();
 
   // ----------------------------------
@@ -49,7 +52,6 @@ class AppCubit extends Cubit<AppState> {
   void logoutUser() async {
     emit(AppSLoading());
     await _authService.logoutUser();
-    Future.delayed(const Duration(seconds: 2));
     emit(AppSInitial());
   }
 
@@ -84,10 +86,17 @@ class AppCubit extends Cubit<AppState> {
   Future<void> initShelter() async {
     try {
       emit(AppSLoading());
-      var res = await _dataServices.getAnnouncements(_authService.accessToken);
+      var resAnn = await _dataServices2
+          .getShelterAnnouncements(_authService.accessToken);
+      var resApp =
+          await _dataServices2.getApplications(_authService.accessToken);
+      var resPet =
+          await _dataServices2.getShelterPets(_authService.accessToken);
       emit(
         AppSLoaded(
-          announcements: res,
+          announcements: resAnn,
+          applications: resApp,
+          pets: resPet,
           userInfo: _authService.userInfo,
         ),
       );
@@ -100,10 +109,17 @@ class AppCubit extends Cubit<AppState> {
   Future<void> initAdopter() async {
     try {
       emit(AppSLoading());
-      var res = await _dataServices.getAnnouncements(_authService.accessToken);
+      var resAnn =
+          await _dataServices2.getAnnouncements(_authService.accessToken);
+      var resApp =
+          await _dataServices2.getApplications(_authService.accessToken);
+      var resPet =
+          await _dataServices2.getShelterPets(_authService.accessToken);
       emit(
         AppSLoaded(
-          announcements: res,
+          announcements: resAnn,
+          applications: resApp,
+          pets: resPet,
           userInfo: _authService.userInfo,
         ),
       );
@@ -115,5 +131,102 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> initUnassigned() async {
     emit(AppSAuthed());
+  }
+
+  // ----------------------------------------------
+  // ----------------------------------------------
+  /*  METHODS FOR PROCESS OF ADOPTION MANAGEMENT */
+  // ----------------------------------------------
+  // ----------------------------------------------
+
+  Future<void> refreshPets() async {
+    if (state is AppSLoaded) {
+      AppSLoaded st = state as AppSLoaded;
+      List<Appplications2> applications = st.applications;
+      List<Announcement2> announcements = st.announcements;
+      UserInfo userInfo = st.userInfo;
+
+      // change state
+      emit(AppSRefreshing());
+
+      // make query
+      var pets = await _dataServices2.getShelterPets(_authService.accessToken);
+
+      // change state
+      emit(
+        AppSLoaded(
+          announcements: announcements,
+          applications: applications,
+          pets: pets,
+          userInfo: userInfo,
+        ),
+      );
+    }
+  }
+
+  Future<void> refreshAnnouncements() async {
+    if (state is AppSLoaded) {
+      AppSLoaded st = state as AppSLoaded;
+      List<Appplications2> applications = st.applications;
+      List<Pet2> pets = st.pets;
+      UserInfo userInfo = st.userInfo;
+
+      // change state
+      emit(AppSRefreshing());
+
+      // make query
+      var announcements = <Announcement2>[];
+      if (userInfo.role == UserRoles.adopter) {
+        announcements =
+            await _dataServices2.getAnnouncements(_authService.accessToken);
+      } else {
+        announcements = await _dataServices2
+            .getShelterAnnouncements(_authService.accessToken);
+      }
+
+      // change state
+      emit(
+        AppSLoaded(
+          announcements: announcements,
+          applications: applications,
+          pets: pets,
+          userInfo: userInfo,
+        ),
+      );
+    }
+  }
+
+  Future<void> refreshApplications() async {
+    if (state is AppSLoaded) {
+      AppSLoaded st = state as AppSLoaded;
+      List<Announcement2> announcements = st.announcements;
+      List<Pet2> pets = st.pets;
+      UserInfo userInfo = st.userInfo;
+
+      // change state
+      emit(AppSRefreshing());
+
+      // make query
+      var applications =
+          await _dataServices2.getApplications(_authService.accessToken);
+
+      // change state
+      emit(
+        AppSLoaded(
+          announcements: announcements,
+          applications: applications,
+          pets: pets,
+          userInfo: userInfo,
+        ),
+      );
+    }
+  }
+
+  Future<bool> addPet(CreatingPet2 pet) async {
+    return await _dataServices2.postPet(_authService.accessToken, pet);
+  }
+
+  Future<void> getPets() async {
+    await _dataServices2.getShelterPets(_authService.accessToken);
   }
 }

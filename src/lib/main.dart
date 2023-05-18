@@ -26,7 +26,7 @@ class MainPoint extends StatelessWidget {
           create: (context) => AppCubit(),
           child: BlocBuilder<AppCubit, AppState>(
             builder: (context, state) {
-              if (state is AppSLoaded) {
+              if (state is AppSLoaded || state is AppSRefreshing) {
                 return const UserManager();
               } else if (state is AppSLoading) {
                 return const LoadingPage();

@@ -46,6 +46,7 @@ class AppColors {
 
   static const Color buttons = Color.fromRGBO(161, 133, 207, 1);
   static const Color darkerButtons = Color.fromARGB(255, 82, 67, 168);
+  static const Color darkIcons = Color.fromARGB(255, 79, 66, 102);
   static const Color navigation = Color.fromRGBO(210, 202, 255, 1);
   static const Color field = Color.fromARGB(255, 255, 255, 255);
   static const Color background = Color.fromARGB(255, 247, 252, 255);

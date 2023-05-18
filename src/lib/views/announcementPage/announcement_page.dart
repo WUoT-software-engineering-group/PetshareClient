@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:pet_share/cubits/announcementsCubit/announcements_cubit.dart';
-import 'package:pet_share/models/user_info.dart';
+import 'package:pet_share/cubits/appCubit/app_cubit.dart';
+import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/utils/blurry_gradient.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/announcementPage/announcement_tile.dart';
-import 'package:provider/provider.dart';
 
 class AnnouncementPage extends StatefulWidget {
   final bool isAdoptingPerson;
@@ -18,11 +17,9 @@ class AnnouncementPage extends StatefulWidget {
 }
 
 class _AnnouncementPageState extends State<AnnouncementPage> {
-  Future<void> _onRefresh() async {
-    await BlocProvider.of<AnnouncementsCubit>(context).refresh(
-      Provider.of<UserInfo>(context, listen: false),
-    );
-  }
+  // Future<void> _onRefresh() async {
+  //   await
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -32,22 +29,55 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
         stops: const [0.96, 1],
         child: LiquidPullToRefresh(
           showChildOpacityTransition: true,
-          onRefresh: _onRefresh,
+          onRefresh: () async {
+            await BlocProvider.of<AppCubit>(context).refreshAnnouncements();
+          },
           springAnimationDurationInMilliseconds: 500,
-          child: BlocBuilder<AnnouncementsCubit, AnnouncementsState>(
+          child: BlocBuilder<AppCubit, AppState>(
             builder: (context, state) {
-              if (state is AnnouncementsSLoaded) {
+              if (state is AppSLoaded) {
+                List<Announcement2> announcements = state.announcements;
+
                 return AnimatedList(
-                  physics: const BouncingScrollPhysics(),
-                  initialItemCount: state.announcements.length,
+                  initialItemCount: announcements.length + 1,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index, animation) {
+                    // add button
+                    if (index == 0) {
+                      return AnimatedContainer(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 25, vertical: 12.5),
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeIn,
+                        child: Material(
+                          color: AppColors.buttons,
+                          borderRadius: BorderRadius.circular(28),
+                          elevation: 6,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(28),
+                            onTap: () {},
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(28),
+                              child: const SizedBox(
+                                height: 50,
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
+                    // announcement tiles
                     return AnnouncementTile(
-                      announcement: state.announcements[index],
+                      announcement: announcements[index - 1],
                       isAdoptingPerson: widget.isAdoptingPerson,
                       descriptionOnLeft: index % 2 == 0 ? true : false,
                       colors: AppColors
-                          .petTiles[(index) % AppColors.petTiles.length],
+                          .petTiles[(index - 1) % AppColors.petTiles.length],
                     );
                   },
                 );
