@@ -112,7 +112,7 @@ class UriStorage {
       case UriPet.postIdPhoto:
         return "$_announcementAPI/pet/$id/photo";
       case UriPet.getShelterPets:
-        return "$_announcementAPI/pet/shelter/pets";
+        return "$_announcementAPI/shelter/pets";
     }
   }
 
@@ -155,5 +155,23 @@ class UriStorage {
   Uri adopterUri(UriAdopter type, {String id = ''}) =>
       Uri.parse(adopterUriString(type, id: id));
 
-  // String applicationsUriString(UriApplications type, {String id = ''}) {}
+  String applicationsUriString(UriApplications type, {String id = ''}) {
+    switch (type) {
+      case UriApplications.get:
+        return "$_adopterAPI/applications";
+      case UriApplications.post:
+        return "$_adopterAPI/applications";
+      case UriApplications.getId:
+        return "$_adopterAPI/applications/$id";
+      case UriApplications.putIdAccept:
+        return "$_adopterAPI/applications/$id/accept";
+      case UriApplications.putIdReject:
+        return "$_adopterAPI/applications/$id/reject";
+      case UriApplications.putIdWithdraw:
+        return "$_adopterAPI/applications/$id/withdraw";
+    }
+  }
+
+  Uri applicationsUri(UriApplications type, {String id = ''}) =>
+      Uri.parse(applicationsUriString(type, id: id));
 }

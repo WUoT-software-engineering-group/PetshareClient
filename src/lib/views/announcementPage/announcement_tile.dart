@@ -6,7 +6,7 @@ import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/announcementPage/announcement_details.dart';
 
 class AnnouncementTile extends StatefulWidget {
-  final Announcement announcement;
+  final Announcement2 announcement;
   final bool descriptionOnLeft;
   final bool isAdoptingPerson;
   final List<Color> colors;
@@ -45,7 +45,7 @@ class _AnnouncementTileState extends State<AnnouncementTile> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: getImage(widget.announcement.pet.photo),
+                  image: getImage(widget.announcement.pet.photoUrl),
                 ),
               ),
             ),
@@ -127,7 +127,7 @@ class _AnnouncementTileState extends State<AnnouncementTile> {
 }
 
 class PetDescription extends StatelessWidget {
-  final Announcement announcement;
+  final Announcement2 announcement;
   final bool isFollowIcon;
   final Color color;
   final Color ring;
@@ -142,7 +142,8 @@ class PetDescription extends StatelessWidget {
       required this.bubbles,
       super.key});
 
-  String _ageOfPet(DateTime dateTime) {
+  String _ageOfPet(DateTime? dateTime) {
+    if (dateTime == null) return "";
     int years = DateTime.now().year - dateTime.year;
     if (years == 0) {
       int months = DateTime.now().month - dateTime.month;
@@ -159,6 +160,12 @@ class PetDescription extends StatelessWidget {
 
     if (years == 1) return '$years year old';
     return '$years years old';
+  }
+
+  String _convertDateTime(DateTime? dateTime) {
+    if (dateTime == null) return "";
+
+    return DateFormat.yMMMd().format(dateTime);
   }
 
   @override
@@ -239,7 +246,7 @@ class PetDescription extends StatelessWidget {
               width: 5,
             ),
             Text(
-              DateFormat.yMMMd().format(announcement.creationDate),
+              _convertDateTime(announcement.creationDate),
               style: const TextStyle(
                   color: Color.fromARGB(255, 121, 119, 119),
                   fontWeight: FontWeight.bold,

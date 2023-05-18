@@ -3,12 +3,20 @@ import 'package:pet_share/models/pet.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
 class PetTile extends StatefulWidget {
-  final Pet pet;
+  final Pet2? pet;
   final double height;
 
+  final Color? background;
+  final Icon? icon;
+
+  final void Function() tapOn;
+
   const PetTile({
+    required this.tapOn,
     required this.height,
-    required this.pet,
+    this.pet,
+    this.background,
+    this.icon,
     super.key,
   });
 
@@ -25,7 +33,40 @@ class _PetTileState extends State<PetTile> {
       return const AssetImage('assets/pupic.jpg');
     }
 
-    return NetworkImage(photo);
+    ImageProvider image = const AssetImage('assets/pupic.jpg');
+    // try {
+    //   image = NetworkImage(photo);
+
+    //   (image.resolve(ImageConfiguration())).addListener(ImageStreamListener(
+    //     (image, synchronousCall) {
+    //       print('obraz został załadowany');
+    //     },
+    //     onError: (exception, stackTrace) {
+    //       print('cos poszło nie tak');
+    //     },
+    //   ));
+    // } catch (e) {
+    //   print('Wystapił błąd: $e');
+    // }
+
+    return image;
+  }
+
+  BoxDecoration imageDecoration() {
+    return BoxDecoration(
+      image: DecorationImage(
+        fit: BoxFit.cover,
+        image: getImage(widget.pet!.photoUrl),
+      ),
+      borderRadius: BorderRadius.circular(radius),
+    );
+  }
+
+  BoxDecoration colorDecoration() {
+    return BoxDecoration(
+      color: widget.background,
+      borderRadius: BorderRadius.circular(radius),
+    );
   }
 
   @override
@@ -38,7 +79,7 @@ class _PetTileState extends State<PetTile> {
         elevation: 6,
         child: InkWell(
           splashColor: AppColors.background.withOpacity(0.05),
-          onTap: () {},
+          onTap: widget.tapOn,
           onTapDown: (_) {
             setState(() {
               isPressed = true;
@@ -52,13 +93,9 @@ class _PetTileState extends State<PetTile> {
           borderRadius: BorderRadius.circular(radius),
           child: Ink(
             height: widget.height,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: getImage(widget.pet.photo),
-              ),
-              borderRadius: BorderRadius.circular(radius),
-            ),
+            decoration:
+                widget.pet != null ? imageDecoration() : colorDecoration(),
+            child: widget.icon,
           ),
         ),
       ),

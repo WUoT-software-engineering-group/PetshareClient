@@ -1,21 +1,21 @@
-part of 'announcements_cubit.dart';
+// part of 'announcements_cubit.dart';
 
-abstract class AnnouncementsState extends Equatable {
-  const AnnouncementsState();
+// abstract class AnnouncementsState extends Equatable {
+//   const AnnouncementsState();
 
-  @override
-  List<Object> get props => [];
-}
+//   @override
+//   List<Object> get props => [];
+// }
 
-class AnnouncementsSInitial extends AnnouncementsState {}
+// class AnnouncementsSInitial extends AnnouncementsState {}
 
-class AnnouncementsSRefreshing extends AnnouncementsState {}
+// class AnnouncementsSRefreshing extends AnnouncementsState {}
 
-class AnnouncementsSLoaded extends AnnouncementsState {
-  final List<Announcement> announcements;
+// class AnnouncementsSLoaded extends AnnouncementsState {
+//   final List<Announcement2> announcements;
 
-  const AnnouncementsSLoaded({required this.announcements});
+//   const AnnouncementsSLoaded({required this.announcements});
 
-  @override
-  List<Object> get props => [announcements];
-}
+//   @override
+//   List<Object> get props => [announcements];
+// }

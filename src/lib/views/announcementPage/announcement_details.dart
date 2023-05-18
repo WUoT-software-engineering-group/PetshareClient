@@ -6,7 +6,7 @@ import 'package:pet_share/utils/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AnnouncementDetailsPage extends StatefulWidget {
-  final Announcement announcement;
+  final Announcement2 announcement;
   final bool isAdoptingPerson;
   final Color color1;
   final Color color2;
@@ -26,7 +26,8 @@ class AnnouncementDetailsPage extends StatefulWidget {
 }
 
 class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
-  String _ageOfPet(DateTime dateTime) {
+  String _ageOfPet(DateTime? dateTime) {
+    if (dateTime == null) return "";
     int years = DateTime.now().year - dateTime.year;
     if (years == 0) {
       int months = DateTime.now().month - dateTime.month;
@@ -43,6 +44,12 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
 
     if (years == 1) return '$years year old';
     return '$years years old';
+  }
+
+  String _convertDateTime(DateTime? dateTime) {
+    if (dateTime == null) return "";
+
+    return DateFormat.yMMMd().format(dateTime);
   }
 
   @override
@@ -201,7 +208,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                                       width: 10,
                                     ),
                                     Text(
-                                      DateFormat.yMMMd().format(
+                                      _convertDateTime(
                                           widget.announcement.creationDate),
                                       style: const TextStyle(
                                           color: Colors.black54,
@@ -236,9 +243,9 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                             BarOptions(
                               /// low bar with navigation options
                               color: widget.color2,
-                              email: widget.announcement.author.email,
+                              email: widget.announcement.pet.shelter.email,
                               phoneNumber:
-                                  widget.announcement.author.phoneNumer,
+                                  widget.announcement.pet.shelter.phoneNumber,
                               isAdoptingPerson: widget.isAdoptingPerson,
                             ),
                           ]),
