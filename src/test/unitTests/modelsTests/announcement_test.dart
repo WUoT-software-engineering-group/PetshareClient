@@ -1,4 +1,3 @@
-import 'package:pet_share/models/pet.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pet_share/models/announcement.dart';
 
