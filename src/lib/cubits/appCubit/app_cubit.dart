@@ -15,8 +15,8 @@ part 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
   final DataServices _dataServices = DataServices();
-  final DataServices2 _dataServices2 = DataServices2();
-  final AuthService _authService = AuthService();
+  final DataServices2 _dataServices2;
+  final AuthService _authService;
 
   // ----------------------------------
   // Gets & Sets
@@ -28,7 +28,7 @@ class AppCubit extends Cubit<AppState> {
   // Contstructors
   // ----------------------------------
 
-  AppCubit() : super(AppSInitial());
+  AppCubit(this._dataServices2, this._authService) : super(AppSInitial());
 
   // ----------------------------------
   // Auth methods
