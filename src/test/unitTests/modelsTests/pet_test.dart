@@ -1,64 +1,91 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:pet_share/models/pet.dart';
+import 'package:pet_share/models/shelter.dart';
+
+Map<String, dynamic> json = {
+  'id': '1',
+  'shelter': {
+    'id': null,
+    'userName': null,
+    'phoneNumber': null,
+    'email': null,
+    'fullShelterName': null,
+    'isAuthorized': true,
+    'address': {
+      'street': null,
+      'city': null,
+      'provice': null,
+      'postalCode': null,
+      'country': null,
+    },
+  },
+  'name': 'testName',
+  'species': 'testSpecies',
+  'breed': 'testBreed',
+  'birthday': '2020-01-01T00:00:00.000',
+  'description': 'testDescription',
+  'photoUrl': 'testUrl',
+  'status': 1,
+  'sex': 1,
+};
+
+Map<String, dynamic> nullJson = {
+  'id': null,
+  'shelter': {
+    'id': null,
+    'userName': null,
+    'phoneNumber': null,
+    'email': null,
+    'fullShelterName': null,
+    'isAuthorized': true,
+    'address': {
+      'street': null,
+      'city': null,
+      'provice': null,
+      'postalCode': null,
+      'country': null,
+    },
+  },
+  'name': null,
+  'species': null,
+  'breed': null,
+  'birthday': null,
+  'description': null,
+  'photoUrl': null,
+  'status': null,
+  'sex': null,
+};
 
 void main() {
   group('Pet', () {
-    final petJson = {
-      'id': '1',
-      'shelterID': 'shelter_1',
-      'name': 'Buddy',
-      'species': 'Dog',
-      'breed': 'Labrador',
-      'birthday': '2020-01-01T00:00:00.000',
-      'description': 'A friendly and playful dog.',
-      'photo': 'https://costamcostam',
-    };
+    test('fromJson should correctly parse a JSON object to pet', () {
+      final pet = Pet2.fromJson(json);
 
-    final pet = Pet(
-      id: '1',
-      shelterID: 'shelter_1',
-      name: 'Buddy',
-      species: 'Dog',
-      breed: 'Labrador',
-      birthday: DateTime(2020, 1, 1),
-      description: 'A friendly and playful dog.',
-      photo: 'https://costamcostam',
-    );
-
-    test('fromJson should correctly parse a JSON object', () {
-      final result = Pet.fromJson(petJson);
-
-      expect(result.id, pet.id);
-      expect(result.shelterID, pet.shelterID);
-      expect(result.name, pet.name);
-      expect(result.species, pet.species);
-      expect(result.breed, pet.breed);
-      expect(result.birthday, pet.birthday);
-      expect(result.description, pet.description);
-      expect(result.photo, pet.photo);
+      expect(pet, isInstanceOf<Pet2>());
+      expect(pet.id, json['id']);
+      expect(pet.shelter, isInstanceOf<Shelter2>());
+      expect(pet.name, json['name']);
+      expect(pet.species, json['species']);
+      expect(pet.breed, json['breed']);
+      expect(pet.birthday, DateTime.parse(json['birthday']));
+      expect(pet.description, json['description']);
+      expect(pet.photoUrl, json['photoUrl']);
+      expect(pet.sex, Pet2.intToSex(json['sex']));
     });
 
-    test('covertToMapSD should correctly convert to a Map object', () {
-      final result = pet.covertToMapSD();
-
-      expect(result['name'], pet.name);
-      expect(result['species'], pet.species);
-      expect(result['breed'], pet.breed);
-      expect(result['description'], pet.description);
-      expect(result['photo'], pet.photo.toString());
-
-      final expectedDate =
-          '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(pet.birthday).toString()}Z';
-      expect(result['birthday'], expectedDate);
+    test(
+        'fromJson with null values should correctly parse a JSON object to pet',
+        () {
+      final pet = Pet2.fromJson(nullJson);
+      expect(pet, isInstanceOf<Pet2>());
     });
 
-    test('toJson should correctly convert to a JSON string', () {
-      final result = pet.toJson();
-
-      final expected =
-          '{"name":"${pet.name}","species":"${pet.species}","breed":"${pet.breed}","birthday":"${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(pet.birthday).toString()}Z","description":"${pet.description}","photo":"${pet.photo.toString()}"}';
-      expect(result, expected);
+    test('intToSex should return correct values', () {
+      expect(SexOfPet.unknown, Pet2.intToSex(0));
+      expect(SexOfPet.male, Pet2.intToSex(1));
+      expect(SexOfPet.female, Pet2.intToSex(2));
+      expect(SexOfPet.unknown, Pet2.intToSex(null));
     });
   });
 }

@@ -73,7 +73,7 @@ class Adopter2 {
       phoneNumber: json["phoneNumber"] ?? "",
       email: json["email"] ?? "",
       address: Address2.fromJson(json['address']),
-      status: json["status"] ?? "",
+      status: json["status"] ?? 1,
     );
   }
 

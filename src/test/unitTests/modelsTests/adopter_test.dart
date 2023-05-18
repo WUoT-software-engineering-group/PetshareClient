@@ -1,67 +1,51 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pet_share/models/address.dart';
 import 'package:pet_share/models/adopter.dart';
-import 'package:pet_share/models/announcement.dart';
+
+Map<String, dynamic> json = {
+  'id': '22',
+  'userName': 'testuser',
+  'phoneNumber': '1234567890',
+  'email': 'testuser@example.com',
+  'address': {
+    'street': '123 Test St',
+    'city': 'Test City',
+    'provice': 'Test Province',
+    'postalCode': '12345',
+    'country': 'Test Country',
+  },
+  'status': 1
+};
+
+Map<String, dynamic> nullJson = {
+  'id': null,
+  'userName': null,
+  'phoneNumber': null,
+  'email': null,
+  'address': {
+    'street': null,
+    'city': null,
+    'provice': null,
+    'postalCode': null,
+    'country': null,
+  },
+  'status': null
+};
 
 void main() {
   group('Adopter', () {
-    final json = {
-      'username': 'JohnDoe',
-      'phoneNumber': '1234567890',
-      'email': 'johndoe@example.com',
-      'address': {
-        'street': '123 Test St',
-        'city': 'Test City',
-        'provice': 'Test Province',
-        'postalCode': '12345',
-        'country': 'Test Country',
-      }
-    };
-
     test('fromJson() should return an Adopter object', () {
-      final adopter = Adopter.fromJson(json);
-
-      expect(adopter, isInstanceOf<Adopter>());
-      expect(adopter.userName, json['username']);
+      final adopter = Adopter2.fromJson(json);
+      expect(adopter, isInstanceOf<Adopter2>());
+      expect(adopter.userName, json['userName']);
       expect(adopter.phoneNumber, json['phoneNumber']);
       expect(adopter.email, json['email']);
-      expect(adopter.address, isInstanceOf<Address>());
+      expect(adopter.address, isInstanceOf<Address2>());
     });
-    test('toJson() should return a JSON string', () {
-      final adopter = Adopter(
-        userName: 'testuser',
-        phoneNumber: '1234567890',
-        email: 'testuser@example.com',
-        address: Address(
-          street: '123 Test St',
-          city: 'Test City',
-          provice: 'Test Province',
-          postalCode: '12345',
-          country: 'Test Country',
-        ),
-      );
 
-      final jsonString = adopter.toJson();
-
-      const expectedJsonString = '''
-        {
-          "userName":"testuser",
-          "phoneNumber":"1234567890",
-          "email":"testuser@example.com",
-          "address":{
-            "street":"123 Test St",
-            "city":"Test City",
-            "province":"Test Province",
-            "postalCode":"12345",
-            "country":"Test Country"
-          }
-        }
-      ''';
-
-      final expectedJson = jsonDecode(expectedJsonString);
-
-      expect(jsonDecode(jsonString), expectedJson);
+    test('fromJson with null values should parse object correctly', () {
+      final adopter = Adopter2.fromJson(nullJson);
+      expect(adopter, isInstanceOf<Adopter2>());
     });
   });
 }

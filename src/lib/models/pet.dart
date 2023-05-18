@@ -128,7 +128,7 @@ class Pet2 {
       birthday: testDateTime(json['birthday']),
       description: json['description'] ?? "",
       photoUrl: json['photoUrl'] ?? "",
-      status: json['status'] ?? "",
+      status: json['status'] ?? 0,
       sex: intToSex(json['sex']),
     );
   }
