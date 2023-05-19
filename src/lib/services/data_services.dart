@@ -232,7 +232,6 @@ class DataServices2 {
       headers: buildHeader(accessToken),
       body: jsonEncode({
         'announcementId': announcementId,
-        'adopterId': adopterId,
       }),
     );
 
@@ -312,7 +311,10 @@ class DataServices2 {
     String applicationId,
   ) async {
     http.Response res = await http.put(
-      _uriStorage.applicationsUri(UriApplications.putIdAccept),
+      _uriStorage.applicationsUri(
+        UriApplications.putIdAccept,
+        id: applicationId,
+      ),
       headers: buildHeader(accessToken),
     );
 
@@ -334,7 +336,10 @@ class DataServices2 {
     String applicationId,
   ) async {
     http.Response res = await http.put(
-      _uriStorage.applicationsUri(UriApplications.putIdReject),
+      _uriStorage.applicationsUri(
+        UriApplications.putIdReject,
+        id: applicationId,
+      ),
       headers: buildHeader(accessToken),
     );
 
