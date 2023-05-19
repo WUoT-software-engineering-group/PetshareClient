@@ -28,44 +28,40 @@ class _PetTileState extends State<PetTile> {
   final double radius = 10;
   bool isPressed = false;
 
-  ImageProvider getImage(String photo) {
-    if (photo == '') {
-      return const AssetImage('assets/pupic.jpg');
-    }
-
-    ImageProvider image = const AssetImage('assets/pupic.jpg');
-    // try {
-    //   image = NetworkImage(photo);
-
-    //   (image.resolve(ImageConfiguration())).addListener(ImageStreamListener(
-    //     (image, synchronousCall) {
-    //       print('obraz został załadowany');
-    //     },
-    //     onError: (exception, stackTrace) {
-    //       print('cos poszło nie tak');
-    //     },
-    //   ));
-    // } catch (e) {
-    //   print('Wystapił błąd: $e');
-    // }
-
-    return image;
-  }
-
-  BoxDecoration imageDecoration() {
-    return BoxDecoration(
-      image: DecorationImage(
-        fit: BoxFit.cover,
-        image: getImage(widget.pet!.photoUrl),
+  Widget coloredInk() {
+    return Ink(
+      height: widget.height,
+      decoration: BoxDecoration(
+        color: widget.background,
+        borderRadius: BorderRadius.circular(radius),
       ),
-      borderRadius: BorderRadius.circular(radius),
+      child: widget.icon,
     );
   }
 
-  BoxDecoration colorDecoration() {
-    return BoxDecoration(
-      color: widget.background,
-      borderRadius: BorderRadius.circular(radius),
+  Widget imageInk() {
+    if (widget.pet!.photoUrl == '' || !widget.pet!.photoUrl.contains('https')) {
+      return Ink(
+        height: widget.height,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(radius),
+          child: Image.asset('assets/pupic.jpg', fit: BoxFit.cover),
+        ),
+      );
+    }
+
+    return Ink(
+      height: widget.height,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(radius),
+        child: Image.network(
+          widget.pet!.photoUrl,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Image.asset('assets/pupic.jpg', fit: BoxFit.cover);
+          },
+        ),
+      ),
     );
   }
 
@@ -91,12 +87,7 @@ class _PetTileState extends State<PetTile> {
             });
           },
           borderRadius: BorderRadius.circular(radius),
-          child: Ink(
-            height: widget.height,
-            decoration:
-                widget.pet != null ? imageDecoration() : colorDecoration(),
-            child: widget.icon,
-          ),
+          child: widget.pet != null ? imageInk() : coloredInk(),
         ),
       ),
     );

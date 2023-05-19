@@ -39,45 +39,49 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                 List<Announcement2> announcements = state.announcements;
 
                 return AnimatedList(
-                  initialItemCount: announcements.length + 1,
+                  initialItemCount: announcements.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index, animation) {
-                    // add button
-                    if (index == 0) {
-                      return AnimatedContainer(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 12.5),
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeIn,
-                        child: Material(
-                          color: AppColors.buttons,
-                          borderRadius: BorderRadius.circular(28),
-                          elevation: 6,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(28),
-                            onTap: () {},
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(28),
-                              child: const SizedBox(
-                                height: 50,
-                                child: Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }
+                    // add button - not supported at now
+                    // if (index == 0) {
+                    //   return AnimatedContainer(
+                    //     padding: const EdgeInsets.symmetric(
+                    //         horizontal: 25, vertical: 12.5),
+                    //     duration: const Duration(milliseconds: 300),
+                    //     curve: Curves.easeIn,
+                    //     child: Material(
+                    //       color: AppColors.buttons,
+                    //       borderRadius: BorderRadius.circular(28),
+                    //       elevation: 6,
+                    //       child: InkWell(
+                    //         borderRadius: BorderRadius.circular(28),
+                    //         onTap: () {},
+                    //         child: ClipRRect(
+                    //           borderRadius: BorderRadius.circular(28),
+                    //           child: const SizedBox(
+                    //             height: 50,
+                    //             child: Icon(
+                    //               Icons.add,
+                    //               color: Colors.white,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   );
+                    // }
 
                     // announcement tiles
                     return AnnouncementTile(
-                      announcement: announcements[index - 1],
+                      announcement: announcements[index],
                       isAdoptingPerson: widget.isAdoptingPerson,
                       descriptionOnLeft: index % 2 == 0 ? true : false,
                       colors: AppColors
                           .petTiles[(index - 1) % AppColors.petTiles.length],
+                      onPressed: () {
+                        BlocProvider.of<AppCubit>(context)
+                            .addApplication(announcements[index].id);
+                      },
                     );
                   },
                 );

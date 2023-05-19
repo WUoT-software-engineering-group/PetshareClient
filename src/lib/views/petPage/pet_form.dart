@@ -40,6 +40,14 @@ class _PetFromState extends State<PetFrom> {
 
   late Color myCOlor = Colors.black54;
 
+  String _cutTooLongString(String string) {
+    if (string.length > 40) {
+      return string.substring(0, 22);
+    }
+
+    return string;
+  }
+
   final lastStep = 2;
 
   /// Max index of steps
@@ -243,6 +251,7 @@ class _PetFromState extends State<PetFrom> {
                   description = val ?? '';
                 },
                 label: "Description",
+                maxLines: 10,
                 labelColor: AppColors.buttons,
                 fontColor: myCOlor,
                 activeBorder: myCOlor,
@@ -263,7 +272,9 @@ class _PetFromState extends State<PetFrom> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      image != null ? 'photo: ${image!.name}' : 'photo: none',
+                      image != null
+                          ? 'photo: ${_cutTooLongString(image!.name)}'
+                          : 'photo: none',
                       style: GoogleFonts.varelaRound(
                         color: myCOlor,
                         fontWeight: FontWeight.w600,
@@ -401,9 +412,6 @@ class _PetFromState extends State<PetFrom> {
                           );
 
                           Navigator.of(context).pop(pet);
-                          // function to add
-                          //await BlocProvider.of<AppCubit>(context)
-                          //.addPet(pet, image!);
                         }
                       } else {
                         setState(() {

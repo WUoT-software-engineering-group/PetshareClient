@@ -6,6 +6,8 @@ import 'package:pet_share/utils/app_colors.dart';
 
 class ApplicationDialog extends StatelessWidget {
   final Appplications2 appplication;
+  final Future<void> Function() acceptFun;
+  final Future<void> Function() rejectFun;
 
   final String myText =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pulvinar nunc iaculis '
@@ -15,6 +17,8 @@ class ApplicationDialog extends StatelessWidget {
 
   const ApplicationDialog({
     required this.appplication,
+    required this.acceptFun,
+    required this.rejectFun,
     Key? key,
   }) : super(key: key);
 
@@ -61,8 +65,12 @@ class ApplicationDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
+                    onPressed: () async {
+                      await acceptFun();
+
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                      }
                     },
                     child: Column(
                       children: [
@@ -87,8 +95,12 @@ class ApplicationDialog extends StatelessWidget {
                     width: 30,
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
+                    onPressed: () async {
+                      await rejectFun();
+
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                      }
                     },
                     child: Column(
                       children: [
@@ -100,7 +112,7 @@ class ApplicationDialog extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          'DELETE',
+                          'REJECT',
                           style: GoogleFonts.varelaRound(
                             color: AppColors.darkerButtons,
                             fontSize: 14,

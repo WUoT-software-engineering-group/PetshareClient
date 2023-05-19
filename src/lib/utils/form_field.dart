@@ -10,6 +10,7 @@ class MyFormFild2 extends StatelessWidget {
   final Color activeBorder;
   final Color disactiveBorder;
   final Color fontColor;
+  final int maxLines;
 
   const MyFormFild2({
     super.key,
@@ -20,6 +21,7 @@ class MyFormFild2 extends StatelessWidget {
     this.activeBorder = Colors.white,
     this.disactiveBorder = Colors.white,
     this.fontColor = Colors.white,
+    this.maxLines = 1,
   });
 
   @override
@@ -27,6 +29,7 @@ class MyFormFild2 extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       child: TextFormField(
+        maxLines: maxLines,
         cursorColor: Colors.white,
         decoration: InputDecoration(
             label: Text(
