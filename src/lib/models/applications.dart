@@ -28,7 +28,7 @@ class Appplications2 {
       announcementId: json['announcementId'] ?? '',
       announcement: Announcement2.fromJson(json['announcement']),
       adopter: Adopter2.fromJson(json['adopter']),
-      applicationStatus: json['adopter'] ?? 0,
+      applicationStatus: json['applicationStatus'] ?? 0,
     );
   }
 

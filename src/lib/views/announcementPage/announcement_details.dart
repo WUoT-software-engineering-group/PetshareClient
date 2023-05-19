@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
 import 'package:pet_share/models/announcement.dart';
+import 'package:pet_share/models/pet.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,6 +30,21 @@ class AnnouncementDetailsPage extends StatefulWidget {
 }
 
 class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
+  Widget getImage() {
+    if (widget.announcement.pet.photoUrl == '' ||
+        !widget.announcement.pet.photoUrl.contains('https')) {
+      return Image.asset('assets/pupic.jpg', fit: BoxFit.cover);
+    }
+
+    return Image.network(
+      widget.announcement.pet.photoUrl,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return Image.asset('assets/pupic.jpg', fit: BoxFit.cover);
+      },
+    );
+  }
+
   String _ageOfPet(DateTime? dateTime) {
     if (dateTime == null) return "";
     int years = DateTime.now().year - dateTime.year;
@@ -94,13 +110,10 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
             /// image container
             left: 0,
             top: 0,
-            child: Container(
+            child: SizedBox(
               height: 370,
               width: width,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/pupic.jpg'), fit: BoxFit.cover),
-              ),
+              child: getImage(),
             ),
           ),
           Positioned(
@@ -174,7 +187,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                                   color: widget.color1.withAlpha(200),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15)),
-                          Text('male',
+                          Text(Pet2.sexToString(widget.announcement.pet.sex),
                               style: TextStyle(
                                   color: widget.color1.withAlpha(200),
                                   fontWeight: FontWeight.w500,

@@ -71,6 +71,19 @@ class Pet2 {
 
     return SexOfPet.doesNotApply;
   }
+
+  static String sexToString(SexOfPet sex) {
+    switch (sex) {
+      case SexOfPet.unknown:
+        return 'unknown';
+      case SexOfPet.male:
+        return 'male';
+      case SexOfPet.female:
+        return 'female';
+      case SexOfPet.doesNotApply:
+        return 'doesNotApply';
+    }
+  }
 }
 
 class CreatingPet2 {
