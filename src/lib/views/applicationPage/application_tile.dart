@@ -7,9 +7,13 @@ import 'package:pet_share/utils/app_colors.dart';
 
 class ApplicationTile extends StatefulWidget {
   final Appplications2 appplications;
+  final Future<void> Function() acceptFun;
+  final Future<void> Function() rejectFun;
 
   const ApplicationTile({
     required this.appplications,
+    required this.acceptFun,
+    required this.rejectFun,
     Key? key,
   }) : super(key: key);
 
@@ -41,6 +45,8 @@ class _ApplicationTileState extends State<ApplicationTile> {
               context: context,
               builder: (BuildContext context) => ApplicationDialog(
                 appplication: widget.appplications,
+                acceptFun: widget.acceptFun,
+                rejectFun: widget.rejectFun,
               ),
             );
           },

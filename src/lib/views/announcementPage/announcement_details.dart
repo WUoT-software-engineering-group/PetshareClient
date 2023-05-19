@@ -11,14 +11,17 @@ class AnnouncementDetailsPage extends StatefulWidget {
   final Color color1;
   final Color color2;
   final Color color3;
+  final void Function()? onPressed;
 
-  const AnnouncementDetailsPage(
-      {required this.announcement,
-      required this.isAdoptingPerson,
-      required this.color1,
-      required this.color2,
-      required this.color3,
-      super.key});
+  const AnnouncementDetailsPage({
+    required this.announcement,
+    required this.isAdoptingPerson,
+    required this.color1,
+    required this.color2,
+    required this.color3,
+    required this.onPressed,
+    super.key,
+  });
 
   @override
   State<AnnouncementDetailsPage> createState() =>
@@ -247,6 +250,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                               phoneNumber:
                                   widget.announcement.pet.shelter.phoneNumber,
                               isAdoptingPerson: widget.isAdoptingPerson,
+                              onPressed: widget.onPressed,
                             ),
                           ]),
                     ),
@@ -266,13 +270,16 @@ class BarOptions extends StatelessWidget {
   final String email;
   final String phoneNumber;
   final bool isAdoptingPerson;
+  final void Function()? onPressed;
 
-  const BarOptions(
-      {required this.color,
-      required this.email,
-      required this.phoneNumber,
-      required this.isAdoptingPerson,
-      super.key});
+  const BarOptions({
+    required this.color,
+    required this.email,
+    required this.phoneNumber,
+    required this.isAdoptingPerson,
+    this.onPressed,
+    super.key,
+  });
 
   Widget _menuAdoptingPerson() {
     return Row(
@@ -289,7 +296,7 @@ class BarOptions extends StatelessWidget {
         ElevatedButton(
           style: ElevatedButton.styleFrom(
               shape: const StadiumBorder(), backgroundColor: color),
-          onPressed: () {},
+          onPressed: onPressed,
           child: const Icon(Icons.check),
         ),
         const SizedBox(

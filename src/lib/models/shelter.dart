@@ -1,37 +1,24 @@
 import 'dart:convert';
-
 import 'package:pet_share/models/address.dart';
 
-import 'announcement.dart';
-
-class Shelter {
+class CreatingShelter {
   String userName;
   String phoneNumber;
   String email;
   String fullShelterName;
-  Address address;
+  Address2 address;
 
   // -------------------------
   // Constructors & Factories
   // -------------------------
 
-  Shelter({
+  CreatingShelter({
     required this.userName,
     required this.phoneNumber,
     required this.email,
     required this.fullShelterName,
     required this.address,
   });
-
-  factory Shelter.fromJson(Map<String, dynamic> json) {
-    return Shelter(
-      userName: json['username'],
-      phoneNumber: json['phoneNumber'],
-      email: json['email'],
-      fullShelterName: json['fullShelterName'],
-      address: Address.fromJson(json['address']),
-    );
-  }
 
   // -------------------------
   // Conversion methods
@@ -44,7 +31,7 @@ class Shelter {
         'phoneNumber': phoneNumber,
         'email': email,
         'fullShelterName': fullShelterName,
-        'address': address.convertToSD(),
+        'address': address.makeReponse(),
       },
     );
   }

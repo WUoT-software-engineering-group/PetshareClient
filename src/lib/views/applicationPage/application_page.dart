@@ -41,6 +41,14 @@ class _ApplicationPageState extends State<ApplicationPage> {
                     itemBuilder: (context, index, animation) {
                       return ApplicationTile(
                         appplications: applications[index],
+                        rejectFun: () async {
+                          await BlocProvider.of<AppCubit>(context)
+                              .rejectApplication(applications[index].id);
+                        },
+                        acceptFun: () async {
+                          await BlocProvider.of<AppCubit>(context)
+                              .acceptApplication(applications[index].id);
+                        },
                       );
                     });
               }

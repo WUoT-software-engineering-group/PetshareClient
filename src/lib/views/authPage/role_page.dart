@@ -96,7 +96,7 @@ class _RolePageState extends State<RolePage> {
                           ),
                         );
 
-                        if (context.mounted && adopter is Adopter) {
+                        if (context.mounted && adopter is CreatingAdopter) {
                           await BlocProvider.of<AppCubit>(context)
                               .setAddopter(adopter);
                         }
@@ -122,7 +122,7 @@ class _RolePageState extends State<RolePage> {
                           ),
                         );
 
-                        if (context.mounted && shelter is Shelter) {
+                        if (context.mounted && shelter is CreatingShelter) {
                           await BlocProvider.of<AppCubit>(context)
                               .setShelter(shelter);
                         }
