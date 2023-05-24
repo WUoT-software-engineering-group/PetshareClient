@@ -22,6 +22,21 @@ class ApplicationTile extends StatefulWidget {
 }
 
 class _ApplicationTileState extends State<ApplicationTile> {
+  Widget getImage() {
+    if (widget.appplications.announcement.pet.photoUrl == '' ||
+        !widget.appplications.announcement.pet.photoUrl.contains('https')) {
+      return Image.asset('assets/pupic.jpg', fit: BoxFit.cover);
+    }
+
+    return Image.network(
+      widget.appplications.announcement.pet.photoUrl,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return Image.asset('assets/pupic.jpg', fit: BoxFit.cover);
+      },
+    );
+  }
+
   String _convertDateTime(DateTime? dateTime) {
     if (dateTime == null) return "";
 
@@ -56,7 +71,8 @@ class _ApplicationTileState extends State<ApplicationTile> {
               children: [
                 SizedBox(
                   width: 70,
-                  child: Image.asset('assets/kity_blur.jpg'),
+                  height: 70,
+                  child: getImage(),
                 ),
                 const SizedBox(
                   width: 25,

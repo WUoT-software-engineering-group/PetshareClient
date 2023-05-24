@@ -22,6 +22,21 @@ class ApplicationDialog extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  Widget getImage() {
+    if (appplication.announcement.pet.photoUrl == '' ||
+        appplication.announcement.pet.photoUrl.contains('https')) {
+      return Image.asset('assets/pupic.jpg', fit: BoxFit.cover);
+    }
+
+    return Image.network(
+      appplication.announcement.pet.photoUrl,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return Image.asset('assets/pupic.jpg', fit: BoxFit.cover);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
