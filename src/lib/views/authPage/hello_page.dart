@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_share/cubits/appCubit/app_cubit.dart';
+import 'package:pet_share/utils/app_colors.dart';
 
 /// This page is shown as the first one in
 /// this app. Here you can find loginup/in
@@ -13,11 +14,11 @@ class HelloPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(50, 60, 50, 60),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color.fromRGBO(145, 131, 222, 1),
-            Color.fromRGBO(160, 148, 227, 1),
+            AppColors.backgroundAuth[0],
+            AppColors.backgroundAuth[1],
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

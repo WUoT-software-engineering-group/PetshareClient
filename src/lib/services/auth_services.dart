@@ -53,15 +53,13 @@ class AuthService {
   // Authenticatons methods
   // ----------------------------------
 
-  void _setLocalVariables() {
+  void _setLocalVariables(UserRoles userRoles) {
     try {
       final String nickname = parseIdToken(_credentials!.idToken)['nickname'];
-      final UserRoles role =
-          _stringToRole(parseAccessToken(_credentials!.accessToken)['role']);
 
       // creating userInfo for the whole app
       _userInfo = UserInfo(
-        role: role,
+        role: userRoles,
         nickname: nickname,
         accessToken: _credentials!.accessToken,
       );
@@ -82,7 +80,9 @@ class AuthService {
         },
       );
       _credentials = credentials;
-      _setLocalVariables();
+      final UserRoles roleUser =
+          _stringToRole(parseAccessToken(_credentials!.accessToken)['role']);
+      _setLocalVariables(roleUser);
     }
 
     return _credentials != null;
@@ -181,6 +181,7 @@ class AuthService {
     }
 
     log('AuthServices: setRole: The role ${_roleToString(userRoles)} was set correctly.');
+    _setLocalVariables(userRoles);
   }
 
   // ----------------------------------

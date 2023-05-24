@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pet_share/services/auth_services.dart';
+import 'package:pet_share/services/data_services.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/authPage/hello_page.dart';
-import 'package:pet_share/views/authPage/users_page.dart';
+import 'package:pet_share/views/authPage/role_page.dart';
 import 'package:pet_share/views/loadingPage/loading_page.dart';
 import 'package:pet_share/views/userManager/user_manager.dart';
 
@@ -23,15 +25,15 @@ class MainPoint extends StatelessWidget {
             colorScheme:
                 ColorScheme.fromSwatch(accentColor: AppColors.buttons)),
         home: BlocProvider<AppCubit>(
-          create: (context) => AppCubit(),
+          create: (context) => AppCubit(DataServices2(), AuthService()),
           child: BlocBuilder<AppCubit, AppState>(
             builder: (context, state) {
-              if (state is AppSLoaded) {
+              if (state is AppSLoaded || state is AppSRefreshing) {
                 return const UserManager();
               } else if (state is AppSLoading) {
                 return const LoadingPage();
               } else if (state is AppSAuthed) {
-                return const UsersPage();
+                return const RolePage();
               } else {
                 return const HelloPage();
               }

@@ -6,11 +6,6 @@ class AppColors {
     'reddish': Color.fromARGB(255, 79, 64, 69)
   };
 
-  static const List<Color> tile = [
-    Color.fromARGB(150, 52, 62, 61),
-    Color.fromARGB(255, 97, 80, 85)
-  ];
-
   static const Map<String, Color> animationColor = {
     'sides': Color.fromARGB(255, 243, 167, 80),
     'center': Color.fromRGBO(216, 209, 255, 1)
@@ -36,16 +31,26 @@ class AppColors {
       Color.fromARGB(255, 33, 135, 137),
       Color.fromARGB(255, 13, 97, 99),
       Color.fromARGB(255, 3, 61, 71),
+    ],
+    [
+      Color.fromRGBO(148, 185, 227, 1),
+      Color.fromRGBO(111, 149, 192, 1),
+      Color.fromRGBO(84, 115, 151, 1),
     ]
   ];
 
-  static const Color tile2 = Color.fromARGB(255, 97, 80, 85);
-  static const Color form = Color.fromARGB(255, 199, 188, 192);
-  static const Color navigation = Color.fromARGB(255, 180, 166, 171);
-  static const Color darkerNavigation = Color.fromARGB(255, 162, 144, 150);
-  static const Color buttons = Color.fromARGB(255, 148, 120, 121);
-  static const Color field = Color.fromARGB(255, 242, 247, 244);
-  static const Color background = Colors.white;
+  static const List<Color> backgroundAuth = [
+    Color.fromRGBO(145, 131, 222, 1),
+    Color.fromRGBO(160, 148, 227, 1),
+  ];
+
+  static const Color buttons = Color.fromRGBO(161, 133, 207, 1);
+  static const Color darkerButtons = Color.fromARGB(255, 82, 67, 168);
+  static const Color darkIcons = Color.fromARGB(255, 79, 66, 102);
+  static const Color navigation = Color.fromRGBO(210, 202, 255, 1);
+  static const Color field = Color.fromARGB(255, 255, 255, 255);
+  static const Color background = Color.fromARGB(255, 247, 252, 255);
+  static const Color blurryGradientColor = Colors.white;
 
   static Color fromColor(Color color,
       {int a = -1, int r = -1, int g = -1, int b = -1}) {

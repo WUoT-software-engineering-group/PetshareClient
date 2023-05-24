@@ -2,16 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_share/utils/app_colors.dart';
 
-class MyFormFild extends StatelessWidget {
+class MyFormFild2 extends StatelessWidget {
   final String? Function(String?) validator;
   final Function(String?) save;
   final String label;
+  final Color labelColor;
+  final Color activeBorder;
+  final Color disactiveBorder;
+  final Color fontColor;
 
-  const MyFormFild({
+  const MyFormFild2({
     super.key,
     required this.validator,
     required this.save,
     required this.label,
+    this.labelColor = AppColors.darkerButtons,
+    this.activeBorder = Colors.white,
+    this.disactiveBorder = Colors.white,
+    this.fontColor = Colors.white,
   });
 
   @override
@@ -24,7 +32,7 @@ class MyFormFild extends StatelessWidget {
             label: Text(
               label,
               style: GoogleFonts.varelaRound(
-                color: AppColors.darkerButtons,
+                color: labelColor,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
@@ -34,21 +42,21 @@ class MyFormFild extends StatelessWidget {
               vertical: 6,
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.white,
+              borderSide: BorderSide(
+                color: activeBorder,
                 width: 3,
               ),
               borderRadius: BorderRadius.circular(25),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.white,
+              borderSide: BorderSide(
+                color: disactiveBorder,
                 width: 3,
               ),
               borderRadius: BorderRadius.circular(25),
             )),
         style: GoogleFonts.varelaRound(
-          color: Colors.white,
+          color: fontColor,
           fontSize: 15,
           fontWeight: FontWeight.bold,
         ),
