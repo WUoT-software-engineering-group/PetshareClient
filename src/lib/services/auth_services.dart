@@ -53,7 +53,7 @@ class AuthService {
   // Authenticatons methods
   // ----------------------------------
 
-  void _setLocalVariables(UserRoles userRoles) {
+  void _setLocalVariables(UserRoles userRoles, String? id) {
     try {
       final String nickname = parseIdToken(_credentials!.idToken)['nickname'];
 
@@ -62,6 +62,7 @@ class AuthService {
         role: userRoles,
         nickname: nickname,
         accessToken: _credentials!.accessToken,
+        id: id ?? '',
       );
     } catch (e) {
       throw Exception(
@@ -80,9 +81,11 @@ class AuthService {
         },
       );
       _credentials = credentials;
+
+      final userId = parseAccessToken(_credentials!.accessToken)['db_id'];
       final UserRoles roleUser =
           _stringToRole(parseAccessToken(_credentials!.accessToken)['role']);
-      _setLocalVariables(roleUser);
+      _setLocalVariables(roleUser, userId);
     }
 
     return _credentials != null;
@@ -119,6 +122,7 @@ class AuthService {
       role: UserRoles.unassigned,
       nickname: '',
       accessToken: '',
+      id: '',
     );
 
     log('AuthServices: logoutUser: The user is logged out.');
@@ -181,7 +185,7 @@ class AuthService {
     }
 
     log('AuthServices: setRole: The role ${_roleToString(userRoles)} was set correctly.');
-    _setLocalVariables(userRoles);
+    _setLocalVariables(userRoles, idUser);
   }
 
   // ----------------------------------

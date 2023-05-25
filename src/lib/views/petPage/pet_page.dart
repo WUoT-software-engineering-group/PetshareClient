@@ -4,9 +4,12 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:pet_share/cubits/appCubit/app_cubit.dart';
+import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/models/pet.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/utils/blurry_gradient.dart';
+import 'package:pet_share/views/announcementPage/announcement_form.dart';
+import 'package:pet_share/views/petPage/pet_dialog.dart';
 import 'package:pet_share/views/petPage/pet_form.dart';
 import 'package:pet_share/views/petPage/pet_tile.dart';
 
@@ -18,17 +21,6 @@ class PetPage extends StatefulWidget {
 }
 
 class _PetPageState extends State<PetPage> {
-  Pet pp = Pet(
-    id: '',
-    shelterID: '',
-    name: 'alo',
-    species: 'asdf',
-    breed: 'asdf',
-    birthday: DateTime.now(),
-    description: 'asdfadsf',
-    photo: '',
-  );
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,7 +65,6 @@ class _PetPageState extends State<PetPage> {
                             await BlocProvider.of<AppCubit>(context)
                                 .addPet(pet);
                           }
-                          //await BlocProvider.of<AppCubit>(context).addPet();
                         },
                         background: AppColors.buttons,
                         icon: const Icon(
@@ -88,8 +79,30 @@ class _PetPageState extends State<PetPage> {
                     return PetTile(
                       height: 100,
                       pet: petsy[index - 1],
-                      tapOn: () {
-                        // go to details
+                      tapOn: () async {
+                        var result = await showDialog(
+                          context: context,
+                          builder: (context) => PetDialog(
+                            pet: petsy[index - 1],
+                          ),
+                        );
+
+                        if (context.mounted && result is bool && result) {
+                          var result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AnnouncementForm(
+                                pet: petsy[index - 1],
+                              ),
+                            ),
+                          );
+
+                          if (context.mounted &&
+                              result is CreatingAnnouncement2) {
+                            await BlocProvider.of<AppCubit>(context)
+                                .addAnnouncement(result);
+                          }
+                        }
                       },
                     );
                   },

@@ -27,17 +27,11 @@ class Address2 {
     );
   }
 
-  // -------------------------
-  // Conversion methods
-  // -------------------------
-
-  // Map<String, dynamic> buildRespons() {
-  //   return {
-  //     'street': street,
-  //     'city': city,
-  //     'province': provice,
-  //     'postalCode': postalCode,
-  //     'country': country,
-  //   };
-  // }
+  Map<String, dynamic> makeReponse() => {
+        'street': street,
+        'city': city,
+        'province': provice,
+        'postalCode': postalCode,
+        'country': country,
+      };
 }

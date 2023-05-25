@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_share/models/address.dart';
 import 'package:pet_share/models/adopter.dart';
-import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/models/shelter.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/views/authPage/form_field.dart';
@@ -106,12 +106,12 @@ class _ShelterFormState extends State<ShelterForm> {
                             if (_formKey.currentState != null &&
                                 _formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              Shelter shelter = Shelter(
+                              CreatingShelter shelter = CreatingShelter(
                                 userName: userName,
                                 phoneNumber: phoneNumber,
                                 fullShelterName: fullShelterName,
                                 email: widget.email,
-                                address: Address(
+                                address: Address2(
                                   street: street,
                                   city: city,
                                   provice: provice,
@@ -416,11 +416,11 @@ class _AdopterFormState extends State<AdopterForm> {
                             if (_formKey.currentState != null &&
                                 _formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              Adopter adopter = Adopter(
+                              CreatingAdopter adopter = CreatingAdopter(
                                 userName: userName,
                                 phoneNumber: phoneNumber,
                                 email: widget.email,
-                                address: Address(
+                                address: Address2(
                                   street: street,
                                   city: city,
                                   provice: provice,

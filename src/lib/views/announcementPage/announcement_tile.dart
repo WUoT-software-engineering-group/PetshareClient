@@ -10,14 +10,17 @@ class AnnouncementTile extends StatefulWidget {
   final bool descriptionOnLeft;
   final bool isAdoptingPerson;
   final List<Color> colors;
+  final void Function()? onPressed;
 
   /// colors - colors of description 0: text 1: ring 2: bubbles
-  const AnnouncementTile(
-      {required this.announcement,
-      required this.isAdoptingPerson,
-      required this.descriptionOnLeft,
-      required this.colors,
-      super.key});
+  const AnnouncementTile({
+    required this.announcement,
+    required this.isAdoptingPerson,
+    required this.descriptionOnLeft,
+    required this.colors,
+    required this.onPressed,
+    super.key,
+  });
 
   @override
   State<AnnouncementTile> createState() => _AnnouncementTileState();
@@ -70,11 +73,13 @@ class _AnnouncementTileState extends State<AnnouncementTile> {
                   context,
                   MaterialPageRoute(builder: (context) {
                     return AnnouncementDetailsPage(
-                        isAdoptingPerson: widget.isAdoptingPerson,
-                        announcement: widget.announcement,
-                        color1: widget.colors[0],
-                        color2: widget.colors[1],
-                        color3: widget.colors[2]);
+                      isAdoptingPerson: widget.isAdoptingPerson,
+                      announcement: widget.announcement,
+                      color1: widget.colors[0],
+                      color2: widget.colors[1],
+                      color3: widget.colors[2],
+                      onPressed: widget.onPressed,
+                    );
                   }),
                 );
               },

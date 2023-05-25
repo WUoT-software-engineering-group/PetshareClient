@@ -14,7 +14,6 @@ import 'package:pet_share/services/data_services.dart';
 part 'app_state.dart';
 
 class AppCubit extends Cubit<AppState> {
-  final DataServices _dataServices = DataServices();
   final DataServices2 _dataServices2;
   final AuthService _authService;
 
@@ -59,9 +58,9 @@ class AppCubit extends Cubit<AppState> {
   //  Set account methods
   // ----------------------------------
 
-  Future<void> setAddopter(Adopter adopter) async {
+  Future<void> setAddopter(CreatingAdopter adopter) async {
     emit(AppSLoading());
-    var idUser = await _dataServices.addAdopter(
+    var idUser = await _dataServices2.postAdopter(
       adopter,
       _authService.accessToken,
     );
@@ -69,9 +68,9 @@ class AppCubit extends Cubit<AppState> {
     await initAdopter();
   }
 
-  Future<void> setShelter(Shelter shelter) async {
+  Future<void> setShelter(CreatingShelter shelter) async {
     emit(AppSLoading());
-    var idUser = await _dataServices.addShelter(
+    var idUser = await _dataServices2.postShelter(
       shelter,
       _authService.accessToken,
     );
@@ -111,15 +110,11 @@ class AppCubit extends Cubit<AppState> {
       emit(AppSLoading());
       var resAnn =
           await _dataServices2.getAnnouncements(_authService.accessToken);
-      var resApp =
-          await _dataServices2.getApplications(_authService.accessToken);
-      var resPet =
-          await _dataServices2.getShelterPets(_authService.accessToken);
       emit(
         AppSLoaded(
           announcements: resAnn,
-          applications: resApp,
-          pets: resPet,
+          applications: const [],
+          pets: const [],
           userInfo: _authService.userInfo,
         ),
       );
@@ -222,11 +217,32 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
+  // Methods to add pets by any shelter
   Future<bool> addPet(CreatingPet2 pet) async {
     return await _dataServices2.postPet(_authService.accessToken, pet);
   }
 
-  Future<void> getPets() async {
-    await _dataServices2.getShelterPets(_authService.accessToken);
+  // Methods to add announcement by any shelter
+  Future<bool> addAnnouncement(CreatingAnnouncement2 announcement) async {
+    return await _dataServices2.postAnnouncement(
+        _authService.accessToken, announcement);
+  }
+
+  // Methods to add application by any adopter
+  Future<bool> addApplication(String announcementId) async {
+    return await _dataServices2.postApplication(
+        _authService.accessToken, announcementId, _authService.userInfo.id);
+  }
+
+  // Methods to accept application by a shelter
+  Future<bool> acceptApplication(String applicationId) async {
+    return await _dataServices2.putAcceptApplication(
+        _authService.accessToken, applicationId);
+  }
+
+  // Methods to reject application by a shelter
+  Future<bool> rejectApplication(String applicationId) async {
+    return await _dataServices2.putRejectApplication(
+        _authService.accessToken, applicationId);
   }
 }

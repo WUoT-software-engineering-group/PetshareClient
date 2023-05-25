@@ -7,9 +7,13 @@ import 'package:pet_share/utils/app_colors.dart';
 
 class ApplicationTile extends StatefulWidget {
   final Appplications2 appplications;
+  final Future<void> Function() acceptFun;
+  final Future<void> Function() rejectFun;
 
   const ApplicationTile({
     required this.appplications,
+    required this.acceptFun,
+    required this.rejectFun,
     Key? key,
   }) : super(key: key);
 
@@ -18,6 +22,21 @@ class ApplicationTile extends StatefulWidget {
 }
 
 class _ApplicationTileState extends State<ApplicationTile> {
+  Widget getImage() {
+    if (widget.appplications.announcement.pet.photoUrl == '' ||
+        !widget.appplications.announcement.pet.photoUrl.contains('https')) {
+      return Image.asset('assets/pupic.jpg', fit: BoxFit.cover);
+    }
+
+    return Image.network(
+      widget.appplications.announcement.pet.photoUrl,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return Image.asset('assets/pupic.jpg', fit: BoxFit.cover);
+      },
+    );
+  }
+
   String _convertDateTime(DateTime? dateTime) {
     if (dateTime == null) return "";
 
@@ -41,6 +60,8 @@ class _ApplicationTileState extends State<ApplicationTile> {
               context: context,
               builder: (BuildContext context) => ApplicationDialog(
                 appplication: widget.appplications,
+                acceptFun: widget.acceptFun,
+                rejectFun: widget.rejectFun,
               ),
             );
           },
@@ -50,7 +71,8 @@ class _ApplicationTileState extends State<ApplicationTile> {
               children: [
                 SizedBox(
                   width: 70,
-                  child: Image.asset('assets/kity_blur.jpg'),
+                  height: 70,
+                  child: getImage(),
                 ),
                 const SizedBox(
                   width: 25,
