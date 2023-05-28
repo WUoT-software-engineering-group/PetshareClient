@@ -51,11 +51,10 @@ class DataServices2 {
     String idToken = res.headers['location'] ?? '';
     if (res.statusCode != 201) {
       idToken = '';
-      log('Something went wrong. The error is ${res.statusCode.toString()}');
-      throw Exception('DataServices: addAdopter: http.post error!');
+      log('DataServices: postAdopter: bad post: the error is ${res.statusCode.toString()}');
+      throw DataServicesUnloggedException('Registering a new adopter failed!');
     }
 
-    log('DataServices: addAdopter: http post is done correctly.');
     return idToken;
   }
 
@@ -67,17 +66,12 @@ class DataServices2 {
       headers: buildHeader(accessToken),
     );
 
-    try {
-      if (res.statusCode == 200) {
-        List<dynamic> list = json.decode(res.body);
-        return list.map((e) => Adopter2.fromJson(e)).toList();
-      } else {
-        log('DataServices: getAdopters: bad get:  ${res.statusCode} :: ${res.body}');
-        return <Adopter2>[];
-      }
-    } catch (e) {
-      log('DataServices: getAdopters: ${e.toString()}');
-      return <Adopter2>[];
+    if (res.statusCode == 200) {
+      List<dynamic> list = json.decode(res.body);
+      return list.map((e) => Adopter2.fromJson(e)).toList();
+    } else {
+      log('DataServices: getAdopters: bad get: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException('Getting the list of adopters failed!');
     }
   }
 
@@ -95,11 +89,10 @@ class DataServices2 {
     String idToken = res.headers['location'] ?? '';
     if (res.statusCode != 201) {
       idToken = '';
-      log('Something went wrong. The error is ${res.statusCode.toString()}');
-      throw Exception('DataServices: addShelter: http.post error!');
+      log('DataServices: postShelter: bad post: the error is ${res.statusCode.toString()}');
+      throw DataServicesUnloggedException('Registering a new shelter failed!');
     }
 
-    log('DataServices: addShelter: http post is done correctly.');
     return idToken;
   }
 
@@ -111,17 +104,13 @@ class DataServices2 {
       headers: buildHeader(accessToken),
     );
 
-    try {
-      if (res.statusCode == 200) {
-        List<dynamic> list = json.decode(res.body);
-        return list.map((e) => Pet2.fromJson(e)).toList();
-      } else {
-        log('DataServices: getShelterPets: bad: ${res.statusCode} :: ${res.body}');
-        return <Pet2>[];
-      }
-    } catch (e) {
-      log('DataServices: getShelterPets: ${e.toString()}');
-      return <Pet2>[];
+    if (res.statusCode == 200) {
+      List<dynamic> list = json.decode(res.body);
+      return list.map((e) => Pet2.fromJson(e)).toList();
+    } else {
+      log('DataServices: getShelterPets: bad get: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException(
+          'Getting the list of pets for the shelter failed!');
     }
   }
 
@@ -133,17 +122,13 @@ class DataServices2 {
       headers: buildHeader(accessToken),
     );
 
-    try {
-      if (res.statusCode == 200) {
-        List<dynamic> list = json.decode(res.body);
-        return list.map((e) => Announcement2.fromJson(e)).toList();
-      } else {
-        log('DataServices: getShelterAnnouncements: bad');
-        return <Announcement2>[];
-      }
-    } catch (e) {
-      log('DataServices: getShelterAnnouncements: ${e.toString()}');
-      return <Announcement2>[];
+    if (res.statusCode == 200) {
+      List<dynamic> list = json.decode(res.body);
+      return list.map((e) => Announcement2.fromJson(e)).toList();
+    } else {
+      log('DataServices: getShelterAnnouncements: bad get: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException(
+          'Getting the list of announcements for the shelter failed!');
     }
   }
 
@@ -159,21 +144,17 @@ class DataServices2 {
       headers: buildHeader(accessToken),
     );
 
-    try {
-      if (res.statusCode == 200) {
-        List<dynamic> list = json.decode(res.body);
-        return list.map((e) => Announcement2.fromJson(e)).toList();
-      } else {
-        log('DataServices: getAnnouncements: bad get:  ${res.statusCode} :: ${res.body}');
-        return <Announcement2>[];
-      }
-    } catch (e) {
-      log('DataServices: getAnnouncements: ${e.toString()}');
-      return <Announcement2>[];
+    if (res.statusCode == 200) {
+      List<dynamic> list = json.decode(res.body);
+      return list.map((e) => Announcement2.fromJson(e)).toList();
+    } else {
+      log('DataServices: getAnnouncements: bad get: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException(
+          'Getting the list of all announcements failed!');
     }
   }
 
-  Future<bool> postAnnouncement(
+  Future<void> postAnnouncement(
     String accessToken,
     CreatingAnnouncement2 announcement,
   ) async {
@@ -183,16 +164,9 @@ class DataServices2 {
       body: announcement.toJson(),
     );
 
-    try {
-      if (res.statusCode == 201) {
-        return true;
-      } else {
-        log('DataServices: postAnnouncement: bad get:  ${res.statusCode} :: ${res.body}');
-        return false;
-      }
-    } catch (e) {
-      log('DataServices: postAnnouncement: ${e.toString()}');
-      return false;
+    if (res.statusCode != 201) {
+      log('DataServices: postAnnouncement: bad post: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException('Posting a new announcement failed!');
     }
   }
 
@@ -208,21 +182,17 @@ class DataServices2 {
       headers: buildHeader(accessToken),
     );
 
-    try {
-      if (res.statusCode == 200) {
-        List<dynamic> list = json.decode(res.body);
-        return list.map((e) => Appplications2.fromJson(e)).toList();
-      } else {
-        log('DataServices: getApplications: bad');
-        return <Appplications2>[];
-      }
-    } catch (e) {
-      log('DataServices: getApplications: ${e.toString()}');
-      return <Appplications2>[];
+    if (res.statusCode == 200) {
+      List<dynamic> list = json.decode(res.body);
+      return list.map((e) => Appplications2.fromJson(e)).toList();
+    } else {
+      log('DataServices: getApplications: bad get: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException(
+          'Getting a list of all aplications failed!');
     }
   }
 
-  Future<bool> postApplication(
+  Future<void> postApplication(
     String accessToken,
     String announcementId,
     String adopterId,
@@ -235,16 +205,9 @@ class DataServices2 {
       }),
     );
 
-    try {
-      if (res.statusCode == 201) {
-        return true;
-      } else {
-        log('DataServices: postApplication: bad post application:  ${res.statusCode} :: ${res.body}');
-        return false;
-      }
-    } catch (e) {
-      log('DataServices: postApplication: ${e.toString()}');
-      return false;
+    if (res.statusCode != 201) {
+      log('DataServices: postApplication: bad post application: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException('Posting a new application failed!');
     }
   }
 
@@ -306,7 +269,7 @@ class DataServices2 {
     );
   }
 
-  Future<bool> putAcceptApplication(
+  Future<void> putAcceptApplication(
     String accessToken,
     String applicationId,
   ) async {
@@ -318,20 +281,14 @@ class DataServices2 {
       headers: buildHeader(accessToken),
     );
 
-    try {
-      if (res.statusCode == 200) {
-        return true;
-      } else {
-        log('DataServices: putAcceptApplication: bad accept application:  ${res.statusCode} :: ${res.body}');
-        return false;
-      }
-    } catch (e) {
-      log('DataServices: putAcceptApplication: ${e.toString()}');
-      return false;
+    if (res.statusCode != 200) {
+      log('DataServices: putAcceptApplication: bad put accept-application: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException(
+          'Putting an accept application failed!');
     }
   }
 
-  Future<bool> putRejectApplication(
+  Future<void> putRejectApplication(
     String accessToken,
     String applicationId,
   ) async {
@@ -343,16 +300,9 @@ class DataServices2 {
       headers: buildHeader(accessToken),
     );
 
-    try {
-      if (res.statusCode == 200) {
-        return true;
-      } else {
-        log('DataServices: putRejectApplication: bad reject application:  ${res.statusCode} :: ${res.body}');
-        return false;
-      }
-    } catch (e) {
-      log('DataServices: putRejectApplication: ${e.toString()}');
-      return false;
+    if (res.statusCode != 200) {
+      log('DataServices: putRejectApplication: bad reject-application: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException('Putting a reject application failed!');
     }
   }
 
@@ -360,59 +310,75 @@ class DataServices2 {
   // Pet methods
   // -----------------------------------
 
-  Future<bool> postPet(
+  Future<void> postPet(
     String accessToken,
     CreatingPet2 pet,
   ) async {
     http.Response res = await http.post(
       _uriStorage.petUri(UriPet.post),
-      headers: buildHeader(accessToken),
+      headers: buildHeader(accessToken + 'dupaaa'),
       body: pet.toJson(),
     );
 
-    try {
-      if (res.statusCode == 201) {
-        var response = await uploadPetImage(
-          res.headers['location']!,
-          accessToken,
-          pet.image,
-        );
+    if (res.statusCode != 201) {
+      log('DataServices: postPet: bad post pet:  ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException('Posting a new pet failed!');
+    }
 
-        if (response.statusCode == 200) {
-          return true;
-        } else {
-          log('DataServices: postPet: bad post pet image:  ${response.statusCode}');
-          return false;
-        }
-      } else {
-        log('DataServices: postPet: bad post pet:  ${res.statusCode} :: ${res.body}');
-        return false;
-      }
-    } catch (e) {
-      log('DataServices: postPet: ${e.toString()}');
-      return false;
+    var response = await _uploadPetImage(
+      res.headers['location']!,
+      accessToken,
+      pet.image,
+    );
+
+    if (response.statusCode != 200) {
+      log('DataServices: postPet: bad post pet image:  ${response.statusCode}');
+      throw DataServicesLoggedException('Posting an image failed!');
     }
   }
 
-  Future<Response<dynamic>> uploadPetImage(
+  Future<Response<dynamic>> _uploadPetImage(
     String id,
     String accessToken,
     XFile file,
   ) async {
     String fileName = file.path.split('/').last;
-    FormData formData = FormData.fromMap({
-      "file": await MultipartFile.fromFile(file.path, filename: fileName),
-    });
+    FormData formData = FormData.fromMap(
+      {
+        "file": await MultipartFile.fromFile(file.path, filename: fileName),
+      },
+    );
     Dio dio = Dio();
 
     var header = buildHeader(accessToken);
-    header.forEach((key, value) {
-      dio.options.headers[key] = value;
-    });
+    header.forEach(
+      (key, value) {
+        dio.options.headers[key] = value;
+      },
+    );
 
     return await dio.post(
       _uriStorage.petUriString(UriPet.postIdPhoto, id: id),
       data: formData,
     );
   }
+}
+
+class DataServicesException implements Exception {
+  final String message;
+
+  DataServicesException(this.message);
+
+  @override
+  String toString() {
+    return message;
+  }
+}
+
+class DataServicesLoggedException extends DataServicesException {
+  DataServicesLoggedException(String message) : super(message);
+}
+
+class DataServicesUnloggedException extends DataServicesException {
+  DataServicesUnloggedException(String message) : super(message);
 }

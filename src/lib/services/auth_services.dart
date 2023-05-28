@@ -69,8 +69,8 @@ class AuthService {
         id: id ?? '',
       );
     } catch (e) {
-      throw Exception(
-          'AuthService: _setLocalVariables: something goes wrong with credentials!');
+      log('AuthService: _setLocalVariables: something goes wrong with credentials!');
+      rethrow;
     }
   }
 
@@ -121,14 +121,7 @@ class AuthService {
   Future<void> logoutUser() async {
     await auth0.webAuthentication().logout();
 
-    _credentials = null;
-    _userInfo = UserInfo(
-      role: UserRoles.unassigned,
-      nickname: '',
-      accessToken: '',
-      id: '',
-    );
-
+    clearSettings();
     log('AuthServices: logoutUser: The user is logged out.');
   }
 
@@ -159,8 +152,8 @@ class AuthService {
     );
 
     if (resultAccessTokenPost.statusCode != 200) {
-      throw Exception(
-          'AuthServices: setRole: cannot get access token to Management API!');
+      log('AuthServices: setRole: cannot get access token to Management API!');
+      throw AuthServicesException('Getting the access failed!');
     }
 
     Uri uriPatchUser = Uri(
@@ -185,7 +178,8 @@ class AuthService {
         ));
 
     if (resultPatchUser.statusCode != 200) {
-      throw Exception('AuthServices: setRole: cannot patch role!');
+      log('AuthServices: setRole: cannot patch role!');
+      throw AuthServicesException('Setting the role failed!');
     }
 
     log('AuthServices: setRole: The role ${_roleToString(userRoles)} was set correctly.');
@@ -221,6 +215,20 @@ class AuthService {
     }
   }
 
+  void clearSettings() {
+    _credentials = null;
+    _userInfo = UserInfo(
+      role: UserRoles.unknown,
+      nickname: '',
+      accessToken: '',
+    );
+  }
+
+  void clearAll() {
+    clearSettings();
+    auth0 = Auth0(auth0Domain, auth0ClientId);
+  }
+
   // ----------------------------------
   // Static methods
   // ----------------------------------
@@ -251,7 +259,8 @@ class AuthService {
   static Map<String, dynamic> parseAccessToken(String accessToken) {
     final splitToken = accessToken.split(".");
     if (splitToken.length != 3) {
-      throw const FormatException('Invalid token');
+      log('Invalid token!');
+      throw AuthServicesException('Bad authorisation!');
     }
     try {
       final accessTokenBase64 = splitToken[1];
@@ -260,7 +269,19 @@ class AuthService {
       final accessTokenMap = jsonDecode(accessTokenString);
       return accessTokenMap;
     } catch (error) {
-      throw const FormatException('Invalid payload');
+      log('Invalid payload');
+      throw AuthServicesException('Bad authorisation!');
     }
+  }
+}
+
+class AuthServicesException implements Exception {
+  final String message;
+
+  AuthServicesException(this.message);
+
+  @override
+  String toString() {
+    return message;
   }
 }

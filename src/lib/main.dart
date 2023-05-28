@@ -36,7 +36,19 @@ class MainPoint extends StatelessWidget {
           ),
         ),
         home: BlocProvider<AppCubit>(
-          create: (context) => AppCubit(DataServices2(), AuthService()),
+          create: (context) => AppCubit(
+            DataServices2(),
+            AuthService(),
+            reaction: (message) {
+              var snackBar = SnackBar(
+                content: Text(
+                  message,
+                ),
+                margin: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+          ),
           child: BlocBuilder<AppCubit, AppState>(
             builder: (context, state) {
               if (state is AppSLoaded || state is AppSRefreshing) {
