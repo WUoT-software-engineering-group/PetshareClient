@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_share/services/auth_services.dart';
 import 'package:pet_share/services/data_services.dart';
 import 'package:pet_share/utils/app_colors.dart';
@@ -23,7 +24,16 @@ class MainPoint extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: AppColors.background,
           colorScheme: ColorScheme.fromSwatch(accentColor: AppColors.buttons),
-          fontFamily: 'varelaRound',
+          snackBarTheme: SnackBarThemeData(
+            backgroundColor: AppColors.navigation,
+            contentTextStyle: GoogleFonts.varelaRound(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+            elevation: 6,
+            behavior: SnackBarBehavior.floating,
+          ),
         ),
         home: BlocProvider<AppCubit>(
           create: (context) => AppCubit(DataServices2(), AuthService()),
