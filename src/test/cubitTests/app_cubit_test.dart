@@ -19,7 +19,7 @@ void main() {
   setUp(() {
     mockAuthService = MockAuthService();
     mockDataService = MockDataService();
-    appCubit = AppCubit(mockDataService, mockAuthService);
+    appCubit = AppCubit(mockDataService, mockAuthService, reaction: (_) {});
   });
 
   group(

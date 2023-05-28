@@ -108,7 +108,6 @@ class _RolePageState extends State<RolePage> {
                     _userButton(
                       // ADOPTER BUTTON
                       Icons.pets,
-                      //BlocProvider.of<AppCubit>(context).setShelter,
                       () async {
                         // This function is one of most important. It is
                         // responsible for coming back from FORMS
