@@ -316,7 +316,7 @@ class DataServices2 {
   ) async {
     http.Response res = await http.post(
       _uriStorage.petUri(UriPet.post),
-      headers: buildHeader(accessToken + 'dupaaa'),
+      headers: buildHeader(accessToken),
       body: pet.toJson(),
     );
 
