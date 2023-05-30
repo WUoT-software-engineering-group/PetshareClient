@@ -4,6 +4,7 @@ import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:pet_share/models/user_info.dart';
+import 'dart:io' show Platform;
 
 const auth0Domain = 'dev-siwe-sowy.eu.auth0.com';
 const auth0ClientId = 'jCSWViMQ2bZpZDJvzFBb2zkpOCz1NP92';
@@ -12,6 +13,9 @@ const auth0ClientSecret =
 const auth0Audience = 'https://pet-share-web-api-dev.azurewebsites.net/';
 const auth0AudienceManagementAPI = 'https://dev-siwe-sowy.eu.auth0.com/api/v2/';
 const auth0Scheme = 'https';
+String auth0redirectUrl = Platform.isIOS
+    ? 'com.petshare://dev-siwe-sowy.eu.auth0.com/ios/com.petshare/callback'
+    : 'https://dev-siwe-sowy.eu.auth0.com/android/com.example.pet_share/callback';
 
 enum UserRoles {
   unassigned,
@@ -73,13 +77,13 @@ class AuthService {
   Future<bool> authApp() async {
     if (_credentials == null) {
       final credentials = await auth0.webAuthentication().login(
-        audience: auth0Audience,
-        scopes: {
-          'openid',
-          'profile',
-          'email',
-        },
-      );
+          audience: auth0Audience,
+          scopes: {
+            'openid',
+            'profile',
+            'email',
+          },
+          redirectUrl: auth0redirectUrl);
       _credentials = credentials;
 
       final userId = parseAccessToken(_credentials!.accessToken)['db_id'];
