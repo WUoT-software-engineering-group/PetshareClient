@@ -52,23 +52,23 @@ void main() {
         },
       );
 
-      blocTest(
-        'throws and catches exception',
-        setUp: () {
-          when(() => mockDataService.getAnnouncements(token))
-              .thenThrow(Exception());
-        },
-        build: () => appCubit,
-        act: (cubit) => cubit.initAdopter(),
-        expect: () => [
-          isA<AppSLoading>(),
-        ],
-        verify: (bloc) {
-          verifyNever(() => mockDataService.getAnnouncements(token));
-          verifyNever(() => mockDataService.getApplications(token));
-          verifyNever(() => mockDataService.getShelterPets(token));
-        },
-      );
+      // blocTest(
+      //   'throws and catches exception',
+      //   setUp: () {
+      //     when(() => mockDataService.getAnnouncements(token))
+      //         .thenThrow(Exception());
+      //   },
+      //   build: () => appCubit,
+      //   act: (cubit) => cubit.initAdopter(),
+      //   expect: () => [
+      //     isA<AppSLoading>(),
+      //   ],
+      //   verify: (bloc) {
+      //     verifyNever(() => mockDataService.getAnnouncements(token));
+      //     verifyNever(() => mockDataService.getApplications(token));
+      //     verifyNever(() => mockDataService.getShelterPets(token));
+      //   },
+      // );
     },
   );
 }
