@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:pet_share/models/adopter.dart';
 import 'package:pet_share/models/announcement.dart';
 import 'package:pet_share/models/applications.dart';
@@ -46,8 +45,8 @@ class AppCubit extends Cubit<AppState> {
 
       if (signin) {
         await _authService.selectAuthFlow(
-          initAdopter: _initAdopter,
-          initShelter: _initShelter,
+          initAdopter: initAdopter,
+          initShelter: initShelter,
           initUnassigned: initUnassigned,
         );
       }
@@ -87,15 +86,15 @@ class AppCubit extends Cubit<AppState> {
         _authService.accessToken,
       );
       await _authService.setRole(UserRoles.adopter, idUser);
-      await _initAdopter();
+      await initAdopter();
     } on DataServicesUnloggedException catch (e) {
       log(e.message);
-      reaction(e.message);
       emit(AppSAuthed());
+      reaction(e.message);
     } on AuthServicesException catch (e) {
       log(e.message);
-      reaction(e.message);
       emit(AppSAuthed());
+      reaction(e.message);
     }
   }
 
@@ -107,15 +106,15 @@ class AppCubit extends Cubit<AppState> {
         _authService.accessToken,
       );
       await _authService.setRole(UserRoles.shelter, idUser);
-      await _initShelter();
+      await initShelter();
     } on DataServicesUnloggedException catch (e) {
       log(e.message);
-      reaction(e.message);
       emit(AppSAuthed());
+      reaction(e.message);
     } on AuthServicesException catch (e) {
       log(e.message);
-      reaction(e.message);
       emit(AppSAuthed());
+      reaction(e.message);
     }
   }
 
@@ -123,7 +122,7 @@ class AppCubit extends Cubit<AppState> {
   // Init account methods
   // ----------------------------------
 
-  Future<void> _initShelter() async {
+  Future<void> initShelter() async {
     try {
       emit(AppSLoading());
       var resAnn = await _dataServices2
@@ -144,12 +143,12 @@ class AppCubit extends Cubit<AppState> {
     } on DataServicesLoggedException catch (e) {
       _authService.clearAll();
       log(e.toString());
-      reaction(e.message);
       emit(AppSInitial());
+      reaction(e.message);
     }
   }
 
-  Future<void> _initAdopter() async {
+  Future<void> initAdopter() async {
     try {
       emit(AppSLoading());
       var resAnn =
@@ -166,8 +165,8 @@ class AppCubit extends Cubit<AppState> {
     } on DataServicesLoggedException catch (e) {
       _authService.clearAll();
       log(e.toString());
-      reaction(e.message);
       emit(AppSInitial());
+      reaction(e.message);
     }
   }
 
@@ -207,7 +206,6 @@ class AppCubit extends Cubit<AppState> {
           ),
         );
       } on DataServicesLoggedException catch (e) {
-        reaction(e.message);
         emit(
           AppSLoaded(
             announcements: announcements,
@@ -216,6 +214,7 @@ class AppCubit extends Cubit<AppState> {
             userInfo: userInfo,
           ),
         );
+        reaction(e.message);
       }
     }
   }
@@ -252,7 +251,6 @@ class AppCubit extends Cubit<AppState> {
           ),
         );
       } on DataServicesLoggedException catch (e) {
-        reaction(e.message);
         emit(
           AppSLoaded(
             announcements: announcements,
@@ -261,6 +259,7 @@ class AppCubit extends Cubit<AppState> {
             userInfo: userInfo,
           ),
         );
+        reaction(e.message);
       }
     }
   }
@@ -291,7 +290,6 @@ class AppCubit extends Cubit<AppState> {
           ),
         );
       } on DataServicesLoggedException catch (e) {
-        reaction(e.message);
         emit(
           AppSLoaded(
             announcements: announcements,
@@ -300,6 +298,7 @@ class AppCubit extends Cubit<AppState> {
             userInfo: userInfo,
           ),
         );
+        reaction(e.message);
       }
     }
   }
@@ -352,16 +351,4 @@ class AppCubit extends Cubit<AppState> {
       reaction(e.message);
     }
   }
-
-  // ----------------------------------------------
-  // ----------------------------------------------
-  /*              STUBS FOR TESTINGS             */
-  // ----------------------------------------------
-  // ----------------------------------------------
-
-  @visibleForTesting
-  Future<void> initAdopter() async => await _initAdopter();
-
-  @visibleForTesting
-  Future<void> initShelter() async => await _initShelter();
 }
