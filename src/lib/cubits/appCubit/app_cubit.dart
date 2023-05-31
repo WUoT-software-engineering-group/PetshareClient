@@ -51,12 +51,14 @@ class AppCubit extends Cubit<AppState> {
         );
       }
     } on WebAuthenticationException catch (e) {
+      emit(AppSInitial());
       _authService.clearSettings();
       if (e.code != 'a0.authentication_canceled') {
         log(e.code);
         reaction(e.message);
       }
     } on AuthServicesException catch (e) {
+      emit(AppSInitial());
       _authService.clearAll();
       log(e.message);
       reaction(e.message);
@@ -70,6 +72,8 @@ class AppCubit extends Cubit<AppState> {
       emit(AppSInitial());
     } on DataServicesException catch (e) {
       log('AppCubit: logoutUser: ${e.toString()}');
+      emit(AppSInitial());
+      _authService.clearAll();
       reaction(e.message);
     }
   }

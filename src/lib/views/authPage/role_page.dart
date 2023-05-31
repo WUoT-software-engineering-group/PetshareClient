@@ -64,7 +64,6 @@ class _RolePageState extends State<RolePage> {
             // Main Page
             // ---------
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
@@ -128,6 +127,44 @@ class _RolePageState extends State<RolePage> {
                       },
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                SizedBox(
+                  width: 250,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.white, width: 3),
+                        foregroundColor: AppColors.navigation,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        )),
+                    onPressed: () async {
+                      BlocProvider.of<AppCubit>(context).logoutUser();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.logout,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        Text(
+                          'log out',
+                          style: GoogleFonts.varelaRound(
+                            color: _mainColor,
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
