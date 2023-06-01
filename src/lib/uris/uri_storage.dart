@@ -4,6 +4,7 @@ enum UriAnnouncement {
   get,
   post,
   getShelterAnnouncements,
+  putIdLike
 }
 
 enum UriPet {
@@ -101,6 +102,9 @@ class UriStorage {
         break;
       case UriAnnouncement.getShelterAnnouncements:
         rep = "$_announcementAPI/shelter/announcements";
+        break;
+      case UriAnnouncement.putIdLike:
+        rep = "$_announcementAPI/announcements/$id/like";
         break;
     }
 

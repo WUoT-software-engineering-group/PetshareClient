@@ -4,6 +4,7 @@ import 'package:pet_share/models/pet.dart';
 
 class Announcement2 {
   String id;
+  bool isLiked;
   String title;
   String description;
   DateTime? creationDate;
@@ -18,6 +19,7 @@ class Announcement2 {
 
   Announcement2({
     required this.id,
+    required this.isLiked,
     required this.title,
     required this.description,
     required this.creationDate,
@@ -30,6 +32,7 @@ class Announcement2 {
   factory Announcement2.fromJson(Map<String, dynamic> json) {
     return Announcement2(
       id: json['id'] ?? "",
+      isLiked: json['isLiked'] ?? false,
       title: json['title'] ?? "",
       description: json['description'] ?? "",
       creationDate: testDateTime(json['creationDate']),

@@ -148,6 +148,10 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                           BlocProvider.of<AppCubit>(context)
                               .addApplication(item.id);
                         },
+                        addLike: (id, isLiked) {
+                          BlocProvider.of<AppCubit>(context)
+                              .putLikeAnnouncement(id, isLiked);
+                        },
                       );
                     },
                   ),

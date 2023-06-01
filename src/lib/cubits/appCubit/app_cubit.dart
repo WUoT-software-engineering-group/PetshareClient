@@ -341,4 +341,16 @@ class AppCubit extends Cubit<AppState> {
       reaction(e.message);
     }
   }
+
+  Future<void> putLikeAnnouncement(String announcementId, bool isLiked) async {
+    try {
+      return await _dataServices2.putLikeAnnouncement(
+        _authService.accessToken,
+        announcementId,
+        isLiked,
+      );
+    } on DataServicesLoggedException catch (e) {
+      reaction(e.message);
+    }
+  }
 }

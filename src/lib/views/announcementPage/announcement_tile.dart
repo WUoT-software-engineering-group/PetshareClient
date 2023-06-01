@@ -11,6 +11,7 @@ class AnnouncementTile extends StatefulWidget {
   final bool isAdoptingPerson;
   final List<Color> colors;
   final void Function()? onPressed;
+  final void Function(String, bool) addLike;
 
   /// colors - colors of description 0: text 1: ring 2: bubbles
   const AnnouncementTile({
@@ -19,6 +20,7 @@ class AnnouncementTile extends StatefulWidget {
     required this.descriptionOnLeft,
     required this.colors,
     required this.onPressed,
+    required this.addLike,
     super.key,
   });
 
@@ -80,6 +82,7 @@ class _AnnouncementTileState extends State<AnnouncementTile> {
                     color2: widget.colors[1],
                     color3: widget.colors[2],
                     onPressed: widget.onPressed,
+                    addLike: widget.addLike,
                   );
                 }),
               );
@@ -94,6 +97,7 @@ class _AnnouncementTileState extends State<AnnouncementTile> {
                     color: widget.colors[0],
                     ring: widget.colors[1],
                     bubbles: widget.colors[2],
+                    addLike: widget.addLike,
                   )),
             ),
           ),
@@ -139,15 +143,18 @@ class PetDescription extends StatelessWidget {
   final Color color;
   final Color ring;
   final Color bubbles;
+  final void Function(String, bool) addLike;
 
   /// announcement - display infromation in this class
-  const PetDescription(
-      {required this.announcement,
-      required this.isFollowIcon,
-      required this.color,
-      required this.ring,
-      required this.bubbles,
-      super.key});
+  const PetDescription({
+    required this.announcement,
+    required this.isFollowIcon,
+    required this.color,
+    required this.ring,
+    required this.bubbles,
+    required this.addLike,
+    super.key,
+  });
 
   String _ageOfPet(DateTime? dateTime) {
     if (dateTime == null) return "";
@@ -175,16 +182,36 @@ class PetDescription extends StatelessWidget {
     return DateFormat.yMMMd().format(dateTime);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    Widget followAnnouncement = LikeButton(
+  Widget followAnnouncement(bool isFollowIcon) {
+    if (!isFollowIcon) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.favorite, size: 21, color: color),
+          const Text(
+            '0',
+            style: TextStyle(
+              color: Color.fromARGB(200, 141, 139, 139),
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        ],
+      );
+    }
+
+    return LikeButton(
       size: 26,
       circleColor: CircleColor(start: ring, end: color),
       bubblesColor: BubblesColor(
         dotPrimaryColor: ring,
         dotSecondaryColor: bubbles,
       ),
+      isLiked: announcement.isLiked,
       likeBuilder: (bool isLiked) {
+        if (isLiked != announcement.isLiked) {
+          addLike(announcement.id, isLiked);
+          announcement.isLiked = isLiked;
+        }
         return Icon(
           Icons.favorite,
           color: isLiked ? color : Colors.grey[400],
@@ -192,21 +219,10 @@ class PetDescription extends StatelessWidget {
         );
       },
     );
+  }
 
-    Widget countFollowers = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.favorite, size: 21, color: color),
-        const Text(
-          '0',
-          style: TextStyle(
-            color: Color.fromARGB(200, 141, 139, 139),
-            fontWeight: FontWeight.bold,
-          ),
-        )
-      ],
-    );
-
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 25, 25, 25),
       child: Column(
@@ -220,7 +236,7 @@ class PetDescription extends StatelessWidget {
                 style: TextStyle(
                     color: color, fontWeight: FontWeight.bold, fontSize: 21),
               ),
-              isFollowIcon ? followAnnouncement : countFollowers,
+              followAnnouncement(isFollowIcon),
             ],
           ),
           const SizedBox(

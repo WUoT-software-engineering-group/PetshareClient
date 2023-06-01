@@ -180,6 +180,28 @@ class DataServices2 {
     }
   }
 
+  Future<void> putLikeAnnouncement(
+    String accessToken,
+    String announcementId,
+    bool isLiked,
+  ) async {
+    Map<String, String> queryParm = {'isLiked': isLiked ? 'true' : 'false'};
+    http.Response res = await http.put(
+      _uriStorage.announcementUri(
+        UriAnnouncement.putIdLike,
+        id: announcementId,
+        queryParm: queryParm,
+      ),
+      headers: buildHeader(accessToken),
+    );
+
+    if (res.statusCode != 200) {
+      log('DataServices: putLikeAnnouncement: bad put: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException(
+          'Putting like for the announcement failed!');
+    }
+  }
+
   // -----------------------------------
   // Applications methods
   // -----------------------------------
@@ -232,6 +254,7 @@ class DataServices2 {
       announcementId: 'announcementId',
       announcement: Announcement2(
         id: 'id',
+        isLiked: false,
         title: 'title',
         description: 'description',
         creationDate: null,
