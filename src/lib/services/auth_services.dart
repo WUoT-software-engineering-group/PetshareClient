@@ -12,10 +12,10 @@ const auth0ClientSecret =
     '1UpSOpSFaK5rHvdy88pvbiMHSGW07toKB5-JeDZLsZoVfjUpYrxcad4m6NJdZ_lk';
 const auth0Audience = 'https://pet-share-web-api-dev.azurewebsites.net/';
 const auth0AudienceManagementAPI = 'https://dev-siwe-sowy.eu.auth0.com/api/v2/';
-const auth0Scheme = 'https';
+const auth0Scheme = 'demo';
 String auth0redirectUrl = Platform.isIOS
     ? 'com.petshare://dev-siwe-sowy.eu.auth0.com/ios/com.petshare/callback'
-    : 'https://dev-siwe-sowy.eu.auth0.com/android/com.example.pet_share/callback';
+    : 'demo://dev-siwe-sowy.eu.auth0.com/android/com.example.pet_share/callback';
 
 enum UserRoles {
   unassigned,

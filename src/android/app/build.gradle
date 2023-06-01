@@ -53,7 +53,7 @@ android {
         versionName flutterVersionName
 
         // this is for auth prosses: auth0 package
-        manifestPlaceholders += [auth0Domain: "dev-siwe-sowy.eu.auth0.com", auth0Scheme: "https"]
+        manifestPlaceholders += [auth0Domain: "dev-siwe-sowy.eu.auth0.com", auth0Scheme: "demo"]
     }
 
     buildTypes {
