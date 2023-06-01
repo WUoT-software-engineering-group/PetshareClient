@@ -51,12 +51,14 @@ class AppCubit extends Cubit<AppState> {
         );
       }
     } on WebAuthenticationException catch (e) {
+      emit(AppSInitial());
       _authService.clearSettings();
       if (e.code != 'a0.authentication_canceled') {
         log(e.code);
         reaction(e.message);
       }
     } on AuthServicesException catch (e) {
+      emit(AppSInitial());
       _authService.clearAll();
       log(e.message);
       reaction(e.message);
@@ -70,6 +72,8 @@ class AppCubit extends Cubit<AppState> {
       emit(AppSInitial());
     } on DataServicesException catch (e) {
       log('AppCubit: logoutUser: ${e.toString()}');
+      emit(AppSInitial());
+      _authService.clearAll();
       reaction(e.message);
     }
   }
@@ -125,15 +129,15 @@ class AppCubit extends Cubit<AppState> {
   Future<void> initShelter() async {
     try {
       emit(AppSLoading());
-      var resAnn = await _dataServices2
-          .getShelterAnnouncements(_authService.accessToken);
+      // var resAnn = await _dataServices2
+      //     .getShelterAnnouncements(_authService.accessToken);
       var resApp =
           await _dataServices2.getApplications(_authService.accessToken);
       var resPet =
           await _dataServices2.getShelterPets(_authService.accessToken);
       emit(
         AppSLoaded(
-          announcements: resAnn,
+          //announcements: resAnn,
           applications: resApp,
           pets: resPet,
           userInfo: _authService.userInfo,
@@ -150,12 +154,16 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> initAdopter() async {
     try {
+      //Map<String, String> queryParam = {'pageNumber': '0', 'pageCount': '6'};
+
       emit(AppSLoading());
-      var resAnn =
-          await _dataServices2.getAnnouncements(_authService.accessToken);
+      // var resAnn = await _dataServices2.getAnnouncements(
+      //   _authService.accessToken,
+      //   queryParm: queryParam,
+      // );
       emit(
         AppSLoaded(
-          announcements: resAnn,
+          //announcements: resAnn,
           applications: const [],
           pets: const [],
           userInfo: _authService.userInfo,
@@ -184,7 +192,6 @@ class AppCubit extends Cubit<AppState> {
     if (state is AppSLoaded) {
       AppSLoaded st = state as AppSLoaded;
       List<Appplications2> applications = st.applications;
-      List<Announcement2> announcements = st.announcements;
       List<Pet2> pets = st.pets;
       UserInfo userInfo = st.userInfo;
 
@@ -199,7 +206,6 @@ class AppCubit extends Cubit<AppState> {
         // change state
         emit(
           AppSLoaded(
-            announcements: announcements,
             applications: applications,
             pets: newPets,
             userInfo: userInfo,
@@ -208,52 +214,6 @@ class AppCubit extends Cubit<AppState> {
       } on DataServicesLoggedException catch (e) {
         emit(
           AppSLoaded(
-            announcements: announcements,
-            applications: applications,
-            pets: pets,
-            userInfo: userInfo,
-          ),
-        );
-        reaction(e.message);
-      }
-    }
-  }
-
-  Future<void> refreshAnnouncements() async {
-    if (state is AppSLoaded) {
-      AppSLoaded st = state as AppSLoaded;
-      List<Appplications2> applications = st.applications;
-      List<Announcement2> announcements = st.announcements;
-      List<Pet2> pets = st.pets;
-      UserInfo userInfo = st.userInfo;
-
-      try {
-        // change state
-        emit(AppSRefreshing());
-
-        // make query
-        var newAnnouncements = <Announcement2>[];
-        if (userInfo.role == UserRoles.adopter) {
-          newAnnouncements =
-              await _dataServices2.getAnnouncements(_authService.accessToken);
-        } else {
-          newAnnouncements = await _dataServices2
-              .getShelterAnnouncements(_authService.accessToken);
-        }
-
-        // change state
-        emit(
-          AppSLoaded(
-            announcements: newAnnouncements,
-            applications: applications,
-            pets: pets,
-            userInfo: userInfo,
-          ),
-        );
-      } on DataServicesLoggedException catch (e) {
-        emit(
-          AppSLoaded(
-            announcements: announcements,
             applications: applications,
             pets: pets,
             userInfo: userInfo,
@@ -268,7 +228,7 @@ class AppCubit extends Cubit<AppState> {
     if (state is AppSLoaded) {
       AppSLoaded st = state as AppSLoaded;
       List<Appplications2> applications = st.applications;
-      List<Announcement2> announcements = st.announcements;
+      //List<Announcement2> announcements = st.announcements;
       List<Pet2> pets = st.pets;
       UserInfo userInfo = st.userInfo;
 
@@ -283,7 +243,7 @@ class AppCubit extends Cubit<AppState> {
         // change state
         emit(
           AppSLoaded(
-            announcements: announcements,
+            //announcements: announcements,
             applications: newApplications,
             pets: pets,
             userInfo: userInfo,
@@ -292,7 +252,7 @@ class AppCubit extends Cubit<AppState> {
       } on DataServicesLoggedException catch (e) {
         emit(
           AppSLoaded(
-            announcements: announcements,
+            //announcements: announcements,
             applications: applications,
             pets: pets,
             userInfo: userInfo,
@@ -301,6 +261,36 @@ class AppCubit extends Cubit<AppState> {
         reaction(e.message);
       }
     }
+  }
+
+  Future<List<Announcement2>> getAnnouncements(
+    Map<String, String> queryParam,
+  ) async {
+    if (state is AppSLoaded) {
+      AppSLoaded st = state as AppSLoaded;
+
+      try {
+        // make query
+        List<Announcement2> newAnnouncements = [];
+        if (st.userInfo.role == UserRoles.adopter) {
+          newAnnouncements = await _dataServices2.getAnnouncements(
+            _authService.accessToken,
+            queryParm: queryParam,
+          );
+        } else {
+          newAnnouncements = await _dataServices2.getShelterAnnouncements(
+            _authService.accessToken,
+            queryParm: queryParam,
+          );
+        }
+
+        return newAnnouncements;
+      } on DataServicesLoggedException catch (e) {
+        reaction(e.message);
+      }
+    }
+
+    return [];
   }
 
   // Methods to add pets by any shelter
@@ -347,6 +337,18 @@ class AppCubit extends Cubit<AppState> {
     try {
       return await _dataServices2.putRejectApplication(
           _authService.accessToken, applicationId);
+    } on DataServicesLoggedException catch (e) {
+      reaction(e.message);
+    }
+  }
+
+  Future<void> putLikeAnnouncement(String announcementId, bool isLiked) async {
+    try {
+      return await _dataServices2.putLikeAnnouncement(
+        _authService.accessToken,
+        announcementId,
+        isLiked,
+      );
     } on DataServicesLoggedException catch (e) {
       reaction(e.message);
     }

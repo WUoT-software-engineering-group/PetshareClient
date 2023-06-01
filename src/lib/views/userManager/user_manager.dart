@@ -132,7 +132,7 @@ class _UserManagerState extends State<UserManager> {
             ),
             const SizedBox(
               width: 30,
-            )
+            ),
           ],
         ),
 

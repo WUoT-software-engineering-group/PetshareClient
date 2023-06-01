@@ -13,6 +13,7 @@ class AnnouncementDetailsPage extends StatefulWidget {
   final Color color2;
   final Color color3;
   final void Function()? onPressed;
+  final void Function(String, bool) addLike;
 
   const AnnouncementDetailsPage({
     required this.announcement,
@@ -21,6 +22,7 @@ class AnnouncementDetailsPage extends StatefulWidget {
     required this.color2,
     required this.color3,
     required this.onPressed,
+    required this.addLike,
     super.key,
   });
 
@@ -71,16 +73,33 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
     return DateFormat.yMMMd().format(dateTime);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    Widget followAnnouncement = LikeButton(
+  Widget followAnnouncement(bool isFollowIcon) {
+    if (!isFollowIcon) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.favorite, size: 30, color: widget.color1),
+          const Text('0',
+              style:
+                  TextStyle(color: Colors.black54, fontWeight: FontWeight.bold))
+        ],
+      );
+    }
+
+    return LikeButton(
       size: 30,
       circleColor: CircleColor(start: widget.color2, end: widget.color1),
       bubblesColor: BubblesColor(
         dotPrimaryColor: widget.color2,
         dotSecondaryColor: widget.color3,
       ),
+      isLiked: widget.announcement.isLiked,
       likeBuilder: (bool isLiked) {
+        if (isLiked != widget.announcement.isLiked) {
+          widget.addLike(widget.announcement.id, isLiked);
+          widget.announcement.isLiked = isLiked;
+        }
+
         return Icon(
           Icons.favorite,
           color: isLiked ? widget.color1 : Colors.grey[400],
@@ -88,17 +107,10 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
         );
       },
     );
+  }
 
-    Widget countFollowers = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.favorite, size: 30, color: widget.color1),
-        const Text('0',
-            style:
-                TextStyle(color: Colors.black54, fontWeight: FontWeight.bold))
-      ],
-    );
-
+  @override
+  Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -167,11 +179,14 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 21,
                               )),
-                          Text(_ageOfPet(widget.announcement.pet.birthday),
-                              style: TextStyle(
-                                  color: widget.color1,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17))
+                          Text(
+                            _ageOfPet(widget.announcement.pet.birthday),
+                            style: TextStyle(
+                              color: widget.color1,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 17,
+                            ),
+                          )
                         ],
                       ),
                       const SizedBox(
@@ -232,10 +247,7 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                                     ),
                                   ],
                                 ),
-                                // (counter/favourite)
-                                widget.isAdoptingPerson
-                                    ? followAnnouncement
-                                    : countFollowers,
+                                followAnnouncement(widget.isAdoptingPerson),
                               ],
                             ),
                             const SizedBox(

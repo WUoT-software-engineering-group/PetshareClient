@@ -115,15 +115,20 @@ class DataServices2 {
   }
 
   Future<List<Announcement2>> getShelterAnnouncements(
-    String accessToken,
-  ) async {
+    String accessToken, {
+    Map<String, String> queryParm = const {},
+  }) async {
     http.Response res = await http.get(
-      _uriStorage.announcementUri(UriAnnouncement.getShelterAnnouncements),
+      _uriStorage.announcementUri(
+        UriAnnouncement.getShelterAnnouncements,
+        queryParm: queryParm,
+      ),
       headers: buildHeader(accessToken),
     );
 
     if (res.statusCode == 200) {
-      List<dynamic> list = json.decode(res.body);
+      Map<String, dynamic> respons = json.decode(res.body);
+      List<dynamic> list = respons['announcements'];
       return list.map((e) => Announcement2.fromJson(e)).toList();
     } else {
       log('DataServices: getShelterAnnouncements: bad get: ${res.statusCode} :: ${res.body}');
@@ -137,15 +142,20 @@ class DataServices2 {
   // -----------------------------------
 
   Future<List<Announcement2>> getAnnouncements(
-    String accessToken,
-  ) async {
+    String accessToken, {
+    Map<String, String> queryParm = const {},
+  }) async {
     http.Response res = await http.get(
-      _uriStorage.announcementUri(UriAnnouncement.get),
+      _uriStorage.announcementUri(
+        UriAnnouncement.get,
+        queryParm: queryParm,
+      ),
       headers: buildHeader(accessToken),
     );
 
     if (res.statusCode == 200) {
-      List<dynamic> list = json.decode(res.body);
+      Map<String, dynamic> respons = json.decode(res.body);
+      List<dynamic> list = respons['announcements'];
       return list.map((e) => Announcement2.fromJson(e)).toList();
     } else {
       log('DataServices: getAnnouncements: bad get: ${res.statusCode} :: ${res.body}');
@@ -167,6 +177,28 @@ class DataServices2 {
     if (res.statusCode != 201) {
       log('DataServices: postAnnouncement: bad post: ${res.statusCode} :: ${res.body}');
       throw DataServicesLoggedException('Posting a new announcement failed!');
+    }
+  }
+
+  Future<void> putLikeAnnouncement(
+    String accessToken,
+    String announcementId,
+    bool isLiked,
+  ) async {
+    Map<String, String> queryParm = {'isLiked': isLiked ? 'true' : 'false'};
+    http.Response res = await http.put(
+      _uriStorage.announcementUri(
+        UriAnnouncement.putIdLike,
+        id: announcementId,
+        queryParm: queryParm,
+      ),
+      headers: buildHeader(accessToken),
+    );
+
+    if (res.statusCode != 200) {
+      log('DataServices: putLikeAnnouncement: bad put: ${res.statusCode} :: ${res.body}');
+      throw DataServicesLoggedException(
+          'Putting like for the announcement failed!');
     }
   }
 
@@ -222,6 +254,7 @@ class DataServices2 {
       announcementId: 'announcementId',
       announcement: Announcement2(
         id: 'id',
+        isLiked: false,
         title: 'title',
         description: 'description',
         creationDate: null,

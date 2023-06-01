@@ -21,47 +21,50 @@ class MainPoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          scaffoldBackgroundColor: AppColors.background,
-          colorScheme: ColorScheme.fromSwatch(accentColor: AppColors.buttons),
-          snackBarTheme: SnackBarThemeData(
-            backgroundColor: AppColors.navigation,
-            contentTextStyle: GoogleFonts.varelaRound(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-            elevation: 6,
-            behavior: SnackBarBehavior.floating,
+      theme: ThemeData(
+        scaffoldBackgroundColor: AppColors.background,
+        colorScheme: ColorScheme.fromSwatch(accentColor: AppColors.buttons),
+        textTheme:
+            GoogleFonts.varelaRoundTextTheme(Theme.of(context).textTheme),
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: AppColors.navigation,
+          contentTextStyle: GoogleFonts.varelaRound(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
           ),
+          elevation: 6,
+          behavior: SnackBarBehavior.floating,
         ),
-        home: BlocProvider<AppCubit>(
-          create: (context) => AppCubit(
-            DataServices2(),
-            AuthService(),
-            reaction: (message) {
-              var snackBar = SnackBar(
-                content: Text(
-                  message,
-                ),
-                margin: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            },
-          ),
-          child: BlocBuilder<AppCubit, AppState>(
-            builder: (context, state) {
-              if (state is AppSLoaded || state is AppSRefreshing) {
-                return const UserManager();
-              } else if (state is AppSLoading) {
-                return const LoadingPage();
-              } else if (state is AppSAuthed) {
-                return const RolePage();
-              } else {
-                return const HelloPage();
-              }
-            },
-          ),
-        ));
+      ),
+      home: BlocProvider<AppCubit>(
+        create: (context) => AppCubit(
+          DataServices2(),
+          AuthService(),
+          reaction: (message) {
+            var snackBar = SnackBar(
+              content: Text(
+                message,
+              ),
+              margin: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+        ),
+        child: BlocBuilder<AppCubit, AppState>(
+          builder: (context, state) {
+            if (state is AppSLoaded || state is AppSRefreshing) {
+              return const UserManager();
+            } else if (state is AppSLoading) {
+              return const LoadingPage();
+            } else if (state is AppSAuthed) {
+              return const RolePage();
+            } else {
+              return const HelloPage();
+            }
+          },
+        ),
+      ),
+    );
   }
 }

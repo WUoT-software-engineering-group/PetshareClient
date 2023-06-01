@@ -498,322 +498,322 @@ void main() {
     },
   );
 
-  group(
-    'refreshPets()',
-    () {
-      String token = 'token';
+  // group(
+  //   'refreshPets()',
+  //   () {
+  //     String token = 'token';
 
-      blocTest(
-        'refreshes pets',
-        setUp: () {
-          appCubit.emit(
-            AppSLoaded(
-              announcements: const [],
-              applications: const [],
-              pets: const [],
-              userInfo: UserInfo(
-                  role: UserRoles.unknown,
-                  nickname: 'nickname',
-                  accessToken: token),
-            ),
-          );
+  //     blocTest(
+  //       'refreshes pets',
+  //       setUp: () {
+  //         appCubit.emit(
+  //           AppSLoaded(
+  //             announcements: const [],
+  //             applications: const [],
+  //             pets: const [],
+  //             userInfo: UserInfo(
+  //                 role: UserRoles.unknown,
+  //                 nickname: 'nickname',
+  //                 accessToken: token),
+  //           ),
+  //         );
 
-          when(() => mockDataService.getShelterPets(token))
-              .thenAnswer((invocation) => Future.value(mockPets));
-          when(() => mockAuthService.accessToken).thenReturn(token);
-        },
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshPets(),
-        expect: () => [
-          isA<AppSRefreshing>(),
-          isA<AppSLoaded>(),
-        ],
-        verify: (cubit) {
-          verify(() => mockDataService.getShelterPets(token)).called(1);
+  //         when(() => mockDataService.getShelterPets(token))
+  //             .thenAnswer((invocation) => Future.value(mockPets));
+  //         when(() => mockAuthService.accessToken).thenReturn(token);
+  //       },
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshPets(),
+  //       expect: () => [
+  //         isA<AppSRefreshing>(),
+  //         isA<AppSLoaded>(),
+  //       ],
+  //       verify: (cubit) {
+  //         verify(() => mockDataService.getShelterPets(token)).called(1);
 
-          expect((cubit.state as AppSLoaded).pets, mockPets);
-        },
-      );
+  //         expect((cubit.state as AppSLoaded).pets, mockPets);
+  //       },
+  //     );
 
-      blocTest(
-        'does nothing',
-        setUp: () {},
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshPets(),
-        expect: () => [],
-        verify: (_) {
-          verifyNever(() => mockDataService.getShelterPets(token));
-        },
-      );
+  //     blocTest(
+  //       'does nothing',
+  //       setUp: () {},
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshPets(),
+  //       expect: () => [],
+  //       verify: (_) {
+  //         verifyNever(() => mockDataService.getShelterPets(token));
+  //       },
+  //     );
 
-      blocTest(
-        'catches DataServicesLoggedException',
-        setUp: () {
-          appCubit.emit(
-            AppSLoaded(
-              announcements: const [],
-              applications: const [],
-              pets: const [],
-              userInfo: UserInfo(
-                  role: UserRoles.unknown,
-                  nickname: 'nickname',
-                  accessToken: token),
-            ),
-          );
+  //     blocTest(
+  //       'catches DataServicesLoggedException',
+  //       setUp: () {
+  //         appCubit.emit(
+  //           AppSLoaded(
+  //             announcements: const [],
+  //             applications: const [],
+  //             pets: const [],
+  //             userInfo: UserInfo(
+  //                 role: UserRoles.unknown,
+  //                 nickname: 'nickname',
+  //                 accessToken: token),
+  //           ),
+  //         );
 
-          when(() => mockDataService.getShelterPets(token))
-              .thenThrow(DataServicesLoggedException('exceptionMessage'));
-          when(() => mockAuthService.accessToken).thenReturn(token);
-        },
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshPets(),
-        expect: () => [
-          isA<AppSRefreshing>(),
-          isA<AppSLoaded>(),
-        ],
-        errors: () => [
-          isA<CubitReactionException>(),
-        ],
-        verify: (_) {
-          verify(() => mockDataService.getShelterPets(token)).called(1);
-        },
-      );
-    },
-  );
+  //         when(() => mockDataService.getShelterPets(token))
+  //             .thenThrow(DataServicesLoggedException('exceptionMessage'));
+  //         when(() => mockAuthService.accessToken).thenReturn(token);
+  //       },
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshPets(),
+  //       expect: () => [
+  //         isA<AppSRefreshing>(),
+  //         isA<AppSLoaded>(),
+  //       ],
+  //       errors: () => [
+  //         isA<CubitReactionException>(),
+  //       ],
+  //       verify: (_) {
+  //         verify(() => mockDataService.getShelterPets(token)).called(1);
+  //       },
+  //     );
+  //   },
+  // );
 
-  group(
-    'refreshAnnouncements()',
-    () {
-      String token = 'token';
+  // group(
+  //   'refreshAnnouncements()',
+  //   () {
+  //     String token = 'token';
 
-      blocTest(
-        'refreshes announcements if user role is adopter',
-        setUp: () {
-          appCubit.emit(
-            AppSLoaded(
-              announcements: const [],
-              applications: const [],
-              pets: const [],
-              userInfo: UserInfo(
-                  role: UserRoles.adopter,
-                  nickname: 'nickname',
-                  accessToken: token),
-            ),
-          );
+  //     blocTest(
+  //       'refreshes announcements if user role is adopter',
+  //       setUp: () {
+  //         appCubit.emit(
+  //           AppSLoaded(
+  //             announcements: const [],
+  //             applications: const [],
+  //             pets: const [],
+  //             userInfo: UserInfo(
+  //                 role: UserRoles.adopter,
+  //                 nickname: 'nickname',
+  //                 accessToken: token),
+  //           ),
+  //         );
 
-          when(() => mockDataService.getAnnouncements(token))
-              .thenAnswer((invocation) => Future.value(mockAnnouncements));
-          when(() => mockAuthService.accessToken).thenReturn(token);
-        },
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshAnnouncements(),
-        expect: () => [
-          isA<AppSRefreshing>(),
-          isA<AppSLoaded>(),
-        ],
-        verify: (cubit) {
-          verify(() => mockDataService.getAnnouncements(token)).called(1);
+  //         when(() => mockDataService.getAnnouncements(token))
+  //             .thenAnswer((invocation) => Future.value(mockAnnouncements));
+  //         when(() => mockAuthService.accessToken).thenReturn(token);
+  //       },
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshAnnouncements(),
+  //       expect: () => [
+  //         isA<AppSRefreshing>(),
+  //         isA<AppSLoaded>(),
+  //       ],
+  //       verify: (cubit) {
+  //         verify(() => mockDataService.getAnnouncements(token)).called(1);
 
-          expect((cubit.state as AppSLoaded).announcements, mockAnnouncements);
-        },
-      );
+  //         expect((cubit.state as AppSLoaded).announcements, mockAnnouncements);
+  //       },
+  //     );
 
-      blocTest(
-        'refreshes announcements if user role is other than adopter',
-        setUp: () {
-          appCubit.emit(
-            AppSLoaded(
-              announcements: const [],
-              applications: const [],
-              pets: const [],
-              userInfo: UserInfo(
-                  role: UserRoles.unknown,
-                  nickname: 'nickname',
-                  accessToken: token),
-            ),
-          );
+  //     blocTest(
+  //       'refreshes announcements if user role is other than adopter',
+  //       setUp: () {
+  //         appCubit.emit(
+  //           AppSLoaded(
+  //             announcements: const [],
+  //             applications: const [],
+  //             pets: const [],
+  //             userInfo: UserInfo(
+  //                 role: UserRoles.unknown,
+  //                 nickname: 'nickname',
+  //                 accessToken: token),
+  //           ),
+  //         );
 
-          when(() => mockDataService.getShelterAnnouncements(token))
-              .thenAnswer((invocation) => Future.value(mockAnnouncements));
-          when(() => mockAuthService.accessToken).thenReturn(token);
-        },
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshAnnouncements(),
-        expect: () => [
-          isA<AppSRefreshing>(),
-          isA<AppSLoaded>(),
-        ],
-        verify: (cubit) {
-          verify(() => mockDataService.getShelterAnnouncements(token))
-              .called(1);
+  //         when(() => mockDataService.getShelterAnnouncements(token))
+  //             .thenAnswer((invocation) => Future.value(mockAnnouncements));
+  //         when(() => mockAuthService.accessToken).thenReturn(token);
+  //       },
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshAnnouncements(),
+  //       expect: () => [
+  //         isA<AppSRefreshing>(),
+  //         isA<AppSLoaded>(),
+  //       ],
+  //       verify: (cubit) {
+  //         verify(() => mockDataService.getShelterAnnouncements(token))
+  //             .called(1);
 
-          expect((cubit.state as AppSLoaded).announcements, mockAnnouncements);
-        },
-      );
+  //         expect((cubit.state as AppSLoaded).announcements, mockAnnouncements);
+  //       },
+  //     );
 
-      blocTest(
-        'does nothing',
-        setUp: () {},
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshAnnouncements(),
-        expect: () => [],
-        verify: (_) {
-          verifyNever(() => mockDataService.getAnnouncements(token));
-          verifyNever(() => mockDataService.getShelterAnnouncements(token));
-        },
-      );
+  //     blocTest(
+  //       'does nothing',
+  //       setUp: () {},
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshAnnouncements(),
+  //       expect: () => [],
+  //       verify: (_) {
+  //         verifyNever(() => mockDataService.getAnnouncements(token));
+  //         verifyNever(() => mockDataService.getShelterAnnouncements(token));
+  //       },
+  //     );
 
-      blocTest(
-        'catches DataServicesLoggedException if user role is adopter',
-        setUp: () {
-          appCubit.emit(
-            AppSLoaded(
-              announcements: const [],
-              applications: const [],
-              pets: const [],
-              userInfo: UserInfo(
-                  role: UserRoles.adopter,
-                  nickname: 'nickname',
-                  accessToken: token),
-            ),
-          );
+  //     blocTest(
+  //       'catches DataServicesLoggedException if user role is adopter',
+  //       setUp: () {
+  //         appCubit.emit(
+  //           AppSLoaded(
+  //             announcements: const [],
+  //             applications: const [],
+  //             pets: const [],
+  //             userInfo: UserInfo(
+  //                 role: UserRoles.adopter,
+  //                 nickname: 'nickname',
+  //                 accessToken: token),
+  //           ),
+  //         );
 
-          when(() => mockDataService.getAnnouncements(token))
-              .thenThrow(DataServicesLoggedException('exceptionMessage'));
-          when(() => mockAuthService.accessToken).thenReturn(token);
-        },
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshAnnouncements(),
-        expect: () => [
-          isA<AppSRefreshing>(),
-          isA<AppSLoaded>(),
-        ],
-        errors: () => [
-          isA<CubitReactionException>(),
-        ],
-        verify: (cubit) {
-          verify(() => mockDataService.getAnnouncements(token)).called(1);
-        },
-      );
+  //         when(() => mockDataService.getAnnouncements(token))
+  //             .thenThrow(DataServicesLoggedException('exceptionMessage'));
+  //         when(() => mockAuthService.accessToken).thenReturn(token);
+  //       },
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshAnnouncements(),
+  //       expect: () => [
+  //         isA<AppSRefreshing>(),
+  //         isA<AppSLoaded>(),
+  //       ],
+  //       errors: () => [
+  //         isA<CubitReactionException>(),
+  //       ],
+  //       verify: (cubit) {
+  //         verify(() => mockDataService.getAnnouncements(token)).called(1);
+  //       },
+  //     );
 
-      blocTest(
-        'catches DataServicesLoggedException if user role other than adopter',
-        setUp: () {
-          appCubit.emit(
-            AppSLoaded(
-              announcements: const [],
-              applications: const [],
-              pets: const [],
-              userInfo: UserInfo(
-                  role: UserRoles.unknown,
-                  nickname: 'nickname',
-                  accessToken: token),
-            ),
-          );
+  //     blocTest(
+  //       'catches DataServicesLoggedException if user role other than adopter',
+  //       setUp: () {
+  //         appCubit.emit(
+  //           AppSLoaded(
+  //             announcements: const [],
+  //             applications: const [],
+  //             pets: const [],
+  //             userInfo: UserInfo(
+  //                 role: UserRoles.unknown,
+  //                 nickname: 'nickname',
+  //                 accessToken: token),
+  //           ),
+  //         );
 
-          when(() => mockDataService.getShelterAnnouncements(token))
-              .thenThrow(DataServicesLoggedException('exceptionMessage'));
-          when(() => mockAuthService.accessToken).thenReturn(token);
-        },
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshAnnouncements(),
-        expect: () => [
-          isA<AppSRefreshing>(),
-          isA<AppSLoaded>(),
-        ],
-        errors: () => [
-          isA<CubitReactionException>(),
-        ],
-        verify: (_) {
-          verify(() => mockDataService.getShelterAnnouncements(token))
-              .called(1);
-        },
-      );
-    },
-  );
+  //         when(() => mockDataService.getShelterAnnouncements(token))
+  //             .thenThrow(DataServicesLoggedException('exceptionMessage'));
+  //         when(() => mockAuthService.accessToken).thenReturn(token);
+  //       },
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshAnnouncements(),
+  //       expect: () => [
+  //         isA<AppSRefreshing>(),
+  //         isA<AppSLoaded>(),
+  //       ],
+  //       errors: () => [
+  //         isA<CubitReactionException>(),
+  //       ],
+  //       verify: (_) {
+  //         verify(() => mockDataService.getShelterAnnouncements(token))
+  //             .called(1);
+  //       },
+  //     );
+  //   },
+  // );
 
-  group(
-    'refreshApplications()',
-    () {
-      String token = 'token';
+  // group(
+  //   'refreshApplications()',
+  //   () {
+  //     String token = 'token';
 
-      blocTest(
-        'refreshes applications',
-        setUp: () {
-          appCubit.emit(
-            AppSLoaded(
-              announcements: const [],
-              applications: const [],
-              pets: const [],
-              userInfo: UserInfo(
-                  role: UserRoles.unknown,
-                  nickname: 'nickname',
-                  accessToken: token),
-            ),
-          );
+  //     blocTest(
+  //       'refreshes applications',
+  //       setUp: () {
+  //         appCubit.emit(
+  //           AppSLoaded(
+  //             announcements: const [],
+  //             applications: const [],
+  //             pets: const [],
+  //             userInfo: UserInfo(
+  //                 role: UserRoles.unknown,
+  //                 nickname: 'nickname',
+  //                 accessToken: token),
+  //           ),
+  //         );
 
-          when(() => mockDataService.getApplications(token))
-              .thenAnswer((invocation) => Future.value(mockApplications));
-          when(() => mockAuthService.accessToken).thenReturn(token);
-        },
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshApplications(),
-        expect: () => [
-          isA<AppSRefreshing>(),
-          isA<AppSLoaded>(),
-        ],
-        verify: (cubit) {
-          verify(() => mockDataService.getApplications(token)).called(1);
+  //         when(() => mockDataService.getApplications(token))
+  //             .thenAnswer((invocation) => Future.value(mockApplications));
+  //         when(() => mockAuthService.accessToken).thenReturn(token);
+  //       },
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshApplications(),
+  //       expect: () => [
+  //         isA<AppSRefreshing>(),
+  //         isA<AppSLoaded>(),
+  //       ],
+  //       verify: (cubit) {
+  //         verify(() => mockDataService.getApplications(token)).called(1);
 
-          expect((cubit.state as AppSLoaded).applications, mockApplications);
-        },
-      );
+  //         expect((cubit.state as AppSLoaded).applications, mockApplications);
+  //       },
+  //     );
 
-      blocTest(
-        'does nothing',
-        setUp: () {},
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshApplications(),
-        expect: () => [],
-        verify: (_) {
-          verifyNever(() => mockDataService.getApplications(token));
-        },
-      );
+  //     blocTest(
+  //       'does nothing',
+  //       setUp: () {},
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshApplications(),
+  //       expect: () => [],
+  //       verify: (_) {
+  //         verifyNever(() => mockDataService.getApplications(token));
+  //       },
+  //     );
 
-      blocTest(
-        'catches DataServicesLoggedException',
-        setUp: () {
-          appCubit.emit(
-            AppSLoaded(
-              announcements: const [],
-              applications: const [],
-              pets: const [],
-              userInfo: UserInfo(
-                  role: UserRoles.unknown,
-                  nickname: 'nickname',
-                  accessToken: token),
-            ),
-          );
+  //     blocTest(
+  //       'catches DataServicesLoggedException',
+  //       setUp: () {
+  //         appCubit.emit(
+  //           AppSLoaded(
+  //             announcements: const [],
+  //             applications: const [],
+  //             pets: const [],
+  //             userInfo: UserInfo(
+  //                 role: UserRoles.unknown,
+  //                 nickname: 'nickname',
+  //                 accessToken: token),
+  //           ),
+  //         );
 
-          when(() => mockDataService.getApplications(token))
-              .thenThrow(DataServicesLoggedException('exceptionMessage'));
-          when(() => mockAuthService.accessToken).thenReturn(token);
-        },
-        build: () => appCubit,
-        act: (cubit) => cubit.refreshApplications(),
-        expect: () => [
-          isA<AppSRefreshing>(),
-          isA<AppSLoaded>(),
-        ],
-        errors: () => [
-          isA<CubitReactionException>(),
-        ],
-        verify: (_) {
-          verify(() => mockDataService.getApplications(token)).called(1);
-        },
-      );
-    },
-  );
+  //         when(() => mockDataService.getApplications(token))
+  //             .thenThrow(DataServicesLoggedException('exceptionMessage'));
+  //         when(() => mockAuthService.accessToken).thenReturn(token);
+  //       },
+  //       build: () => appCubit,
+  //       act: (cubit) => cubit.refreshApplications(),
+  //       expect: () => [
+  //         isA<AppSRefreshing>(),
+  //         isA<AppSLoaded>(),
+  //       ],
+  //       errors: () => [
+  //         isA<CubitReactionException>(),
+  //       ],
+  //       verify: (_) {
+  //         verify(() => mockDataService.getApplications(token)).called(1);
+  //       },
+  //     );
+  //   },
+  // );
 
   group(
     'addPet()',

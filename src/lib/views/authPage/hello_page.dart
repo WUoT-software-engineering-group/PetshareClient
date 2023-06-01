@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_share/cubits/appCubit/app_cubit.dart';
 import 'package:pet_share/utils/app_colors.dart';
+import 'package:pet_share/views/authPage/animated_image.dart';
 
 /// This page is shown as the first one in
 /// this app. Here you can find loginup/in
@@ -28,8 +29,8 @@ class HelloPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         body: Column(
           children: [
-            Expanded(
-              child: Image.asset('assets/flying_cat.png'),
+            const Expanded(
+              child: AnimatedImage(),
             ),
             Text(
               'Pet Share - We are for you',
@@ -39,8 +40,34 @@ class HelloPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(
-              height: 25,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                children: const [
+                  Expanded(
+                    child: Divider(
+                      indent: 22,
+                      thickness: 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(
+                      Icons.pets,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      endIndent: 22,
+                      thickness: 2,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
             OutlinedButton(
               style: OutlinedButton.styleFrom(
@@ -49,7 +76,10 @@ class HelloPage extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              onPressed: BlocProvider.of<AppCubit>(context).authUser,
+              onPressed: () {
+                Future.delayed(const Duration(milliseconds: 300));
+                BlocProvider.of<AppCubit>(context).authUser();
+              },
               child: Text(
                 'Sign in / Sign up',
                 style: GoogleFonts.varelaRound(
