@@ -120,7 +120,7 @@ class AuthService {
   }
 
   Future<void> logoutUser() async {
-    await auth0.webAuthentication().logout();
+    await auth0.webAuthentication(scheme: auth0Scheme).logout();
 
     clearSettings();
     log('AuthServices: logoutUser: The user is logged out.');
