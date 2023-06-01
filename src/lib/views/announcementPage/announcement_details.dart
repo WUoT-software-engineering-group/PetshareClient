@@ -167,11 +167,14 @@ class _AnnouncementDetailsPageState extends State<AnnouncementDetailsPage> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 21,
                               )),
-                          Text(_ageOfPet(widget.announcement.pet.birthday),
-                              style: TextStyle(
-                                  color: widget.color1,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17))
+                          Text(
+                            _ageOfPet(widget.announcement.pet.birthday),
+                            style: TextStyle(
+                              color: widget.color1,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 17,
+                            ),
+                          )
                         ],
                       ),
                       const SizedBox(

@@ -37,67 +37,69 @@ class _AnnouncementTileState extends State<AnnouncementTile> {
 
   Widget _photoBlock() {
     return Expanded(
-        flex: 5,
-        child: Material(
-          elevation: 6,
+      flex: 5,
+      child: Material(
+        elevation: 6,
+        borderRadius: BorderRadius.circular(23),
+        child: ClipRRect(
           borderRadius: BorderRadius.circular(23),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(23),
-            child: Container(
-              height: 220,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: getImage(widget.announcement.pet.photoUrl),
-                ),
+          child: Container(
+            height: 220,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: getImage(widget.announcement.pet.photoUrl),
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _descriptionBlock(bool isLeft) {
     return Expanded(
-        flex: 7,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeIn,
-          child: Material(
-            color: AppColors.field,
+      flex: 7,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+        child: Material(
+          color: AppColors.field,
+          borderRadius: _raundedDescription(isLeft),
+          elevation: 6,
+          child: InkWell(
             borderRadius: _raundedDescription(isLeft),
-            elevation: 6,
-            child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return AnnouncementDetailsPage(
+                    isAdoptingPerson: widget.isAdoptingPerson,
+                    announcement: widget.announcement,
+                    color1: widget.colors[0],
+                    color2: widget.colors[1],
+                    color3: widget.colors[2],
+                    onPressed: widget.onPressed,
+                  );
+                }),
+              );
+            },
+            child: ClipRRect(
               borderRadius: _raundedDescription(isLeft),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return AnnouncementDetailsPage(
-                      isAdoptingPerson: widget.isAdoptingPerson,
-                      announcement: widget.announcement,
-                      color1: widget.colors[0],
-                      color2: widget.colors[1],
-                      color3: widget.colors[2],
-                      onPressed: widget.onPressed,
-                    );
-                  }),
-                );
-              },
-              child: ClipRRect(
-                borderRadius: _raundedDescription(isLeft),
-                child: SizedBox(
-                    height: 150,
-                    child: PetDescription(
-                      announcement: widget.announcement,
-                      isFollowIcon: widget.isAdoptingPerson,
-                      color: widget.colors[0],
-                      ring: widget.colors[1],
-                      bubbles: widget.colors[2],
-                    )),
-              ),
+              child: SizedBox(
+                  height: 150,
+                  child: PetDescription(
+                    announcement: widget.announcement,
+                    isFollowIcon: widget.isAdoptingPerson,
+                    color: widget.colors[0],
+                    ring: widget.colors[1],
+                    bubbles: widget.colors[2],
+                  )),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   BorderRadius _raundedDescription(bool isLeft) {
@@ -195,71 +197,77 @@ class PetDescription extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(Icons.favorite, size: 21, color: color),
-        const Text('0',
-            style: TextStyle(
-                color: Color.fromARGB(200, 141, 139, 139),
-                fontWeight: FontWeight.bold))
+        const Text(
+          '0',
+          style: TextStyle(
+            color: Color.fromARGB(200, 141, 139, 139),
+            fontWeight: FontWeight.bold,
+          ),
+        )
       ],
     );
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 25, 25, 25),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              announcement.pet.name,
-              style: TextStyle(
-                  color: color, fontWeight: FontWeight.bold, fontSize: 21),
-            ),
-            isFollowIcon ? followAnnouncement : countFollowers,
-          ],
-        ),
-        const SizedBox(
-          height: 14,
-        ),
-        Text(
-          'bread: ${announcement.pet.breed}',
-          style: const TextStyle(
-              color: Color.fromARGB(255, 121, 119, 119),
-              fontWeight: FontWeight.bold,
-              fontSize: 14),
-        ),
-        const SizedBox(
-          height: 7,
-        ),
-        Text(
-          _ageOfPet(announcement.pet.birthday),
-          style: const TextStyle(
-            color: Color.fromARGB(200, 141, 139, 139),
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                announcement.pet.name,
+                style: TextStyle(
+                    color: color, fontWeight: FontWeight.bold, fontSize: 21),
+              ),
+              isFollowIcon ? followAnnouncement : countFollowers,
+            ],
           ),
-        ),
-        const SizedBox(
-          height: 7,
-        ),
-        Row(
-          children: [
-            Icon(
-              Icons.calendar_month,
-              color: color,
-              size: 16,
+          const SizedBox(
+            height: 14,
+          ),
+          Text(
+            'bread: ${announcement.pet.breed}',
+            style: const TextStyle(
+                color: Color.fromARGB(255, 121, 119, 119),
+                fontWeight: FontWeight.bold,
+                fontSize: 14),
+          ),
+          const SizedBox(
+            height: 7,
+          ),
+          Text(
+            _ageOfPet(announcement.pet.birthday),
+            style: const TextStyle(
+              color: Color.fromARGB(200, 141, 139, 139),
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
             ),
-            const SizedBox(
-              width: 5,
-            ),
-            Text(
-              _convertDateTime(announcement.creationDate),
-              style: const TextStyle(
-                  color: Color.fromARGB(255, 121, 119, 119),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14),
-            )
-          ],
-        ),
-      ]),
+          ),
+          const SizedBox(
+            height: 7,
+          ),
+          Row(
+            children: [
+              Icon(
+                Icons.calendar_month,
+                color: color,
+                size: 16,
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                _convertDateTime(announcement.creationDate),
+                style: const TextStyle(
+                    color: Color.fromARGB(255, 121, 119, 119),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14),
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -24,6 +24,8 @@ class MainPoint extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: AppColors.background,
           colorScheme: ColorScheme.fromSwatch(accentColor: AppColors.buttons),
+          textTheme:
+              GoogleFonts.varelaRoundTextTheme(Theme.of(context).textTheme),
           snackBarTheme: SnackBarThemeData(
             backgroundColor: AppColors.navigation,
             contentTextStyle: GoogleFonts.varelaRound(

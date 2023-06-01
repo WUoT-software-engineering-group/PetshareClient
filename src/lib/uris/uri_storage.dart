@@ -83,23 +83,42 @@ class UriStorage {
   // Paths methods
   // --------------------------
 
-  String announcementUriString(UriAnnouncement type, {String id = ''}) {
+  String announcementUriString(UriAnnouncement type,
+      {String id = '', Map<String, String> queryParm = const {}}) {
+    String rep = '';
     switch (type) {
-      case UriAnnouncement.getId:
-        return "$_announcementAPI/announcements";
-      case UriAnnouncement.put:
-        return "$_announcementAPI/announcements";
       case UriAnnouncement.get:
-        return "$_announcementAPI/announcements/$id";
+        rep = "$_announcementAPI/announcements";
+        break;
+      case UriAnnouncement.put:
+        rep = "$_announcementAPI/announcements";
+        break;
+      case UriAnnouncement.getId:
+        rep = "$_announcementAPI/announcements/$id";
+        break;
       case UriAnnouncement.post:
-        return "$_announcementAPI/announcements/$id";
+        rep = "$_announcementAPI/announcements/$id";
+        break;
       case UriAnnouncement.getShelterAnnouncements:
-        return "$_announcementAPI/shelter/announcements";
+        rep = "$_announcementAPI/shelter/announcements";
+        break;
     }
+
+    List<String> uri = [rep, '?'];
+    queryParm.forEach((key, value) {
+      uri.add(key);
+      uri.add('=');
+      uri.add(value);
+      uri.add('&');
+    });
+    uri.removeLast();
+
+    return uri.join();
   }
 
-  Uri announcementUri(UriAnnouncement type, {String id = ''}) =>
-      Uri.parse(announcementUriString(type, id: id));
+  Uri announcementUri(UriAnnouncement type,
+          {String id = '', Map<String, String> queryParm = const {}}) =>
+      Uri.parse(announcementUriString(type, id: id, queryParm: queryParm));
 
   String petUriString(UriPet type, {String id = ''}) {
     switch (type) {

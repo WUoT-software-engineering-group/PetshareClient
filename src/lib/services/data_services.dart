@@ -115,15 +115,20 @@ class DataServices2 {
   }
 
   Future<List<Announcement2>> getShelterAnnouncements(
-    String accessToken,
-  ) async {
+    String accessToken, {
+    Map<String, String> queryParm = const {},
+  }) async {
     http.Response res = await http.get(
-      _uriStorage.announcementUri(UriAnnouncement.getShelterAnnouncements),
+      _uriStorage.announcementUri(
+        UriAnnouncement.getShelterAnnouncements,
+        queryParm: queryParm,
+      ),
       headers: buildHeader(accessToken),
     );
 
     if (res.statusCode == 200) {
-      List<dynamic> list = json.decode(res.body);
+      Map<String, dynamic> respons = json.decode(res.body);
+      List<dynamic> list = respons['announcements'];
       return list.map((e) => Announcement2.fromJson(e)).toList();
     } else {
       log('DataServices: getShelterAnnouncements: bad get: ${res.statusCode} :: ${res.body}');
@@ -137,15 +142,20 @@ class DataServices2 {
   // -----------------------------------
 
   Future<List<Announcement2>> getAnnouncements(
-    String accessToken,
-  ) async {
+    String accessToken, {
+    Map<String, String> queryParm = const {},
+  }) async {
     http.Response res = await http.get(
-      _uriStorage.announcementUri(UriAnnouncement.get),
+      _uriStorage.announcementUri(
+        UriAnnouncement.get,
+        queryParm: queryParm,
+      ),
       headers: buildHeader(accessToken),
     );
 
     if (res.statusCode == 200) {
-      List<dynamic> list = json.decode(res.body);
+      Map<String, dynamic> respons = json.decode(res.body);
+      List<dynamic> list = respons['announcements'];
       return list.map((e) => Announcement2.fromJson(e)).toList();
     } else {
       log('DataServices: getAnnouncements: bad get: ${res.statusCode} :: ${res.body}');
