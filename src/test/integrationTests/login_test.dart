@@ -25,7 +25,7 @@ void main() {
       await $.native.tap(Selector(text: 'Continue'));
 
       // finds logout button and taps it
-      await $.pumpAndSettle();
+      await $.pumpUntilFound(find.byIcon(Icons.logout));
       await $.tap(find.byIcon(Icons.logout));
     },
   );
