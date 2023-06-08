@@ -9,6 +9,7 @@ import 'package:pet_share/models/pet.dart';
 import 'package:pet_share/utils/app_colors.dart';
 import 'package:pet_share/utils/blurry_gradient.dart';
 import 'package:pet_share/views/announcementPage/announcement_form.dart';
+import 'package:pet_share/views/petPage/pet_details.dart';
 import 'package:pet_share/views/petPage/pet_dialog.dart';
 import 'package:pet_share/views/petPage/pet_form.dart';
 import 'package:pet_share/views/petPage/pet_tile.dart';
@@ -80,29 +81,35 @@ class _PetPageState extends State<PetPage> {
                       height: 100,
                       pet: petsy[index - 1],
                       tapOn: () async {
-                        var result = await showDialog(
-                          context: context,
-                          builder: (context) => PetDialog(
-                            pet: petsy[index - 1],
-                          ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return PetDatails();
+                          }),
                         );
+                        // var result = await showDialog(
+                        //   context: context,
+                        //   builder: (context) => PetDialog(
+                        //     pet: petsy[index - 1],
+                        //   ),
+                        // );
 
-                        if (context.mounted && result is bool && result) {
-                          var result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AnnouncementForm(
-                                pet: petsy[index - 1],
-                              ),
-                            ),
-                          );
+                        // if (context.mounted && result is bool && result) {
+                        //   var result = await Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => AnnouncementForm(
+                        //         pet: petsy[index - 1],
+                        //       ),
+                        //     ),
+                        //   );
 
-                          if (context.mounted &&
-                              result is CreatingAnnouncement2) {
-                            await BlocProvider.of<AppCubit>(context)
-                                .addAnnouncement(result);
-                          }
-                        }
+                        //   if (context.mounted &&
+                        //       result is CreatingAnnouncement2) {
+                        //     await BlocProvider.of<AppCubit>(context)
+                        //         .addAnnouncement(result);
+                        //   }
+                        // }
                       },
                     );
                   },
