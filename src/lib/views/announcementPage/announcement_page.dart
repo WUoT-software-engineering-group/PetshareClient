@@ -81,13 +81,15 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                         width: 55,
                         height: 55,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            var result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return const AnnouncementFilters();
                               }),
                             );
+
+                            
                           },
                           style: ElevatedButton.styleFrom(
                               elevation: 6,

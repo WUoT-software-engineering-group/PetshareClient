@@ -77,14 +77,14 @@ class AuthService {
   Future<bool> authApp() async {
     if (_credentials == null) {
       final credentials = await auth0.webAuthentication().login(
-            audience: auth0Audience,
-            scopes: {
-              'openid',
-              'profile',
-              'email',
-            },
-            redirectUrl: auth0redirectUrl,
-          );
+        audience: auth0Audience,
+        scopes: {
+          'openid',
+          'profile',
+          'email',
+        },
+        // redirectUrl: auth0redirectUrl,
+      );
       _credentials = credentials;
 
       final userId = parseAccessToken(_credentials!.accessToken)['db_id'];
