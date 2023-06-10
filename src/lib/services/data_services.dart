@@ -284,18 +284,19 @@ class DataServices2 {
             sex: SexOfPet.male),
       ),
       adopter: Adopter2(
-          id: '',
-          userName: 'userName',
-          phoneNumber: 'phoneNumber',
-          email: 'email',
-          address: Address2(
-              street: 'street',
-              city: 'city',
-              provice: 'provice',
-              postalCode: 'postalCode',
-              country: 'country'),
-          status: 0),
-      applicationStatus: 0,
+        id: '',
+        userName: 'userName',
+        phoneNumber: 'phoneNumber',
+        email: 'email',
+        address: Address2(
+            street: 'street',
+            city: 'city',
+            provice: 'provice',
+            postalCode: 'postalCode',
+            country: 'country'),
+        status: AdopterStatus.active,
+      ),
+      applicationStatus: ApplicationStatus.created,
     );
   }
 

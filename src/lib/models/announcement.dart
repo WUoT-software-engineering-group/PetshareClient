@@ -2,6 +2,13 @@ import 'dart:convert';
 
 import 'package:pet_share/models/pet.dart';
 
+enum AnnouncementStatus {
+  open,
+  closed,
+  deleted,
+  unknown,
+}
+
 class Announcement2 {
   String id;
   bool isLiked;
@@ -10,7 +17,7 @@ class Announcement2 {
   DateTime? creationDate;
   DateTime? closingDate;
   DateTime? lastUpdateDate;
-  int status;
+  AnnouncementStatus status;
   Pet2 pet;
 
   // -------------------------
@@ -38,13 +45,28 @@ class Announcement2 {
       creationDate: testDateTime(json['creationDate']),
       closingDate: testDateTime(json['closingDate']),
       lastUpdateDate: testDateTime(json['lastUpdateDate']),
-      status: json['status'] ?? -1,
+      status: parseStatus(json['status']),
       pet: Pet2.fromJson(json['pet']),
     );
   }
 
   static DateTime? testDateTime(dynamic dateTime) =>
       dateTime == null ? null : DateTime.parse(dateTime);
+
+  static AnnouncementStatus parseStatus(String? status) {
+    if (status == null) return AnnouncementStatus.unknown;
+
+    switch (status) {
+      case "Open":
+        return AnnouncementStatus.open;
+      case "Closed":
+        return AnnouncementStatus.closed;
+      case "Deleted":
+        return AnnouncementStatus.deleted;
+      default:
+        return AnnouncementStatus.unknown;
+    }
+  }
 }
 
 class CreatingAnnouncement2 {

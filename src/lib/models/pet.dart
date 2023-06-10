@@ -50,22 +50,22 @@ class Pet2 {
       description: json['description'] ?? "",
       photoUrl: json['photoUrl'] ?? "",
       status: json['status'] ?? 0,
-      sex: intToSex(json['sex']),
+      sex: parseSex(json['sex']),
     );
   }
 
   static DateTime? testDateTime(dynamic dateTime) =>
       dateTime == null ? null : DateTime.parse(dateTime);
 
-  static SexOfPet intToSex(int? sex) {
+  static SexOfPet parseSex(String? sex) {
     if (sex == null) return SexOfPet.unknown;
 
     switch (sex) {
-      case 0:
+      case 'unknown':
         return SexOfPet.unknown;
-      case 1:
+      case 'male':
         return SexOfPet.male;
-      case 2:
+      case 'female':
         return SexOfPet.female;
     }
 
