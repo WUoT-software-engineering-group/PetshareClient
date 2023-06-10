@@ -20,10 +20,7 @@ class DataServices2 {
   // ----------------------------------
 
   DataServices2({bool dlps = false}) {
-    _uriStorage = UriStorage.initADKP();
-    if (dlps) {
-      _uriStorage = UriStorage.initDLPS();
-    }
+    _uriStorage = UriStorage();
   }
 
   // -----------------------------------
@@ -260,7 +257,7 @@ class DataServices2 {
         creationDate: null,
         closingDate: null,
         lastUpdateDate: null,
-        status: 0,
+        status: AnnouncementStatus.open,
         pet: Pet2(
             id: 'id',
             shelter: Shelter2(

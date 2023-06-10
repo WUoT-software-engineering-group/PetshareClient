@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 enum UriAnnouncement {
   getId,
   put,
@@ -51,33 +53,10 @@ class UriStorage {
   // Factory and constructors
   // --------------------------
 
-  UriStorage({
-    required String announcement,
-    required String shelter,
-    required String adopter,
-  }) {
-    _announcementAPI = announcement;
-    _shelterAPI = shelter;
-    _adopterAPI = adopter;
-  }
-
-  /// Factory: Asia, Dawid, Kuba, Paweł
-  factory UriStorage.initADKP() {
-    const String baseAPI = 'https://pet-share-web-api-dev.azurewebsites.net';
-    return UriStorage(
-      announcement: baseAPI,
-      shelter: baseAPI,
-      adopter: baseAPI,
-    );
-  }
-
-  /// Factory: Daniel, Lusia, Piotrek, Szymon
-  factory UriStorage.initDLPS() {
-    return UriStorage(
-      announcement: 'https://petshare-announcementsapi.azurewebsites.net/',
-      shelter: 'https://petshare-shelterapi.azurewebsites.net/',
-      adopter: 'https://petshare-adopterapi.azurewebsites.net/',
-    );
+  UriStorage() {
+    _announcementAPI = dotenv.env['ANNOUNCEMENTS_API_URL']!;
+    _shelterAPI = dotenv.env['SHELTER_API_URL']!;
+    _adopterAPI = dotenv.env['ADOPTER_API_URL']!;
   }
 
   // --------------------------

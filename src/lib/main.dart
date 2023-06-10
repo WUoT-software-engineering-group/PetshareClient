@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,10 +9,19 @@ import 'package:pet_share/views/authPage/hello_page.dart';
 import 'package:pet_share/views/authPage/role_page.dart';
 import 'package:pet_share/views/loadingPage/loading_page.dart';
 import 'package:pet_share/views/userManager/user_manager.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'cubits/appCubit/app_cubit.dart';
 
-void main() {
+void main() async {
+  if (Platform.isIOS) {
+    await dotenv.load(fileName: 'envs/ios_config.env');
+  } else if (Platform.isAndroid) {
+    await dotenv.load(fileName: 'envs/android_config.env');
+  } else {
+    throw Exception('This platform is not supported!');
+  }
+
   runApp(const MainPoint());
 }
 
