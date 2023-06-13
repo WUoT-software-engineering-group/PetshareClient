@@ -63,8 +63,11 @@ class UriStorage {
   // Paths methods
   // --------------------------
 
-  String announcementUriString(UriAnnouncement type,
-      {String id = '', Map<String, String> queryParm = const {}}) {
+  String announcementUriString(
+    UriAnnouncement type, {
+    String id = '',
+    Map<String, String> queryParm = const {},
+  }) {
     String rep = '';
     switch (type) {
       case UriAnnouncement.get:
@@ -95,31 +98,66 @@ class UriStorage {
       uri.add('&');
     });
     uri.removeLast();
+    return uri.join();
+  }
+
+  Uri announcementUri(
+    UriAnnouncement type, {
+    String id = '',
+    Map<String, String> queryParm = const {},
+  }) =>
+      Uri.parse(announcementUriString(
+        type,
+        id: id,
+        queryParm: queryParm,
+      ));
+
+  String petUriString(
+    UriPet type, {
+    String id = '',
+    Map<String, String> queryParm = const {},
+  }) {
+    String rep = '';
+    switch (type) {
+      case UriPet.getId:
+        rep = "$_announcementAPI/pet/$id";
+        break;
+      case UriPet.putId:
+        rep = "$_announcementAPI/pet/$id";
+        break;
+      case UriPet.post:
+        rep = "$_announcementAPI/pet";
+        break;
+      case UriPet.postIdPhoto:
+        rep = "$_announcementAPI/pet/$id/photo";
+        break;
+      case UriPet.getShelterPets:
+        rep = "$_announcementAPI/shelter/pets";
+        break;
+    }
+
+    List<String> uri = [rep, '?'];
+    queryParm.forEach((key, value) {
+      uri.add(key);
+      uri.add('=');
+      uri.add(value);
+      uri.add('&');
+    });
+    uri.removeLast();
 
     return uri.join();
   }
 
-  Uri announcementUri(UriAnnouncement type,
-          {String id = '', Map<String, String> queryParm = const {}}) =>
-      Uri.parse(announcementUriString(type, id: id, queryParm: queryParm));
-
-  String petUriString(UriPet type, {String id = ''}) {
-    switch (type) {
-      case UriPet.getId:
-        return "$_announcementAPI/pet/$id";
-      case UriPet.putId:
-        return "$_announcementAPI/pet/$id";
-      case UriPet.post:
-        return "$_announcementAPI/pet";
-      case UriPet.postIdPhoto:
-        return "$_announcementAPI/pet/$id/photo";
-      case UriPet.getShelterPets:
-        return "$_announcementAPI/shelter/pets";
-    }
-  }
-
-  Uri petUri(UriPet type, {String id = ''}) =>
-      Uri.parse(petUriString(type, id: id));
+  Uri petUri(
+    UriPet type, {
+    String id = '',
+    Map<String, String> queryParm = const {},
+  }) =>
+      Uri.parse(petUriString(
+        type,
+        id: id,
+        queryParm: queryParm,
+      ));
 
   String shelterUriString(UriShelter type, {String id = ''}) {
     switch (type) {
@@ -134,10 +172,19 @@ class UriStorage {
     }
   }
 
-  Uri shelterUri(UriShelter type, {String id = ''}) =>
-      Uri.parse(shelterUriString(type, id: id));
+  Uri shelterUri(
+    UriShelter type, {
+    String id = '',
+  }) =>
+      Uri.parse(shelterUriString(
+        type,
+        id: id,
+      ));
 
-  String adopterUriString(UriAdopter type, {String id = ''}) {
+  String adopterUriString(
+    UriAdopter type, {
+    String id = '',
+  }) {
     switch (type) {
       case UriAdopter.get:
         return "$_adopterAPI/adopter";
@@ -155,25 +202,58 @@ class UriStorage {
   }
 
   Uri adopterUri(UriAdopter type, {String id = ''}) =>
-      Uri.parse(adopterUriString(type, id: id));
+      Uri.parse(adopterUriString(
+        type,
+        id: id,
+      ));
 
-  String applicationsUriString(UriApplications type, {String id = ''}) {
+  String applicationsUriString(
+    UriApplications type, {
+    String id = '',
+    Map<String, String> queryParm = const {},
+  }) {
+    String rep = '';
     switch (type) {
       case UriApplications.get:
-        return "$_adopterAPI/applications";
+        rep = "$_adopterAPI/applications";
+        break;
       case UriApplications.post:
-        return "$_adopterAPI/applications";
+        rep = "$_adopterAPI/applications";
+        break;
       case UriApplications.getId:
-        return "$_adopterAPI/applications/$id";
+        rep = "$_adopterAPI/applications/$id";
+        break;
       case UriApplications.putIdAccept:
-        return "$_adopterAPI/applications/$id/accept";
+        rep = "$_adopterAPI/applications/$id/accept";
+        break;
       case UriApplications.putIdReject:
-        return "$_adopterAPI/applications/$id/reject";
+        rep = "$_adopterAPI/applications/$id/reject";
+        break;
       case UriApplications.putIdWithdraw:
-        return "$_adopterAPI/applications/$id/withdraw";
+        rep = "$_adopterAPI/applications/$id/withdraw";
+        break;
     }
+
+    List<String> uri = [rep, '?'];
+    queryParm.forEach((key, value) {
+      uri.add(key);
+      uri.add('=');
+      uri.add(value);
+      uri.add('&');
+    });
+    uri.removeLast();
+
+    return uri.join();
   }
 
-  Uri applicationsUri(UriApplications type, {String id = ''}) =>
-      Uri.parse(applicationsUriString(type, id: id));
+  Uri applicationsUri(
+    UriApplications type, {
+    String id = '',
+    Map<String, String> queryParm = const {},
+  }) =>
+      Uri.parse(applicationsUriString(
+        type,
+        id: id,
+        queryParm: queryParm,
+      ));
 }

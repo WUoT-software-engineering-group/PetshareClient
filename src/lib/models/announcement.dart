@@ -56,12 +56,13 @@ class Announcement2 {
   static AnnouncementStatus parseStatus(String? status) {
     if (status == null) return AnnouncementStatus.unknown;
 
+    status = status.toLowerCase();
     switch (status) {
-      case "Open":
+      case 'open':
         return AnnouncementStatus.open;
-      case "Closed":
+      case 'closed':
         return AnnouncementStatus.closed;
-      case "Deleted":
+      case 'deleted':
         return AnnouncementStatus.deleted;
       default:
         return AnnouncementStatus.unknown;

@@ -47,16 +47,17 @@ class Appplications2 {
   static ApplicationStatus parseStatus(String? status) {
     if (status == null) return ApplicationStatus.unknown;
 
+    status = status.toLowerCase();
     switch (status) {
-      case 'Created':
+      case 'created':
         return ApplicationStatus.created;
-      case 'Accepted':
+      case 'accepted':
         return ApplicationStatus.accepted;
-      case 'Rejected':
+      case 'rejected':
         return ApplicationStatus.rejected;
-      case 'Withdrawn':
+      case 'withdrawn':
         return ApplicationStatus.withdrawn;
-      case 'Deleted':
+      case 'deleted':
         return ApplicationStatus.deleted;
       default:
         return ApplicationStatus.unknown;

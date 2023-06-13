@@ -94,11 +94,14 @@ class _ApplicationTileState extends State<ApplicationTile> {
                             const SizedBox(
                               width: 3,
                             ),
-                            Text(
-                              ':  ${widget.appplications.adopter.userName}',
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                            Flexible(
+                              child: Text(
+                                ':  ${widget.appplications.adopter.userName}',
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.varelaRound(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ],

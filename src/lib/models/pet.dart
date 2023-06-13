@@ -10,6 +10,12 @@ enum SexOfPet {
   doesNotApply,
 }
 
+enum PetStatus {
+  active,
+  deleted,
+  unknown,
+}
+
 class Pet2 {
   String id;
   Shelter2 shelter;
@@ -18,7 +24,7 @@ class Pet2 {
   String breed;
   DateTime? birthday;
   String description;
-  int status;
+  PetStatus status;
   SexOfPet sex;
   String photoUrl;
 
@@ -49,7 +55,7 @@ class Pet2 {
       birthday: testDateTime(json['birthday']),
       description: json['description'] ?? "",
       photoUrl: json['photoUrl'] ?? "",
-      status: json['status'] ?? 0,
+      status: parseStatus(json['status']),
       sex: parseSex(json['sex']),
     );
   }
@@ -60,6 +66,7 @@ class Pet2 {
   static SexOfPet parseSex(String? sex) {
     if (sex == null) return SexOfPet.unknown;
 
+    sex = sex.toLowerCase();
     switch (sex) {
       case 'unknown':
         return SexOfPet.unknown;
@@ -70,6 +77,20 @@ class Pet2 {
     }
 
     return SexOfPet.doesNotApply;
+  }
+
+  static PetStatus parseStatus(String? status) {
+    if (status == null) return PetStatus.unknown;
+
+    status = status.toLowerCase();
+    switch (status) {
+      case 'active':
+        return PetStatus.active;
+      case 'deleted':
+        return PetStatus.deleted;
+      default:
+        return PetStatus.unknown;
+    }
   }
 
   static String sexToString(SexOfPet sex) {

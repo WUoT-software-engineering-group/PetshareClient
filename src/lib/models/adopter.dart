@@ -76,12 +76,13 @@ class Adopter2 {
   static AdopterStatus parseAdopterStatus(String? status) {
     if (status == null) return AdopterStatus.unknown;
 
+    status = status.toLowerCase();
     switch (status) {
-      case 'Active':
+      case 'active':
         return AdopterStatus.active;
-      case 'Blocked':
+      case 'blocked':
         return AdopterStatus.blocked;
-      case 'Deleted':
+      case 'deleted':
         return AdopterStatus.deleted;
       default:
         return AdopterStatus.unknown;

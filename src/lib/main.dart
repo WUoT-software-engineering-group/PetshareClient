@@ -13,6 +13,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'cubits/appCubit/app_cubit.dart';
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
   if (Platform.isIOS) {
     await dotenv.load(fileName: 'envs/ios_config.env');
@@ -22,6 +31,7 @@ void main() async {
     throw Exception('This platform is not supported!');
   }
 
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MainPoint());
 }
 
