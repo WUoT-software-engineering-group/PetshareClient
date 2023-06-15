@@ -147,22 +147,9 @@ class CreatingPet2 {
         'breed': breed,
         'birthday': date,
         'description': description,
-        'sex': sexToInt(sex),
+        'sex': Pet2.sexToString(sex),
         'photoUrl': image.name,
       },
     );
-  }
-
-  static int sexToInt(SexOfPet sex) {
-    switch (sex) {
-      case SexOfPet.unknown:
-        return 0;
-      case SexOfPet.male:
-        return 1;
-      case SexOfPet.female:
-        return 2;
-      case SexOfPet.doesNotApply:
-        return 3;
-    }
   }
 }
