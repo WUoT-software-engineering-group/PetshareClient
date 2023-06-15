@@ -53,10 +53,10 @@ class AppCubit extends Cubit<AppState> {
     } on WebAuthenticationException catch (e) {
       emit(AppSInitial());
       _authService.clearSettings();
-      // if (e.code != 'a0.authentication_canceled') {
-      log(e.code);
-      reaction(e.message);
-      //}
+      if (e.code != 'a0.authentication_canceled') {
+        log(e.code);
+        reaction(e.message);
+      }
     } on AuthServicesException catch (e) {
       emit(AppSInitial());
       _authService.clearAll();

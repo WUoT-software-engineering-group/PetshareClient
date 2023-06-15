@@ -15,13 +15,13 @@ class FilterMe {
   final bool isChecked;
 
   FilterMe({
-    required this.species,
-    required this.breeds,
-    required this.cities,
-    required this.shelterNames,
-    required this.minAge,
-    required this.maxAge,
-    required this.isChecked,
+    this.species = '',
+    this.breeds = '',
+    this.cities = '',
+    this.shelterNames = '',
+    this.minAge = 0,
+    this.maxAge = 0,
+    this.isChecked = false,
   });
 
   Map<String, String> giveParameterQueries() {
@@ -50,7 +50,7 @@ class FilterMe {
       maps['maxAge'] = maxAge.toString();
     }
 
-    if (isChecked != true) {
+    if (isChecked == true) {
       maps['IsLiked'] = 'true';
     }
 
@@ -166,7 +166,13 @@ class _AnnouncementFiltersState extends State<AnnouncementFilters> {
                                     return null;
                                   },
                                   save: (val) {
-                                    species = val ?? '';
+                                    if (val == null) {
+                                      minAge = 0;
+                                    } else if (val == '') {
+                                      minAge = 0;
+                                    } else {
+                                      minAge = int.parse(val);
+                                    }
                                   },
                                   label: 'Min Age',
                                   fontColor: textColor,
@@ -190,7 +196,13 @@ class _AnnouncementFiltersState extends State<AnnouncementFilters> {
                                     return null;
                                   },
                                   save: (val) {
-                                    species = val ?? '';
+                                    if (val == null) {
+                                      maxAge = 0;
+                                    } else if (val == '') {
+                                      maxAge = 0;
+                                    } else {
+                                      maxAge = int.parse(val);
+                                    }
                                   },
                                   label: 'Max Age',
                                   fontColor: textColor,
@@ -224,7 +236,7 @@ class _AnnouncementFiltersState extends State<AnnouncementFilters> {
                         MyFormFild2(
                           validator: (val) => null,
                           save: (val) {
-                            species = val ?? '';
+                            cities = val ?? '';
                           },
                           label: 'City',
                           fontColor: textColor,
@@ -235,7 +247,7 @@ class _AnnouncementFiltersState extends State<AnnouncementFilters> {
                         MyFormFild2(
                           validator: (val) => null,
                           save: (val) {
-                            species = val ?? '';
+                            shelternames = val ?? '';
                           },
                           label: 'Shelter Name',
                           fontColor: textColor,
@@ -293,6 +305,7 @@ class _AnnouncementFiltersState extends State<AnnouncementFilters> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
                               var result = FilterMe(
                                 species: species,
                                 breeds: breeds,
@@ -324,16 +337,7 @@ class _AnnouncementFiltersState extends State<AnnouncementFilters> {
                         // Clear button
                         ElevatedButton(
                           onPressed: () {
-                            var result = FilterMe(
-                              species: '',
-                              breeds: '',
-                              cities: '',
-                              shelterNames: '',
-                              minAge: 0,
-                              maxAge: 0,
-                              isChecked: false,
-                            );
-
+                            var result = FilterMe();
                             Navigator.of(context).pop(result);
                           },
                           style: ElevatedButton.styleFrom(

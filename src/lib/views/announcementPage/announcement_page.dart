@@ -21,11 +21,13 @@ class AnnouncementPage extends StatefulWidget {
 class _AnnouncementPageState extends State<AnnouncementPage> {
   final PagingController<int, Announcement2> _pagingController =
       PagingController(firstPageKey: 0);
+  late FilterMe _filter;
 
   static const _pageSize = 7;
 
   @override
   void initState() {
+    _filter = FilterMe();
     _pagingController.addPageRequestListener(
       (pageKey) => _fetchPage(pageKey),
     );
@@ -44,6 +46,11 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
       'pageNumber': pp.toString(),
       'pageCount': _pageSize.toString()
     };
+
+    Map<String, String> filterQP = _filter.giveParameterQueries();
+    filterQP.forEach((key, value) {
+      qP[key] = value;
+    });
 
     try {
       final newItems =
@@ -98,6 +105,13 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                 return const AnnouncementFilters();
                               }),
                             );
+
+                            if (result != null && result is FilterMe) {
+                              _filter = result;
+                              Future.sync(
+                                () => _pagingController.refresh(),
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                               elevation: 6,
