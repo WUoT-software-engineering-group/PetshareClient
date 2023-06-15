@@ -26,7 +26,7 @@ void main() async {
   if (Platform.isIOS) {
     await dotenv.load(fileName: 'envs/ios_config.env');
   } else if (Platform.isAndroid) {
-    await dotenv.load(fileName: 'envs/android_config.env');
+    await dotenv.load(fileName: 'envs/android_config_api3.env');
   } else {
     throw Exception('This platform is not supported!');
   }

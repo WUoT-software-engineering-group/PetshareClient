@@ -83,8 +83,9 @@ class DataServices2 {
       body: post.toJson(),
     );
 
-    String idToken = res.headers['location'] ?? '';
-    if (res.statusCode != 201) {
+    String idToken =
+        res.headers['location'] ?? json.decode(res.body)['id'] ?? '';
+    if (res.statusCode != 201 && res.statusCode != 200) {
       idToken = '';
       log('DataServices: postShelter: bad post: the error is ${res.statusCode.toString()}');
       throw DataServicesUnloggedException('Registering a new shelter failed!');

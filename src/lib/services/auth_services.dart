@@ -127,7 +127,7 @@ class AuthService {
     // this is uri to Management API for access token
     // https://auth0.com/docs/secure/tokens/access-tokens/get-access-tokens#parameters
     Uri uriPostManagementAPI = Uri(
-      scheme: dotenv.env['AUTH0_CUSTOM_SCHEME']!,
+      scheme: 'https', // dotenv.env['AUTH0_CUSTOM_SCHEME']!,
       host: dotenv.env['AUTH0_DOMAIN']!,
       path: '/oauth/token',
     );
