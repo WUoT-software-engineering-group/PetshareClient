@@ -36,7 +36,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
 
   @override
   void dispose() {
-    // _pagingController.dispose();
+    _pagingController.dispose();
     super.dispose();
   }
 
