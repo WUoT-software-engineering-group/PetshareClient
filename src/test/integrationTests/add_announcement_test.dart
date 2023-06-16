@@ -1,11 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:patrol/patrol.dart';
 import 'package:pet_share/main.dart';
+import 'package:pet_share/views/authPage/hello_page.dart';
 import 'package:pet_share/views/petPage/pet_tile.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'extension_methods.dart';
 
@@ -16,6 +18,7 @@ void main() {
     config: const PatrolTesterConfig(andSettle: false),
     ($) async {
       // pumps the MainPoint widget
+      await dotenv.load(fileName: 'envs/android_config.env');
       await $.pumpWidget(const MainPoint());
       await $.pumpUntilFound(find.byType(MainPoint));
 
@@ -23,16 +26,29 @@ void main() {
       expect($('Pet Share - We are for you'), findsOneWidget);
       await $(OutlinedButton).tap();
 
-      // fills out the form and logs in
-      await $.native.enterTextByIndex('nipawuzu_shelter@test.pl', index: 0);
-      await $.native.enterTextByIndex('Test_2137', index: 1);
+      await Future.delayed(const Duration(seconds: 2));
+      await $.pumpAndSettle();
+
+      //Provide credentials
+      await $.native.enterText(
+        Selector(text: 'Email address'),
+        text: 'nipawuzu_shelter@test.pl',
+      );
+      await $.native.enterText(
+        Selector(text: 'Password'),
+        text: 'Test_2137',
+      );
       await $.native.tap(Selector(text: 'Continue'));
+
+      await Future.delayed(const Duration(seconds: 2));
       await $.pumpAndSettle();
 
       // navigates to pets page
+      await $.scrollUntilVisible(finder: find.byIcon(Icons.pets));
       await $.tap(find.byIcon(Icons.pets), andSettle: true);
 
       // taps the add pet button
+      await $.scrollUntilVisible(finder: find.byIcon(Icons.add));
       await $.tap(find.byIcon(Icons.add), andSettle: true);
 
       // fills out the form and adds pet
@@ -43,6 +59,7 @@ void main() {
           andSettle: true);
       await $.enterText(find.bySemanticsLabel('Breed'), 'samojed',
           andSettle: true);
+      await $.scrollUntilVisible(finder: find.text('Description'));
       await $.enterText(find.bySemanticsLabel('Description'),
           'najlepszy testowy pies na świecie, serio',
           andSettle: true);
@@ -61,7 +78,7 @@ void main() {
 
       // refreshes the pets list
       await $.tester.fling(
-        find.byType(MasonryGridView),
+        find.byType(LiquidPullToRefresh),
         const Offset(0, 300),
         1000,
       );
@@ -71,7 +88,7 @@ void main() {
       await $.dragUntilExists(
         finder: find.byWidgetPredicate(
             (widget) => widget is PetTile && widget.pet?.name == name),
-        view: find.byType(MasonryGridView),
+        view: find.byType(LiquidPullToRefresh),
         moveStep: const Offset(0, -300),
         andSettle: true,
       );
@@ -98,24 +115,13 @@ void main() {
       // navigates to announcements page
       await $.tap(find.byIcon(Icons.home), andSettle: true);
 
-      // find the announcement tile and taps it
-      // await $.tester.scrollUntilVisible(
-      //   find.byWidgetPredicate((widget) =>
-      //       widget is AnnouncementTile && widget.announcement.pet.name == name),
-      //   500,
-      //   scrollable: find.byType(PagedListView),
-      // );
-      // $.pumpAndSettle();
-
-      // await $.tester.tap(find
-      //     .byWidgetPredicate((widget) =>
-      //         widget is AnnouncementTile &&
-      //         widget.announcement.pet.name == name)
-      //     .last);
-      // await $.pumpAndSettle();
-
       // finds logout button and taps it
       await $.tap(find.byIcon(Icons.logout));
+
+      await Future.delayed(const Duration(seconds: 2));
+      await $.pumpUntilFound(find.byType(HelloPage));
+
+      await Future.delayed(const Duration(seconds: 5));
     },
   );
 }
