@@ -54,6 +54,8 @@ android {
 
         // this is for auth prosses: auth0 package
         manifestPlaceholders += [auth0Domain: "dev-siwe-sowy.eu.auth0.com", auth0Scheme: "demo"]
+        // manifestPlaceholders += [auth0Domain: "petshare.eu.auth0.com", auth0Scheme: "petshare"] // API: Piotrek,Lusia,Szymon,Daniel
+        // manifestPlaceholders += [auth0Domain: "dev-2l7vfaq4087zag5m.eu.auth0.com", auth0Scheme: "petshare"] // API: 3 grupa
     }
 
     buildTypes {

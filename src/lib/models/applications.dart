@@ -1,6 +1,15 @@
 import 'package:pet_share/models/adopter.dart';
 import 'package:pet_share/models/announcement.dart';
 
+enum ApplicationStatus {
+  created,
+  accepted,
+  rejected,
+  withdrawn,
+  deleted,
+  unknown,
+}
+
 class Appplications2 {
   String id;
   DateTime? creationDate;
@@ -8,7 +17,7 @@ class Appplications2 {
   String announcementId;
   Announcement2 announcement;
   Adopter2 adopter;
-  int applicationStatus;
+  ApplicationStatus applicationStatus;
 
   Appplications2({
     required this.id,
@@ -28,10 +37,30 @@ class Appplications2 {
       announcementId: json['announcementId'] ?? '',
       announcement: Announcement2.fromJson(json['announcement']),
       adopter: Adopter2.fromJson(json['adopter']),
-      applicationStatus: json['applicationStatus'] ?? 0,
+      applicationStatus: parseStatus(json['applicationStatus']),
     );
   }
 
   static DateTime? testDateTime(dynamic dateTime) =>
       dateTime == null ? null : DateTime.parse(dateTime);
+
+  static ApplicationStatus parseStatus(String? status) {
+    if (status == null) return ApplicationStatus.unknown;
+
+    status = status.toLowerCase();
+    switch (status) {
+      case 'created':
+        return ApplicationStatus.created;
+      case 'accepted':
+        return ApplicationStatus.accepted;
+      case 'rejected':
+        return ApplicationStatus.rejected;
+      case 'withdrawn':
+        return ApplicationStatus.withdrawn;
+      case 'deleted':
+        return ApplicationStatus.deleted;
+      default:
+        return ApplicationStatus.unknown;
+    }
+  }
 }

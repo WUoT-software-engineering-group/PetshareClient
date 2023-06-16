@@ -21,11 +21,13 @@ class AnnouncementPage extends StatefulWidget {
 class _AnnouncementPageState extends State<AnnouncementPage> {
   final PagingController<int, Announcement2> _pagingController =
       PagingController(firstPageKey: 0);
+  late FilterMe _filter;
 
   static const _pageSize = 7;
 
   @override
   void initState() {
+    _filter = FilterMe();
     _pagingController.addPageRequestListener(
       (pageKey) => _fetchPage(pageKey),
     );
@@ -44,15 +46,30 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
       'pageNumber': pp.toString(),
       'pageCount': _pageSize.toString()
     };
-    final newItems =
-        await BlocProvider.of<AppCubit>(context).getAnnouncements(qP);
 
-    final isLastPage = newItems.length < _pageSize;
-    if (isLastPage) {
-      _pagingController.appendLastPage(newItems);
-    } else {
-      final nextPageKey = pageKey + newItems.length;
-      _pagingController.appendPage(newItems, nextPageKey);
+    Map<String, String> filterQP = _filter.giveParameterQueries();
+    filterQP.forEach((key, value) {
+      qP[key] = value;
+    });
+
+    try {
+      final newItems =
+          await BlocProvider.of<AppCubit>(context).getAnnouncements(qP);
+
+      if (newItems == null) {
+        _pagingController.error = 'Problem with loading announcemnts';
+        return;
+      }
+
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
     }
   }
 
@@ -81,13 +98,20 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                         width: 55,
                         height: 55,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            var result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return const AnnouncementFilters();
                               }),
                             );
+
+                            if (result != null && result is FilterMe) {
+                              _filter = result;
+                              Future.sync(
+                                () => _pagingController.refresh(),
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                               elevation: 6,
@@ -166,7 +190,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                     height: 25,
                                   ),
                                   const Text(
-                                    'No items found',
+                                    'No announcements found',
                                     style: TextStyle(
                                       fontSize: 25,
                                       fontWeight: FontWeight.w600,
@@ -180,12 +204,13 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
                                     width: 190,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          foregroundColor: AppColors.buttons,
-                                          backgroundColor: AppColors.navigation,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          )),
+                                        foregroundColor: AppColors.buttons,
+                                        backgroundColor: AppColors.navigation,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
                                       onPressed: () async {
                                         await Future.delayed(
                                             const Duration(milliseconds: 350));

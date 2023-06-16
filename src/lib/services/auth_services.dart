@@ -4,18 +4,7 @@ import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:pet_share/models/user_info.dart';
-import 'dart:io' show Platform;
-
-const auth0Domain = 'dev-siwe-sowy.eu.auth0.com';
-const auth0ClientId = 'jCSWViMQ2bZpZDJvzFBb2zkpOCz1NP92';
-const auth0ClientSecret =
-    '1UpSOpSFaK5rHvdy88pvbiMHSGW07toKB5-JeDZLsZoVfjUpYrxcad4m6NJdZ_lk';
-const auth0Audience = 'https://pet-share-web-api-dev.azurewebsites.net/';
-const auth0AudienceManagementAPI = 'https://dev-siwe-sowy.eu.auth0.com/api/v2/';
-const auth0Scheme = 'demo';
-String auth0redirectUrl = Platform.isIOS
-    ? 'com.petshare://dev-siwe-sowy.eu.auth0.com/ios/com.petshare/callback'
-    : 'demo://dev-siwe-sowy.eu.auth0.com/android/com.example.pet_share/callback';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum UserRoles {
   unassigned,
@@ -50,7 +39,10 @@ class AuthService {
   // ----------------------------------
 
   AuthService() {
-    auth0 = Auth0(auth0Domain, auth0ClientId);
+    auth0 = Auth0(
+      dotenv.env['AUTH0_DOMAIN']!,
+      dotenv.env['AUTH0_CLIENT_ID']!,
+    );
   }
 
   // ----------------------------------
@@ -76,14 +68,13 @@ class AuthService {
 
   Future<bool> authApp() async {
     if (_credentials == null) {
-      final credentials = await auth0.webAuthentication().login(
-            audience: auth0Audience,
-            scopes: {
-              'openid',
-              'profile',
-              'email',
-            },
-            redirectUrl: auth0redirectUrl,
+      final credentials = await auth0
+          .webAuthentication(
+            scheme: dotenv.env['AUTH0_CUSTOM_SCHEME']!,
+          )
+          .login(
+            audience: dotenv.env['AUTH0_AUDIENCE']!,
+            redirectUrl: dotenv.env['AUTH0_REDIRECT_URL'],
           );
       _credentials = credentials;
 
@@ -120,7 +111,9 @@ class AuthService {
   }
 
   Future<void> logoutUser() async {
-    await auth0.webAuthentication(scheme: auth0Scheme).logout();
+    await auth0
+        .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME']!)
+        .logout();
 
     clearSettings();
     log('AuthServices: logoutUser: The user is logged out.');
@@ -134,8 +127,8 @@ class AuthService {
     // this is uri to Management API for access token
     // https://auth0.com/docs/secure/tokens/access-tokens/get-access-tokens#parameters
     Uri uriPostManagementAPI = Uri(
-      scheme: auth0Scheme,
-      host: auth0Domain,
+      scheme: 'https', // dotenv.env['AUTH0_CUSTOM_SCHEME']!,
+      host: dotenv.env['AUTH0_DOMAIN']!,
       path: '/oauth/token',
     );
 
@@ -146,9 +139,9 @@ class AuthService {
       },
       body: {
         'grant_type': 'client_credentials',
-        'client_id': auth0ClientId,
-        'client_secret': auth0ClientSecret,
-        'audience': auth0AudienceManagementAPI
+        'client_id': dotenv.env['AUTH0_MANAGEMENT_CLIENT_ID']!,
+        'client_secret': dotenv.env['AUTH0_MANAGEMENT_CLIENT_SECRET']!,
+        'audience': dotenv.env['AUTH0_MANAGEMENT_AUDIENCE']!
       },
     );
 
@@ -159,7 +152,7 @@ class AuthService {
 
     Uri uriPatchUser = Uri(
       scheme: 'https',
-      host: auth0Domain,
+      host: dotenv.env['AUTH0_DOMAIN']!,
       path: '/api/v2/users/${parseIdToken(_credentials!.idToken)['sub']}',
     );
 
@@ -227,7 +220,10 @@ class AuthService {
 
   void clearAll() {
     clearSettings();
-    auth0 = Auth0(auth0Domain, auth0ClientId);
+    auth0 = Auth0(
+      dotenv.env['AUTH0_DOMAIN']!,
+      dotenv.env['AUTH0_CLIENT_ID']!,
+    );
   }
 
   // ----------------------------------

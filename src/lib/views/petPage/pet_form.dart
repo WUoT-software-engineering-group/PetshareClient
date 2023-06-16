@@ -365,112 +365,121 @@ class _PetFromState extends State<PetFrom> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Theme(
-            data: Theme.of(context).copyWith(
-              textTheme: TextTheme(
-                bodyLarge: GoogleFonts.varelaRound(
-                  color: Colors.black54,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                textTheme: TextTheme(
+                  bodyLarge: GoogleFonts.varelaRound(
+                    color: Colors.black54,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                colorScheme: const ColorScheme.light(
+                  primary: AppColors.buttons,
                 ),
               ),
-              colorScheme: const ColorScheme.light(
-                primary: AppColors.buttons,
-              ),
-            ),
-            child: Stepper(
-              // Stepper of the whole form
-              onStepTapped: (step) => setState(() {
-                _currentStep = step;
-              }),
-              type: StepperType.vertical,
-              steps: getSteps(),
-              currentStep: _currentStep,
-              onStepContinue: _currentStep == getSteps().length - 1 &&
-                      image == null
-                  ? null
-                  : () async {
-                      final isLastStep = _currentStep == getSteps().length - 1;
-                      if (isLastStep) {
-                        if (_formKey.currentState != null &&
-                            _formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
+              child: Stepper(
+                // Stepper of the whole form
+                onStepTapped: (step) => setState(() {
+                  _currentStep = step;
+                }),
+                type: StepperType.vertical,
+                steps: getSteps(),
+                currentStep: _currentStep,
+                onStepContinue:
+                    _currentStep == getSteps().length - 1 && image == null
+                        ? null
+                        : () async {
+                            final isLastStep =
+                                _currentStep == getSteps().length - 1;
+                            if (isLastStep) {
+                              if (_formKey.currentState != null &&
+                                  _formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
 
-                          // make post for pet
-                          CreatingPet2 pet = CreatingPet2(
-                            name: name,
-                            species: species,
-                            breed: breed,
-                            birthday: birthday,
-                            description: description,
-                            sex: sex,
-                            image: image!,
-                          );
+                                // make post for pet
+                                CreatingPet2 pet = CreatingPet2(
+                                  name: name,
+                                  species: species,
+                                  breed: breed,
+                                  birthday: birthday,
+                                  description: description,
+                                  sex: sex,
+                                  image: image!,
+                                );
 
-                          Navigator.of(context).pop(pet);
-                        }
-                      } else {
+                                Navigator.of(context).pop(pet);
+                              }
+                            } else {
+                              setState(() {
+                                _currentStep += 1;
+                              });
+                            }
+                          },
+                onStepCancel: _currentStep == 0
+                    ? () => Navigator.of(context).pop(null)
+                    : (() {
                         setState(() {
-                          _currentStep += 1;
+                          _currentStep -= 1;
                         });
-                      }
-                    },
-              onStepCancel: _currentStep == 0
-                  ? () => Navigator.of(context).pop(null)
-                  : (() {
-                      setState(() {
-                        _currentStep -= 1;
-                      });
-                    }),
-              controlsBuilder: (context, details) {
-                // This function create stepper's buttons
-                return Row(
-                  children: [
-                    ElevatedButton(
-                      // CONFIRM-CONTINUME button
-                      onPressed: details.onStepContinue,
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25))),
-                      child: Text(
-                        _currentStep == lastStep ? 'CONFIRM' : 'CONTINUE',
-                        style: GoogleFonts.varelaRound(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    OutlinedButton(
-                      // TOMENU - PREVIOUS button
-                      onPressed: details.onStepCancel,
-                      style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.grey[600],
-                          side: BorderSide(
-                            color: Colors.grey[400]!,
-                            width: 2,
+                      }),
+                controlsBuilder: (context, details) {
+                  // This function create stepper's buttons
+                  return Row(
+                    children: [
+                      ElevatedButton(
+                        // CONFIRM-CONTINUME button
+                        onPressed: details.onStepContinue,
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25))),
+                        child: Text(
+                          _currentStep == lastStep ? 'CONFIRM' : 'CONTINUE',
+                          style: GoogleFonts.varelaRound(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
                           ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25))),
-                      child: Text(
-                        _currentStep == 0 ? 'TO MENU' : 'PREVIOUS',
-                        style: GoogleFonts.varelaRound(
-                          color: Colors.grey[300],
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      OutlinedButton(
+                        // TOMENU - PREVIOUS button
+                        onPressed: details.onStepCancel,
+                        style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.grey[600],
+                            side: BorderSide(
+                              color: Colors.grey[400]!,
+                              width: 2,
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25))),
+                        child: Text(
+                          _currentStep == 0 ? 'TO MENU' : 'PREVIOUS',
+                          style: GoogleFonts.varelaRound(
+                            color: Colors.grey[300],
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),

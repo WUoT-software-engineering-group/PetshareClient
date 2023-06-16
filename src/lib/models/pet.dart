@@ -10,6 +10,12 @@ enum SexOfPet {
   doesNotApply,
 }
 
+enum PetStatus {
+  active,
+  deleted,
+  unknown,
+}
+
 class Pet2 {
   String id;
   Shelter2 shelter;
@@ -18,7 +24,7 @@ class Pet2 {
   String breed;
   DateTime? birthday;
   String description;
-  int status;
+  PetStatus status;
   SexOfPet sex;
   String photoUrl;
 
@@ -49,27 +55,42 @@ class Pet2 {
       birthday: testDateTime(json['birthday']),
       description: json['description'] ?? "",
       photoUrl: json['photoUrl'] ?? "",
-      status: json['status'] ?? 0,
-      sex: intToSex(json['sex']),
+      status: parseStatus(json['status']),
+      sex: parseSex(json['sex']),
     );
   }
 
   static DateTime? testDateTime(dynamic dateTime) =>
       dateTime == null ? null : DateTime.parse(dateTime);
 
-  static SexOfPet intToSex(int? sex) {
+  static SexOfPet parseSex(String? sex) {
     if (sex == null) return SexOfPet.unknown;
 
+    sex = sex.toLowerCase();
     switch (sex) {
-      case 0:
+      case 'unknown':
         return SexOfPet.unknown;
-      case 1:
+      case 'male':
         return SexOfPet.male;
-      case 2:
+      case 'female':
         return SexOfPet.female;
     }
 
     return SexOfPet.doesNotApply;
+  }
+
+  static PetStatus parseStatus(String? status) {
+    if (status == null) return PetStatus.unknown;
+
+    status = status.toLowerCase();
+    switch (status) {
+      case 'active':
+        return PetStatus.active;
+      case 'deleted':
+        return PetStatus.deleted;
+      default:
+        return PetStatus.unknown;
+    }
   }
 
   static String sexToString(SexOfPet sex) {
@@ -126,22 +147,9 @@ class CreatingPet2 {
         'breed': breed,
         'birthday': date,
         'description': description,
-        'sex': sexToInt(sex),
+        'sex': Pet2.sexToString(sex),
         'photoUrl': image.name,
       },
     );
-  }
-
-  static int sexToInt(SexOfPet sex) {
-    switch (sex) {
-      case SexOfPet.unknown:
-        return 0;
-      case SexOfPet.male:
-        return 1;
-      case SexOfPet.female:
-        return 2;
-      case SexOfPet.doesNotApply:
-        return 3;
-    }
   }
 }

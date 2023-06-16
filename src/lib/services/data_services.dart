@@ -20,10 +20,7 @@ class DataServices2 {
   // ----------------------------------
 
   DataServices2({bool dlps = false}) {
-    _uriStorage = UriStorage.initADKP();
-    if (dlps) {
-      _uriStorage = UriStorage.initDLPS();
-    }
+    _uriStorage = UriStorage();
   }
 
   // -----------------------------------
@@ -86,8 +83,9 @@ class DataServices2 {
       body: post.toJson(),
     );
 
-    String idToken = res.headers['location'] ?? '';
-    if (res.statusCode != 201) {
+    String idToken =
+        res.headers['location'] ?? json.decode(res.body)['id'] ?? '';
+    if (res.statusCode != 201 && res.statusCode != 200) {
       idToken = '';
       log('DataServices: postShelter: bad post: the error is ${res.statusCode.toString()}');
       throw DataServicesUnloggedException('Registering a new shelter failed!');
@@ -97,15 +95,20 @@ class DataServices2 {
   }
 
   Future<List<Pet2>> getShelterPets(
-    String accessToken,
-  ) async {
+    String accessToken, {
+    Map<String, String> queryParm = const {},
+  }) async {
     http.Response res = await http.get(
-      _uriStorage.petUri(UriPet.getShelterPets),
+      _uriStorage.petUri(
+        UriPet.getShelterPets,
+        queryParm: queryParm,
+      ),
       headers: buildHeader(accessToken),
     );
 
     if (res.statusCode == 200) {
-      List<dynamic> list = json.decode(res.body);
+      Map<String, dynamic> respons = json.decode(res.body);
+      List<dynamic> list = respons['pets'];
       return list.map((e) => Pet2.fromJson(e)).toList();
     } else {
       log('DataServices: getShelterPets: bad get: ${res.statusCode} :: ${res.body}');
@@ -174,7 +177,7 @@ class DataServices2 {
       body: announcement.toJson(),
     );
 
-    if (res.statusCode != 201) {
+    if (res.statusCode != 201 && res.statusCode != 200) {
       log('DataServices: postAnnouncement: bad post: ${res.statusCode} :: ${res.body}');
       throw DataServicesLoggedException('Posting a new announcement failed!');
     }
@@ -207,15 +210,20 @@ class DataServices2 {
   // -----------------------------------
 
   Future<List<Appplications2>> getApplications(
-    String accessToken,
-  ) async {
+    String accessToken, {
+    Map<String, String> queryParm = const {},
+  }) async {
     http.Response res = await http.get(
-      _uriStorage.applicationsUri(UriApplications.get),
+      _uriStorage.applicationsUri(
+        UriApplications.get,
+        queryParm: queryParm,
+      ),
       headers: buildHeader(accessToken),
     );
 
     if (res.statusCode == 200) {
-      List<dynamic> list = json.decode(res.body);
+      Map<String, dynamic> respons = json.decode(res.body);
+      List<dynamic> list = respons['applications'];
       return list.map((e) => Appplications2.fromJson(e)).toList();
     } else {
       log('DataServices: getApplications: bad get: ${res.statusCode} :: ${res.body}');
@@ -237,7 +245,7 @@ class DataServices2 {
       }),
     );
 
-    if (res.statusCode != 201) {
+    if (res.statusCode != 201 && res.statusCode != 200) {
       log('DataServices: postApplication: bad post application: ${res.statusCode} :: ${res.body}');
       throw DataServicesLoggedException('Posting a new application failed!');
     }
@@ -260,7 +268,7 @@ class DataServices2 {
         creationDate: null,
         closingDate: null,
         lastUpdateDate: null,
-        status: 0,
+        status: AnnouncementStatus.open,
         pet: Pet2(
             id: 'id',
             shelter: Shelter2(
@@ -283,22 +291,23 @@ class DataServices2 {
             birthday: null,
             description: 'description',
             photoUrl: 'photoUrl',
-            status: 0,
+            status: PetStatus.active,
             sex: SexOfPet.male),
       ),
       adopter: Adopter2(
-          id: '',
-          userName: 'userName',
-          phoneNumber: 'phoneNumber',
-          email: 'email',
-          address: Address2(
-              street: 'street',
-              city: 'city',
-              provice: 'provice',
-              postalCode: 'postalCode',
-              country: 'country'),
-          status: 0),
-      applicationStatus: 0,
+        id: '',
+        userName: 'userName',
+        phoneNumber: 'phoneNumber',
+        email: 'email',
+        address: Address2(
+            street: 'street',
+            city: 'city',
+            provice: 'provice',
+            postalCode: 'postalCode',
+            country: 'country'),
+        status: AdopterStatus.active,
+      ),
+      applicationStatus: ApplicationStatus.created,
     );
   }
 
@@ -352,6 +361,21 @@ class DataServices2 {
       headers: buildHeader(accessToken),
       body: pet.toJson(),
     );
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = json.decode(res.body);
+      var response = await _uploadPetImage(
+        body['id'],
+        accessToken,
+        pet.image,
+      );
+
+      if (response.statusCode != 200) {
+        log('DataServices: postPet: bad post pet image:  ${response.statusCode}');
+        throw DataServicesLoggedException('Posting an image failed!');
+      }
+      return;
+    }
 
     if (res.statusCode != 201) {
       log('DataServices: postPet: bad post pet:  ${res.statusCode} :: ${res.body}');

@@ -70,7 +70,7 @@ void main() {
       expect(pet.birthday, DateTime.parse(json['birthday']));
       expect(pet.description, json['description']);
       expect(pet.photoUrl, json['photoUrl']);
-      expect(pet.sex, Pet2.intToSex(json['sex']));
+      expect(pet.sex, Pet2.parseSex(json['sex']));
     });
 
     test(
@@ -81,10 +81,10 @@ void main() {
     });
 
     test('intToSex should return correct values', () {
-      expect(SexOfPet.unknown, Pet2.intToSex(0));
-      expect(SexOfPet.male, Pet2.intToSex(1));
-      expect(SexOfPet.female, Pet2.intToSex(2));
-      expect(SexOfPet.unknown, Pet2.intToSex(null));
+      expect(SexOfPet.unknown, Pet2.parseSex('unknow'));
+      expect(SexOfPet.male, Pet2.parseSex('male'));
+      expect(SexOfPet.female, Pet2.parseSex('female'));
+      expect(SexOfPet.unknown, Pet2.parseSex(null));
     });
   });
 }

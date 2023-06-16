@@ -75,6 +75,11 @@ class AppCubit extends Cubit<AppState> {
       emit(AppSInitial());
       _authService.clearAll();
       reaction(e.message);
+    } on WebAuthenticationException catch (e) {
+      log('AppCubit: logoutUser: ${e.toString()}');
+      emit(AppSInitial());
+      _authService.clearAll();
+      reaction(e.message);
     }
   }
 
@@ -129,17 +134,8 @@ class AppCubit extends Cubit<AppState> {
   Future<void> initShelter() async {
     try {
       emit(AppSLoading());
-      // var resAnn = await _dataServices2
-      //     .getShelterAnnouncements(_authService.accessToken);
-      var resApp =
-          await _dataServices2.getApplications(_authService.accessToken);
-      var resPet =
-          await _dataServices2.getShelterPets(_authService.accessToken);
       emit(
         AppSLoaded(
-          //announcements: resAnn,
-          applications: resApp,
-          pets: resPet,
           userInfo: _authService.userInfo,
         ),
       );
@@ -154,18 +150,9 @@ class AppCubit extends Cubit<AppState> {
 
   Future<void> initAdopter() async {
     try {
-      //Map<String, String> queryParam = {'pageNumber': '0', 'pageCount': '6'};
-
       emit(AppSLoading());
-      // var resAnn = await _dataServices2.getAnnouncements(
-      //   _authService.accessToken,
-      //   queryParm: queryParam,
-      // );
       emit(
         AppSLoaded(
-          //announcements: resAnn,
-          applications: const [],
-          pets: const [],
           userInfo: _authService.userInfo,
         ),
       );
@@ -188,86 +175,12 @@ class AppCubit extends Cubit<AppState> {
   // ----------------------------------------------
   // ----------------------------------------------
 
-  Future<void> refreshPets() async {
-    if (state is AppSLoaded) {
-      AppSLoaded st = state as AppSLoaded;
-      List<Appplications2> applications = st.applications;
-      List<Pet2> pets = st.pets;
-      UserInfo userInfo = st.userInfo;
-
-      try {
-        // change state
-        emit(AppSRefreshing());
-
-        // make query
-        var newPets =
-            await _dataServices2.getShelterPets(_authService.accessToken);
-
-        // change state
-        emit(
-          AppSLoaded(
-            applications: applications,
-            pets: newPets,
-            userInfo: userInfo,
-          ),
-        );
-      } on DataServicesLoggedException catch (e) {
-        emit(
-          AppSLoaded(
-            applications: applications,
-            pets: pets,
-            userInfo: userInfo,
-          ),
-        );
-        reaction(e.message);
-      }
-    }
-  }
-
-  Future<void> refreshApplications() async {
-    if (state is AppSLoaded) {
-      AppSLoaded st = state as AppSLoaded;
-      List<Appplications2> applications = st.applications;
-      //List<Announcement2> announcements = st.announcements;
-      List<Pet2> pets = st.pets;
-      UserInfo userInfo = st.userInfo;
-
-      try {
-        // change state
-        emit(AppSRefreshing());
-
-        // make query
-        var newApplications =
-            await _dataServices2.getApplications(_authService.accessToken);
-
-        // change state
-        emit(
-          AppSLoaded(
-            //announcements: announcements,
-            applications: newApplications,
-            pets: pets,
-            userInfo: userInfo,
-          ),
-        );
-      } on DataServicesLoggedException catch (e) {
-        emit(
-          AppSLoaded(
-            //announcements: announcements,
-            applications: applications,
-            pets: pets,
-            userInfo: userInfo,
-          ),
-        );
-        reaction(e.message);
-      }
-    }
-  }
-
-  Future<List<Announcement2>> getAnnouncements(
+  Future<List<Announcement2>?> getAnnouncements(
     Map<String, String> queryParam,
   ) async {
     if (state is AppSLoaded) {
       AppSLoaded st = state as AppSLoaded;
+      //emit(AppSRefreshing());
 
       try {
         // make query
@@ -284,13 +197,48 @@ class AppCubit extends Cubit<AppState> {
           );
         }
 
+        //emit(AppSLoaded());
         return newAnnouncements;
       } on DataServicesLoggedException catch (e) {
         reaction(e.message);
       }
     }
 
-    return [];
+    return null;
+  }
+
+  Future<List<Pet2>?> getPets(
+    Map<String, String> queryParam,
+  ) async {
+    if (state is AppSLoaded) {
+      try {
+        return await _dataServices2.getShelterPets(
+          _authService.accessToken,
+          queryParm: queryParam,
+        );
+      } on DataServicesLoggedException catch (e) {
+        reaction(e.message);
+      }
+    }
+
+    return null;
+  }
+
+  Future<List<Appplications2>?> getApplications(
+    Map<String, String> queryParam,
+  ) async {
+    if (state is AppSLoaded) {
+      try {
+        return await _dataServices2.getApplications(
+          _authService.accessToken,
+          queryParm: queryParam,
+        );
+      } on DataServicesLoggedException catch (e) {
+        reaction(e.message);
+      }
+    }
+
+    return null;
   }
 
   // Methods to add pets by any shelter

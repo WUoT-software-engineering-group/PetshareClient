@@ -22,18 +22,14 @@ class AppSLoading extends AppState {}
 /// This state is related with user manger
 /// part of data flow in app.
 class AppSLoaded extends AppState {
-  final List<Appplications2> applications;
-  final List<Pet2> pets;
   final UserInfo userInfo;
 
   const AppSLoaded({
-    required this.applications,
-    required this.pets,
     required this.userInfo,
   });
 
   @override
-  List<Object> get props => [applications, pets, userInfo];
+  List<Object> get props => [userInfo];
 }
 
 class AppSRefreshing extends AppState {

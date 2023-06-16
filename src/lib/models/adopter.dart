@@ -1,6 +1,13 @@
 import 'dart:convert';
 import 'package:pet_share/models/address.dart';
 
+enum AdopterStatus {
+  active,
+  blocked,
+  deleted,
+  unknown,
+}
+
 class CreatingAdopter {
   String userName;
   String phoneNumber;
@@ -40,7 +47,7 @@ class Adopter2 {
   String phoneNumber;
   String email;
   Address2 address;
-  int status;
+  AdopterStatus status;
 
   // -------------------------
   // Constructors & Factories
@@ -62,7 +69,23 @@ class Adopter2 {
       phoneNumber: json["phoneNumber"] ?? "",
       email: json["email"] ?? "",
       address: Address2.fromJson(json['address']),
-      status: json["status"] ?? 1,
+      status: parseAdopterStatus(json["status"]),
     );
+  }
+
+  static AdopterStatus parseAdopterStatus(dynamic status) {
+    if (status is! String) return AdopterStatus.unknown;
+
+    status = status.toLowerCase();
+    switch (status) {
+      case 'active':
+        return AdopterStatus.active;
+      case 'blocked':
+        return AdopterStatus.blocked;
+      case 'deleted':
+        return AdopterStatus.deleted;
+      default:
+        return AdopterStatus.unknown;
+    }
   }
 }

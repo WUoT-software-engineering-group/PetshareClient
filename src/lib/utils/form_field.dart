@@ -11,6 +11,8 @@ class MyFormFild2 extends StatelessWidget {
   final Color disactiveBorder;
   final Color fontColor;
   final int maxLines;
+  final String? initialValue;
+  final Widget? suffixIcon;
 
   const MyFormFild2({
     super.key,
@@ -22,6 +24,8 @@ class MyFormFild2 extends StatelessWidget {
     this.disactiveBorder = Colors.white,
     this.fontColor = Colors.white,
     this.maxLines = 1,
+    this.initialValue,
+    this.suffixIcon,
   });
 
   @override
@@ -29,35 +33,38 @@ class MyFormFild2 extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       child: TextFormField(
+        initialValue: initialValue,
         maxLines: maxLines,
         cursorColor: Colors.white,
         decoration: InputDecoration(
-            label: Text(
-              label,
-              style: GoogleFonts.varelaRound(
-                color: labelColor,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
+          suffixIcon: suffixIcon,
+          label: Text(
+            label,
+            style: GoogleFonts.varelaRound(
+              color: labelColor,
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 6,
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 6,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: activeBorder,
+              width: 3,
             ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: activeBorder,
-                width: 3,
-              ),
-              borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: disactiveBorder,
+              width: 3,
             ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: disactiveBorder,
-                width: 3,
-              ),
-              borderRadius: BorderRadius.circular(25),
-            )),
+            borderRadius: BorderRadius.circular(25),
+          ),
+        ),
         style: GoogleFonts.varelaRound(
           color: fontColor,
           fontSize: 15,
