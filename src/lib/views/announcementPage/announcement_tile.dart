@@ -190,6 +190,7 @@ class PetDescription extends StatelessWidget {
           Icon(Icons.favorite, size: 21, color: color),
           const Text(
             '0',
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: Color.fromARGB(200, 141, 139, 139),
               fontWeight: FontWeight.bold,
@@ -231,10 +232,13 @@ class PetDescription extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                announcement.pet.name,
-                style: TextStyle(
-                    color: color, fontWeight: FontWeight.bold, fontSize: 21),
+              Flexible(
+                child: Text(
+                  announcement.pet.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: color, fontWeight: FontWeight.bold, fontSize: 21),
+                ),
               ),
               followAnnouncement(isFollowIcon),
             ],
@@ -242,22 +246,28 @@ class PetDescription extends StatelessWidget {
           const SizedBox(
             height: 14,
           ),
-          Text(
-            'bread: ${announcement.pet.breed}',
-            style: const TextStyle(
-                color: Color.fromARGB(255, 121, 119, 119),
-                fontWeight: FontWeight.bold,
-                fontSize: 14),
+          Flexible(
+            child: Text(
+              'bread: ${announcement.pet.breed}',
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 121, 119, 119),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
+            ),
           ),
           const SizedBox(
             height: 7,
           ),
-          Text(
-            _ageOfPet(announcement.pet.birthday),
-            style: const TextStyle(
-              color: Color.fromARGB(200, 141, 139, 139),
-              fontWeight: FontWeight.bold,
-              fontSize: 10,
+          Flexible(
+            child: Text(
+              _ageOfPet(announcement.pet.birthday),
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Color.fromARGB(200, 141, 139, 139),
+                fontWeight: FontWeight.bold,
+                fontSize: 10,
+              ),
             ),
           ),
           const SizedBox(

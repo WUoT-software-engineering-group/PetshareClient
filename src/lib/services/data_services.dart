@@ -177,7 +177,7 @@ class DataServices2 {
       body: announcement.toJson(),
     );
 
-    if (res.statusCode != 201) {
+    if (res.statusCode != 201 && res.statusCode != 200) {
       log('DataServices: postAnnouncement: bad post: ${res.statusCode} :: ${res.body}');
       throw DataServicesLoggedException('Posting a new announcement failed!');
     }
@@ -245,7 +245,7 @@ class DataServices2 {
       }),
     );
 
-    if (res.statusCode != 201) {
+    if (res.statusCode != 201 && res.statusCode != 200) {
       log('DataServices: postApplication: bad post application: ${res.statusCode} :: ${res.body}');
       throw DataServicesLoggedException('Posting a new application failed!');
     }
@@ -361,6 +361,21 @@ class DataServices2 {
       headers: buildHeader(accessToken),
       body: pet.toJson(),
     );
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = json.decode(res.body);
+      var response = await _uploadPetImage(
+        body['id'],
+        accessToken,
+        pet.image,
+      );
+
+      if (response.statusCode != 200) {
+        log('DataServices: postPet: bad post pet image:  ${response.statusCode}');
+        throw DataServicesLoggedException('Posting an image failed!');
+      }
+      return;
+    }
 
     if (res.statusCode != 201) {
       log('DataServices: postPet: bad post pet:  ${res.statusCode} :: ${res.body}');

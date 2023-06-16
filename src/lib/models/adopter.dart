@@ -73,8 +73,8 @@ class Adopter2 {
     );
   }
 
-  static AdopterStatus parseAdopterStatus(String? status) {
-    if (status == null) return AdopterStatus.unknown;
+  static AdopterStatus parseAdopterStatus(dynamic status) {
+    if (status is! String) return AdopterStatus.unknown;
 
     status = status.toLowerCase();
     switch (status) {
