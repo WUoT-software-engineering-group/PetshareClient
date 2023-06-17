@@ -232,12 +232,15 @@ class PetDescription extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Flexible(
+              Expanded(
                 child: Text(
                   announcement.pet.name,
-                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: color, fontWeight: FontWeight.bold, fontSize: 21),
+                    color: color,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 21,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               followAnnouncement(isFollowIcon),
